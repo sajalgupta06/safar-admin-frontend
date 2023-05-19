@@ -1,0 +1,54 @@
+
+
+.activeTrips{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 2.5rem;
+    &-top{
+        width: 100%;
+        height: auto;
+        max-height: 45%;
+        overflow-y: scroll;
+        .ant-table-tbody{
+            tr{
+                cursor: pointer!important;
+            }
+        }
+
+    }
+    &-bottom{
+        width: 100%;
+        height: 50%;
+        &-info{
+            background-color: #f2f2f2;
+            // box-shadow: var(--box-shadow);
+            height: 100%;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            &-top{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .date{
+                    .ant-select{
+                        margin-left: 1.4rem;
+                    }
+                }
+                .ticketCount{
+                    p{
+                        font-size: 2rem;
+                        span{
+                            color: var(--red);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

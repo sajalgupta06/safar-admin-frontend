@@ -1,0 +1,49 @@
+.activeBookings {
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    p {
+      font-size: 2rem;
+    }
+    .refresh {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      &:hover {
+        color: var(--primary);
+      }
+    }
+  }
+
+  &-content {
+    margin-top: 3rem;
+  }
+}
+
+.allBookings{
+    .heading{
+        display: flex;
+        justify-content: space-between;
+        p{
+
+            font-size: 2rem;
+        }
+        .refresh{
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            cursor: pointer;
+            &:hover{
+                color: var(--primary);
+            }
+        }
+    }
+
+    &-content{
+        margin-top: 3rem;
+
+    }
+
+
+}
