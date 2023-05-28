@@ -208,62 +208,7 @@ const Navbar = () => {
             {/* <div className="user-type">Recruiter</div> */}
           </div>
 
-          <span className="nav-batch-action-rel">
-            <>
-              <ul className="nav-batch-action">
-                <div className="nav-batch-action-square">&nbsp;</div>
-                <div className="chatArea">
-                  <div className="chatHead">
-                    <div>
-                      <img alt="Assistant" />
-                    </div>
-                    <div>
-                      <p
-                        style={{
-                          textAlign: "center",
-                          fontWeight: "600",
-                          fontSize: "2rem",
-                        }}
-                      >
-                        Virtual Assistant
-                      </p>
-                    </div>
-                  </div>
-                  <hr></hr>
-                  {/* <AssistantChat></AssistantChat>
-                <AssistantChat></AssistantChat>
-                <AssistantChat own={true}></AssistantChat>
-                <AssistantChat></AssistantChat>
-                <AssistantChat own={true}></AssistantChat> */}
-                </div>
-                <div>
-                  <div
-                    className="navbar-search-box"
-                    style={{
-                      marginTop: "13rem",
-                      background: "#fff",
-                      border: "1px solid #878787",
-                      // width: "90%",
-                      display: "flex",
-                    }}
-                  >
-                    <input type="text" placeholder="Type a message here " />
-                    <div>
-                      <p
-                        style={{
-                          marginRight: "1rem",
-                          cursor: "ponter!important",
-                          color: "#2186F2",
-                        }}
-                      >
-                        Send
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </ul>
-            </>
-          </span>
+        
         </div>
       </div>
     </div>

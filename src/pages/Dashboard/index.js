@@ -75,11 +75,11 @@ export default function Dashboard() {
   //   }, [trips]);
 
   useEffect(() => {
-    console.log(notifications);
+    // console.log(notifications);
   }, [notifications]);
 
   useEffect(() => {
-    fetchTrips();
+    // fetchTrips();
     // fireFunc();
   }, []);
 

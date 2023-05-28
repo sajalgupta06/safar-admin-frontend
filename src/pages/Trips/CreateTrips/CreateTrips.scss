@@ -1,0 +1,56 @@
+.createTrips{
+    width: 100%;
+    height: 100%;
+   
+    display: flex;
+    flex-direction: column;
+
+    &-header{
+        width: 100%;
+        height: 10%;
+        .heading{
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            .icon{
+                cursor: pointer;
+                background-color: var(--background);
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                padding: 5px;
+                font-size: 3rem;
+                &:hover{
+                    background-color: var(--primary);
+                    color: #fff;
+                   
+                }
+            }
+            p{
+                    font-size: 2rem;
+            }
+        }
+        .headerSteps{
+            margin-top: 3rem;
+        }
+    }
+
+    &-body{
+        width: 100%;
+        height: 80%;
+        &-view0{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+
+    &-footer{
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

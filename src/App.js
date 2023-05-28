@@ -1,8 +1,6 @@
 import { createContext, useReducer } from "react";
 import "./App.scss";
 import reducer from "./utils/reducer/reducer";
-import Navbar from "./components/Navbar/Navbar";
-import SideBar from "./components/sidebar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ConfigProvider } from 'antd';
 import { theme } from 'antd';
@@ -12,6 +10,9 @@ import NotFound from "./pages/NotFound";
 import ActiveTrips from "./pages/Trips/ActiveTrips";
 import ActiveBookings from "./pages/Bookings/ActiveBookings";
 import AllBookings from "./pages/Bookings/AllBookings";
+import AllTrips from "./pages/Trips/AllTrips/AllTrips";
+import { declarations } from "./config";
+import CreateTrips from "./pages/Trips/CreateTrips";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
@@ -24,7 +25,8 @@ let iState = {
   darkMode:false,
   IsSideBarCollapsed:false,
   screenName:"",
-  loading:false
+  loading:false,
+  createTripView:1,
 };
 
 function App() {
@@ -52,6 +54,8 @@ function App() {
         darkMode: data.darkMode,
         loading:data.loading,
         screenName:data.screenName,
+        createTripView: data.createTripView,
+        setCreateTripView :dispatch,
         setLoading:dispatch,
         setScreenName:dispatch,
         toggleSideBarCollapse:dispatch,
@@ -64,9 +68,11 @@ function App() {
       <AppLayout>
       <Routes>
       <Route path="/" element={<Dashboard/>} />
-      <Route exact path="/active_trips" element={<ActiveTrips/>} />
-      <Route exact path="/active_bookings" element={<ActiveBookings/>} />
-      <Route exact path="/all_bookings" element={<AllBookings/>} />
+      <Route exact path= {`/${declarations.routes.ACTIVE_TRIPS}`} element={<ActiveTrips/>} />
+      <Route exact path={`/${declarations.routes.ALL_TRIPS}`}  element={<AllTrips/>} />
+      <Route exact path={`/${declarations.routes.ACTIVE_BOOKINGS}`}  element={<ActiveBookings/>} />
+      <Route exact path={`/${declarations.routes.ALL_BOOKINGS}`}  element={<AllBookings/>} />
+      <Route exact path={`/${declarations.routes.CREATE_TRIPS}`}  element={<CreateTrips/>} />
 
       <Route path="*" element={<NotFound/>}></Route>
 

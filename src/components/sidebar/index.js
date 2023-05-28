@@ -14,8 +14,9 @@ import {RiSecurePaymentLine} from 'react-icons/ri'
 import {TiThSmall} from 'react-icons/ti'
 import {BsRadioactive} from 'react-icons/bs'
 import {  useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext,  } from 'react';
 import { MyContext } from '../../App';
+import { declarations } from '../../config';
 
 
 
@@ -28,28 +29,31 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
+
+
+
 const items = [
 
-  getItem('Dashboard', '/', <PieChartOutlined /> ),
+  getItem('Dashboard', '', <PieChartOutlined /> ),
   getItem('Trip', 'trip', <MdTravelExplore />, [
-    getItem('Active Trips', 'active_trips',<BsRadioactive/>),
-    getItem('All Trips', 'All_trips',<TiThSmall/>),
-    getItem('Create Trip', 'create_trips',<AiOutlinePlus/>),
+    getItem('Active Trips', declarations.routes.ACTIVE_TRIPS,<BsRadioactive/>),
+    getItem('All Trips', declarations.routes.ALL_TRIPS,<TiThSmall/>),
+    getItem('Create Trip',  declarations.routes.CREATE_TRIPS,<AiOutlinePlus/>),
     
   ]),
 
   getItem('Bookings', 'bookings', <MdTravelExplore />, [
-    getItem('Active Bookings', 'active_bookings', <BsRadioactive/>),
-    getItem('All Bookings', 'all_bookings',<TiThSmall/>),
-    getItem('Add Bookings', 'add_bookings', <AiOutlinePlus/>),
+    getItem('Active Bookings',  declarations.routes.ACTIVE_BOOKINGS, <BsRadioactive/>),
+    getItem('All Bookings',  declarations.routes.ALL_BOOKINGS,<TiThSmall/>),
+    getItem('Add Bookings',  declarations.routes.ADD_BOOKINGS, <AiOutlinePlus/>),
     
   ]),
 
-  getItem('Payments', 'payments', <RiSecurePaymentLine /> ),
-  getItem('Email', 'email', <DesktopOutlined />),
-  getItem('Analytics', 'analytics', <SiGoogleanalytics />),
-  getItem('Pricing', 'pricing', <GiPriceTag />),
-  getItem('Settings', 'settings', <AiFillSetting />),
+  getItem('Payments',  declarations.routes.PAYMENTS, <RiSecurePaymentLine /> ),
+  getItem('Email',  declarations.routes.EMAIL, <DesktopOutlined />),
+  getItem('Analytics',  declarations.routes.ANALYTICS, <SiGoogleanalytics />),
+  getItem('Pricing',  declarations.routes.PRICING, <GiPriceTag />),
+  getItem('Settings',  declarations.routes.SETTINGS, <AiFillSetting />),
   getItem('Logout', 'logout', <AiOutlineLogout />),
 ];
 
@@ -59,9 +63,26 @@ const SideBar = () => {
 const navigate = useNavigate()
 const context = useContext(MyContext)
 
+
+
+const getDefaultOpenKey = ()=>{
+  const tab = window.location.pathname.split('/')[1]
+  if(tab=== declarations.routes.ACTIVE_TRIPS ||tab=== declarations.routes.ALL_TRIPS ||tab=== declarations.routes.CREATE_TRIPS  )
+  {
+    return "trip"
+  }
+
+  if(tab=== declarations.routes.ACTIVE_BOOKINGS ||tab=== declarations.routes.ALL_BOOKINGS ||tab=== declarations.routes.ADD_BOOKINGS  )
+  {
+    return "bookings"
+  }
+  return ""
+}
+
+
 const onClickMenu = (e)=>{
 
-  if(e.key=="logout")
+  if(e.key==="logout")
   {
     return
   }
@@ -73,6 +94,7 @@ const onClickMenu = (e)=>{
 
 
 
+
   return (
     <div
       style={{
@@ -81,8 +103,8 @@ const onClickMenu = (e)=>{
     >
      
       <Menu
-        defaultSelectedKeys={['/']}
-        // defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={[window.location.pathname.split('/')[1]]}
+        defaultOpenKeys={[getDefaultOpenKey()]}
         mode="inline"
         // theme="dark"
         items={items}

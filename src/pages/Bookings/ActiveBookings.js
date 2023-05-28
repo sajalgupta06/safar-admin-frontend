@@ -1,8 +1,10 @@
 import React from 'react'
 import './Bookings.scss'
-import { Table } from 'antd';
+import { Badge, Table } from 'antd';
 import {AiOutlineReload} from 'react-icons/ai'
 import { ActiveBookingsColumn } from '../../components/Table/columns';
+
+
 export default function ActiveBookings() {
 
     const data = [
@@ -28,6 +30,43 @@ export default function ActiveBookings() {
           tags: ["cool", "teacher"],
         },
       ];
+
+
+      const expandedRowRender = () => {
+        const columns = [
+          {
+            title: 'Passengers Name',
+            dataIndex: 'date',
+            key: 'date',
+          },
+          {
+            title: 'Age',
+            dataIndex: 'name',
+            key: 'name',
+          },
+          {
+            title: 'Gender',
+            dataIndex: 'gender',
+            key: 'gender',
+          },
+          {
+            title: 'Mobile Number',
+            dataIndex: 'upgradeNum',
+            key: 'upgradeNum',
+          },
+          {
+            title: 'Aadhar Card Number',
+            dataIndex: 'upgradeNum',
+            key: 'upgradeNum',
+          },
+        
+        ];
+  
+        return <Table columns={columns} dataSource={data} pagination={false} />;
+      };
+
+
+
     return (
    <>
    <section className='activeBookings'>
@@ -41,8 +80,15 @@ export default function ActiveBookings() {
     </div>
 
     <div className='activeBookings-content'>
-    <Table columns={ActiveBookingsColumn} dataSource={data} pagination={false} />
-
+    <Table
+        columns={ActiveBookingsColumn}
+        rowSelection
+        expandable={{
+          expandedRowRender,
+          defaultExpandedRowKeys: ['0'],
+        }}
+        dataSource={data}
+      />
     </div>
 
    </section>

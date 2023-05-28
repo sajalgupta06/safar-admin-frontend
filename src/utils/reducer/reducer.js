@@ -56,6 +56,15 @@ const reducer = (state, action) => {
         ...state,
         permissions: action.payload,
       };
+
+      case "SET_CREATE_TRIPVIEW":
+        return {
+          ...state,
+          createTripView: action.payload,
+        };
+
+
+
     default:
       return state;
   }

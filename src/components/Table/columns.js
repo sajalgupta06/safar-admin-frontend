@@ -8,165 +8,192 @@ export const ActiveTripsColumn = [
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Collection",
+      dataIndex: "collection",
+      key: "collection",
     },
     {
-      title: "Address",
-      dataIndex: "address",
+      title: "Location",
+      dataIndex: "location",
+      key: "location",
+    },
+    {
+      title: "Days / Nights",
+      dataIndex: "days",
       key: "address",
     },
+
+
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      title: "Tickets Count",
+      dataIndex: "ticketCount",
+      key: "ticketCount",
     },
+    {
+      title: "Last Booking",
+      dataIndex: "lastBooking",
+      key: "lastBooking",
+    },
+   
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (_, record) => (
+    //     <Space size="middle">
+    //       <a>View More  </a>
+    //     </Space>
+    //   ),
+    // },
+  ];
+
+  export const ActiveTrips_IndividualDate_TransportModeColumn = [
+    
+    {
+      title: "Pick Up Point",
+      dataIndex: "pickUpPoint",
+      key: "pickUpPoint",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Pick Up Transport Mode",
+      dataIndex: "pickUpTransMode",
+      key: "pickUpTransMode",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Drop Point",
+      dataIndex: "dropPoint",
+      key: "dropPoint",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Drop Transport Mode",
+      dataIndex: "dropTransMode",
+      key: "dropTransMode",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Ticket Count",
+      dataIndex: "ticketCount",
+      key: "ticketCount",
+    },
+   
+  ];  
+
+  export const AllTripsColumn = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Collection",
+      dataIndex: "collection",
+      key: "collection",
+    },
+    {
+      title: "Location",
+      dataIndex: "location",
+      key: "location",
+    },
+    {
+      title: "Days / Nights",
+      dataIndex: "days",
+      key: "address",
+    },
+
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+    },
+
+    {
+      title: "Travel Options",
+      dataIndex: "travelOptions",
+      key: "travelOptions",
+    },
+
+
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+    },
+
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
+
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <a>View More  </a>
+          <a>Edit  </a>
         </Space>
       ),
     },
   ];
 
-  export const ActiveTrips_IndividualDate_TransportModeColumn = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
-  ];  
-
-
   export const ActiveBookingsColumn = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
+      title: 'Trip Name',
+      dataIndex: 'tripName',
+      key: 'tripNames',
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: 'UserName',
+      dataIndex: 'platform',
+      key: 'platform',
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: 'Total Passengers',
+      dataIndex: 'version',
+      key: 'version',
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      title: 'Date and Pickup Point',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
     },
     {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
+      title: 'Booked On',
+      dataIndex: 'upgradeNum',
+      key: 'upgradeNum',
+    },
+    
+  
+    {
+      title: 'Action',
+      key: 'operation',
+      render: () => <a>Receipt</a>,
     },
   ];  
 
   export const AllBookingsColumn = [
     {
-      title: "Name",
+      title: "Trip Name",
       dataIndex: "name",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Age",
+      title: "Tickets Sold",
       dataIndex: "age",
       key: "age",
     },
     {
-      title: "Address",
+      title: "Last Booked",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Tags",
+      title: "Status",
       key: "tags",
       dataIndex: "tags",
       render: (_, { tags }) => (
@@ -190,8 +217,7 @@ export const ActiveTripsColumn = [
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <a>View Report</a>
         </Space>
       ),
     },
