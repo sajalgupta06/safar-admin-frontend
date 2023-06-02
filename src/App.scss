@@ -25,6 +25,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
   font-family: 'Josefin Sans', sans-serif;  
   font-family: 'Playfair','Gluten', 'cursive';
   font-family: 'Nunito','Gluten', 'cursive';
@@ -84,6 +85,16 @@ button {
   padding: 1.5rem 3rem;
   cursor: pointer;
   font-weight: 600;
+}
+
+.btn-success {
+  background-color: var(--green);
+  // fill: #32de84;
+  &:hover{
+    background-color: var(--green)!important;
+    opacity: 0.8;
+  }
+
 }
 .layout {
   &-container {

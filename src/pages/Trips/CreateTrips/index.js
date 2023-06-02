@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import "./CreateTrips.scss";
-import { Button, Form, Select } from "antd";
+import { Button } from "antd";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import View0 from "./Views/View0";
 import GroupTrips from "./GroupTrips";
 import Packages from "./Packages";
 import { MyContext } from "../../../App";
 
-export const Header = ({ heading, view, handleOnClickBack ,children}) => {
+export const Header = ({ heading, view, handleOnClickBack, children }) => {
   const handleBackClick = () => {
     handleOnClickBack();
   };
@@ -25,7 +25,7 @@ export const Header = ({ heading, view, handleOnClickBack ,children}) => {
   );
 };
 
-export const Footer = ({ view,  handleOnClickNext }) => {
+export const Footer = ({ view, handleOnClickNext }) => {
   const [loading, setLoading] = useState(false);
 
   const onClick = () => {
@@ -36,23 +36,31 @@ export const Footer = ({ view,  handleOnClickNext }) => {
 
   return (
     <div className="createTrips-footer">
-      <Button type="secondary" >
-        Cancel
-      </Button>
-      <Button type="primary" loading={loading} onClick={onClick}>
-        Next
-      </Button>
+      <Button type="secondary">Cancel</Button>
+      {view==7?
+       <Button type="primary" className="btn-success"  loading={loading} onClick={onClick}>
+       Create Trip
+     </Button>
+      : <Button type="primary" loading={loading} onClick={onClick}>
+      Next
+    </Button>}
+     
     </div>
   );
 };
 
 export default function CreateTrips() {
-
-    const context = useContext(MyContext)
+  const context = useContext(MyContext);
 
   return (
     <>
-      {context.createTripView===0 ? <View0 />: context.createTripView >0 ? <GroupTrips/>:<Packages/>}
+      {context.createTripView === 0 ? (
+        <View0 />
+      ) : context.createTripView > 0 ? (
+        <GroupTrips />
+      ) : (
+        <Packages />
+      )}
     </>
   );
 }

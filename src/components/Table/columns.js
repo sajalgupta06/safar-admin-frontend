@@ -222,3 +222,42 @@ export const ActiveTripsColumn = [
       ),
     },
   ]; 
+
+  export const PricingPlanTable = [
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Pickup Point',
+      dataIndex: 'pickupPoint',
+      key: 'pickupPoint',
+    },
+    {
+      title: 'Pickup Mode',
+      dataIndex: 'pickupMode',
+      key: 'pickupMode',
+    },
+    {
+      title: 'Drop Point',
+      dataIndex: 'dropPoint',
+      key: 'dropPoint',
+    },
+    {
+      title: 'Drop Mode',
+      dataIndex: 'dropMode',
+      key: 'dropMode',
+    },
+    {
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
+    },
+  
+  ];

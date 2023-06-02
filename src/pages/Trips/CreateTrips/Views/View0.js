@@ -12,6 +12,7 @@ export default function View0() {
 
     context.setCreateTripView({type:"SET_CREATE_TRIPVIEW", payload:context.createTripView+1})
   };
+  
   const handleOnClickBack = () => {
     if (context.createTripView > 1) {
     context.setCreateTripView({type:"SET_CREATE_TRIPVIEW", payload:context.createTripView-1})

@@ -96,11 +96,7 @@ const onClickMenu = (e)=>{
 
 
   return (
-    <div
-      style={{
-        // width: 256,
-      }}
-    >
+
      
       <Menu
         defaultSelectedKeys={[window.location.pathname.split('/')[1]]}
@@ -113,7 +109,7 @@ const onClickMenu = (e)=>{
       />
  
       
-    </div>
+  
   );
 };
 
