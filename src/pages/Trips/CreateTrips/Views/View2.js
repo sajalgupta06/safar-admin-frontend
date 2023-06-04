@@ -3,18 +3,57 @@ import { Footer, Header } from "..";
 import { MyContext } from "../../../../App";
 import TextArea from "antd/es/input/TextArea";
 import EditableTags from "../../../../utils/EditableTags";
+import { view2Validator } from "../validators";
+import { alerts } from "../../../../utils/alert";
 
 export default function View2(props) {
   const context = useContext(MyContext);
   const { tripDetails, setTripDetails } = props;
 
-  const [highlights, setHighlights] = useState([]);
-  const [inclusion, setInclusion] = useState([]);
-  const [exclusion, setExclusion] = useState([]);
-  const [recommendation, setRecommendation] = useState([]);
-  const [terms, setTerms] = useState([]);
+  const initialsValidationStatus = {
+    highlights: "",
+    inclusions: "",
+    exclusions: "",
+    recommendations: "",
+ 
+  };
+
+
+
+  const [highlights, setHighlights] = useState(tripDetails?.highlights);
+  const [inclusions, setInclusion] = useState(tripDetails?.inclusions);
+  const [exclusions, setExclusion] = useState(tripDetails?.exclusions);
+  const [recommendations, setRecommendation] = useState(
+    tripDetails?.recommendations
+  );
+  const [terms, setTerms] = useState(tripDetails?.terms);
+  const [validationStatus, setValidationStatus] = useState(
+    // initialsValidationStatus
+  );
+
+  useEffect(() => {
+    setTripDetails({
+      ...tripDetails,
+      highlights,
+      inclusions,
+      exclusions,
+      recommendations,
+      terms,
+    });
+  }, [highlights, inclusions, exclusions, recommendations, terms]);
 
   const handleOnClickNext = () => {
+
+
+    // const result = view2Validator({...tripDetails})
+    // if(!result.validate)
+    // {
+    //   alerts.error(result.message)
+    //   setValidationStatus({ [result?.field] : "error"})
+
+    //   return  
+    // }
+
     context.setCreateTripView({
       type: "SET_CREATE_TRIPVIEW",
       payload: context.createTripView + 1,
@@ -30,10 +69,6 @@ export default function View2(props) {
     }
   };
 
-  useEffect(() => {
-    console.log(highlights);
-  }, [highlights]);
-
   return (
     <div className="createTrips">
       <Header
@@ -47,46 +82,56 @@ export default function View2(props) {
           <div className="createTrips-body-view2-about">
             <p className="heading">About</p>
             <div className="inputBox">
-              <TextArea placeholder="Enter Text Here" />
+              <TextArea placeholder="Enter Text Here" 
+                value={tripDetails?.about}
+                onChange={(e)=>setTripDetails({...tripDetails,about:e.target.value})}
+                status = {validationStatus?.about}
+
+              />
             </div>
           </div>
-          <div className="createTrips-body-view2-highlight">
+          <div className="createTrips-body-view2-highlights">
             <p className="heading">Highlights</p>
             <div className="inputBox">
               <EditableTags
                 tags={highlights}
                 setTags={setHighlights}
                 title={"Highlight"}
+                status = {validationStatus?.highlights}
               />
             </div>
           </div>
-          <div className="createTrips-body-view2-inclusion">
+          <div className="createTrips-body-view2-inclusions">
             <p className="heading">Inclusions</p>
             <div className="inputBox">
               <EditableTags
-                tags={inclusion}
+                tags={inclusions}
                 setTags={setInclusion}
-                title={"Inclusion"}
+                title={"inclusions"}
+                status = {validationStatus?.inclusions}
+
               />
             </div>
           </div>
-          <div className="createTrips-body-view2-exclusion">
+          <div className="createTrips-body-view2-exclusions">
             <p className="heading">Exclusions</p>
             <div className="inputBox">
               <EditableTags
-                tags={exclusion}
+                tags={exclusions}
                 setTags={setExclusion}
-                title={"Exclusion"}
+                title={"exclusions"}
+                status = {validationStatus?.exclusions}
+
               />
             </div>
           </div>
-          <div className="createTrips-body-view2-recommendation">
+          <div className="createTrips-body-view2-recommendations">
             <p className="heading">Recommendations</p>
             <div className="inputBox">
               <EditableTags
-                tags={recommendation}
+                tags={recommendations}
                 setTags={setRecommendation}
-                title={"Recommendation"}
+                title={"recommendations"}
               />
             </div>
           </div>
@@ -98,6 +143,8 @@ export default function View2(props) {
                 tags={terms}
                 setTags={setTerms}
                 title={"Terms & Condition "}
+                status = {validationStatus?.terms}
+
               />
             </div>
           </div>

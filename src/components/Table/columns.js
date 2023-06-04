@@ -228,6 +228,7 @@ export const ActiveTripsColumn = [
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
+      render:(record)=>`${record?.startDate} - ${record?.endDate}`
     },
     {
       title: 'Pickup Point',
@@ -253,11 +254,7 @@ export const ActiveTripsColumn = [
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
-    },
-    {
-      title: 'Action',
-      dataIndex: 'action',
-      key: 'action',
-    },
+    }
+   
   
   ];

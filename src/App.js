@@ -13,6 +13,7 @@ import AllBookings from "./pages/Bookings/AllBookings";
 import AllTrips from "./pages/Trips/AllTrips/AllTrips";
 import { declarations } from "./config";
 import CreateTrips from "./pages/Trips/CreateTrips";
+import Settings from "./pages/Settings";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
@@ -26,7 +27,7 @@ let iState = {
   IsSideBarCollapsed:false,
   screenName:"",
   loading:false,
-  createTripView:1,
+  createTripView:0,
 };
 
 function App() {
@@ -73,6 +74,8 @@ function App() {
       <Route exact path={`/${declarations.routes.ACTIVE_BOOKINGS}`}  element={<ActiveBookings/>} />
       <Route exact path={`/${declarations.routes.ALL_BOOKINGS}`}  element={<AllBookings/>} />
       <Route exact path={`/${declarations.routes.CREATE_TRIPS}`}  element={<CreateTrips/>} />
+      <Route exact path={`/${declarations.routes.CREATE_TRIPS}`}  element={<CreateTrips/>} />
+      <Route exact path={`/${declarations.routes.SETTINGS}`}  element={<Settings/>} />
 
       <Route path="*" element={<NotFound/>}></Route>
 

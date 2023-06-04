@@ -6,11 +6,14 @@ import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect } from "react";
 import moment from "moment";
+import { view3Validator } from "../validators";
+import { alerts } from "../../../../utils/alert";
 
 export default function View3(props) {
   const context = useContext(MyContext);
 
   const { tripDetails, setTripDetails } = props;
+  const [validationStatus, setValidationStatus] = useState()
 
   const [activityState, setActivityState] = useState({
     day: "",
@@ -25,6 +28,11 @@ export default function View3(props) {
       payload: context.createTripView + 1,
     });
   };
+
+
+  useEffect(() => {
+   console.log(activityState)
+  }, [activityState]);
 
   const handleOnClickBack = () => {
     if (context.createTripView > 1) {
@@ -47,6 +55,17 @@ export default function View3(props) {
   };
 
   const handleAddActivity = () => {
+
+    const result = view3Validator({...activityState})
+
+    if(!result.validate)
+    {
+      alerts.error(result.message)
+      setValidationStatus({ [result?.field] : "error"})
+
+      return  
+    }
+
     if (tripDetails?.itinerary) {
       if (tripDetails.itinerary[activityState.day]) {
         setTripDetails({
@@ -110,7 +129,7 @@ export default function View3(props) {
           {tripDetails?.itinerary[day].map((iti, i) => {
             return (
               <>
-                <div className="activityBox" key={i}>
+                <div className="activityBox" key={i} >
                     <div className="activityBox-heading">
                         <p className="title">{iti.title} <span>{iti.time}</span></p>
                         <p className="icon"><AiOutlineClose 
@@ -124,7 +143,7 @@ export default function View3(props) {
               </>
             );
           })}
-          <div className="addActivityBox"  onClick={() => showModal(day)}>
+          <div className="addActivityBox" key={100} onClick={() => showModal(day)}>
             <AiOutlinePlus /> Add Activity
           </div>
         </>
@@ -190,7 +209,10 @@ export default function View3(props) {
               value={activityState.title}
               onChange={(e) =>
                 setActivityState({ ...activityState, title: e.target.value })
+                
               }
+              status = {validationStatus?.title}
+
             />
           </div>
 
@@ -200,12 +222,17 @@ export default function View3(props) {
               name="time"
               style={{ width: "100%" }}
               format={"hh:mm A"}
-              value={activityState.time}
-              // onChange={(e)=>setActivityState({...activityState,time:moment(e).format("hh:mm A")})}
+              value={activityState.time!="" &&  moment(activityState.time,"hh:mm A")}
+              onChange={(e,time)=>setActivityState({...activityState,time:time})}
+              // onChange={(e,a)=>console.log(a)}
+              status = {validationStatus?.time}
+            
+
+
             />
           </div>
 
-          <div className="activityForm-item">
+          <div className="activityForm-item"> 
             <label htmlFor="Description">Description</label>
             <TextArea
               rows={3}
@@ -217,6 +244,8 @@ export default function View3(props) {
                   description: e.target.value,
                 })
               }
+              status = {validationStatus?.description}
+
             />
           </div>
         </div>

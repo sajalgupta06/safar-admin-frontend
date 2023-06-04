@@ -28,7 +28,6 @@ export default function EditableTags(props) {
 
     const handleClose = (removedTag) => {
       const newTags = tags.filter((tag) => tag !== removedTag);
-      console.log(newTags);
       setTags(newTags);
     };
 
@@ -42,9 +41,18 @@ export default function EditableTags(props) {
 
 
     const handleInputConfirm = () => {
-      if (inputValue && tags.indexOf(inputValue) === -1) {
+
+      if(!tags && inputValue)
+      {
+        
+          setTags([inputValue]);
+
+      }
+      else if (inputValue && tags.indexOf(inputValue) === -1){
+
         setTags([...tags, inputValue]);
       }
+     
       setInputVisible(false);
       setInputValue('');
     };
@@ -93,7 +101,7 @@ export default function EditableTags(props) {
     <>
  
 
-        {tags.map((tag, index) => {
+        {tags?.map((tag, index) => {
           if (editInputIndex === index) {
             return (
               <Input
@@ -127,7 +135,7 @@ export default function EditableTags(props) {
                   
                 }}
 
-                style={{"text-overflow": "ellipsis",
+                style={{"textOverflow": "ellipsis",
                     "width": "100%",
                     "overflow": "hidden"}}
               >
@@ -163,7 +171,7 @@ export default function EditableTags(props) {
           onPressEnter={handleInputConfirm}
         />
       ) : (
-        <Tag style={newTagStyle} onClick={showInput}>
+        <Tag style={newTagStyle} onClick={showInput} color={props?.status} >
             <span>
 
           <PlusOutlined />  Add {title}

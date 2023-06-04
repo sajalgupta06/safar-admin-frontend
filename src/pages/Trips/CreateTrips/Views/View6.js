@@ -101,8 +101,8 @@ export default function View6(props) {
               <div className="item">
                 <div className="label">Duration</div>
                 <div className="value">
-                  {" "}
-                  {`${tripDetails?.days} D`} {`${tripDetails?.days} N`}{" "}
+                 
+                  {`${tripDetails?.days } D`} {`${tripDetails?.days} N`}{" "}
                 </div>
               </div>
 
@@ -217,6 +217,7 @@ export default function View6(props) {
                 columns={PricingPlanTable}
                 dataSource={tripDetails?.pricingPlan}
                 pagination={false}
+                rowKey={(record)=>record} 
               />
             </div>
 

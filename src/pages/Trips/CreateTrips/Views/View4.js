@@ -5,16 +5,29 @@ import { Footer, Header } from "..";
 import { MyContext } from "../../../../App";
 import { BiRupee } from "react-icons/bi";
 import { PricingPlanTable } from "../../../../components/Table/columns";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
+import { view4Validator } from "../validators";
+import { alerts } from "../../../../utils/alert";
 
 export default function View4(props) {
   const context = useContext(MyContext);
   const [pricingPlanState , setPricingPlanState] = useState({})
    const { tripDetails, setTripDetails } = props;
+   const [validationStatus, setValidationStatus] = useState()
 
   
 
   const handleOnClickNext = () => {
+
+    // const result = view4Validator(tripDetails.pricingPlan)
+
+    // if(!result?.validate)
+    // {
+    //   alerts.error(result?.message)
+  
+    //   return  
+    // }
+
     context.setCreateTripView({
       type: "SET_CREATE_TRIPVIEW",
       payload: context.createTripView + 1,
@@ -38,9 +51,29 @@ const handleOnChange = (value, field)=>{
         ...pricingPlanState,
         [field]: value,
       });
+
+    
 }
 
+
 const handleAddPricingPlan = ()=>{
+
+  const result = view4Validator({...pricingPlanState,validationType:"ADD_PLAN"})
+
+  if(!result.validate)
+  {
+    alerts.error(result.message)
+    setValidationStatus({ [result?.field] : "error"})
+
+    return  
+  }
+
+  if(tripDetails?.pricingPlan?.includes(pricingPlanState)){
+    alerts.error("Plan already created")
+    return
+
+  }
+
 
 if(tripDetails?.pricingPlan)
 {
@@ -61,9 +94,58 @@ else{
     })
 }
 
+setValidationStatus()
+
+
 }
 
+const getDates = ()=>{
 
+   const res = tripDetails?.dates?.map((date,i)=>{             
+    return {
+    value: JSON.stringify(date),
+    key:i,
+    label:`${date.startDate} to ${date.endDate}`
+  }
+})
+
+return res
+
+}
+
+const getModesOptions = [
+  
+    { label: "Train (NON AC)", value: "Train (NON AC)" },
+    { label: "Train (AC)", value: "Train (AC)" },
+    { label: "Bus (NON AC)", value: "Bus (NON AC)" },
+    { label: "Bus (AC)", value: "Bus (AC)" },
+    { label: "Car", value: "Car" },
+    { label: "Plane", value: "Plane" },
+    { label: "Other", value: "other" },
+  ]
+
+
+const handleRemoveRow = (record)=>{
+setTripDetails({
+  ...tripDetails,
+  pricingPlan:tripDetails?.pricingPlan.filter(plan=>plan!=record)
+})
+
+}
+
+const getTableColumn=()=>{
+
+let newColumn =  {
+  title: 'Action',
+  dataIndex: 'action',
+  key: 'action',
+  render : (e,record,index)=><AiOutlineDelete className="tabelDeleteIcon" onClick={()=>handleRemoveRow(record)}/>
+}
+let table = [...PricingPlanTable, newColumn]
+
+return table
+
+}
 
   return (
     <>
@@ -85,30 +167,22 @@ else{
                     id="date"
                     className="inputSelect"
                     defaultValue="Choose Date"
-                    onChange={(value)=>handleOnChange(value,"date")}
-                    options={[
-                      {
-                        value: "jack",
-                        label: "Jack",
-                      },
-                      {
-                        value: "lucy",
-                        label: "Lucy",
-                      },
-                      {
-                        value: "Yiminghe",
-                        label: "yiminghe",
-                      },
-                    ]}
+                    onChange={(value)=>handleOnChange(JSON.parse(value),"date")}
+                    options={getDates()}
+                    status = {validationStatus?.date}
+
                   />
                 </div>
 
                 <div className="option">
                   <label htmlFor="pickupPoint">Pickup Point</label>
                     <Input
+                    
                     name="pickupPoint"
                     value={pricingPlanState?.pickupPoint}
                     onChange={(e)=>handleOnChange(e.target.value,"pickupPoint")}
+                    status = {validationStatus?.pickupPoint}
+
                     />
                 </div>
 
@@ -119,16 +193,9 @@ else{
                     className="inputSelect"
                     defaultValue="Choose Mode"
                     onChange={(value)=>handleOnChange(value,"pickupMode")}
+                    status = {validationStatus?.pickupMode}
 
-                    options={[
-                        { label: "Train (NON AC)", value: "Train (NON AC)" },
-                        { label: "Train (AC)", value: "Train (AC)" },
-                        { label: "Bus (NON AC)", value: "Bus (NON AC)" },
-                        { label: "Bus (AC)", value: "Bus (AC)" },
-                        { label: "Car", value: "Car" },
-                        { label: "Plane", value: "Plane" },
-                        { label: "Other", value: "other" },
-                      ]}
+                    options={getModesOptions}
                   />
                 </div>
 
@@ -138,6 +205,8 @@ else{
                     name="dropPoint"
                     value={pricingPlanState?.dropPoint}
                     onChange={(e)=>handleOnChange(e.target.value,"dropPoint")}
+                    status = {validationStatus?.dropPoint}
+
                     />
                 </div>
 
@@ -147,16 +216,10 @@ else{
                     id="dropMode"
                     className="inputSelect"
                     defaultValue="Choose Mode"
-                    options={[
-                        { label: "Train (NON AC)", value: "Train (NON AC)" },
-                        { label: "Train (AC)", value: "Train (AC)" },
-                        { label: "Bus (NON AC)", value: "Bus (NON AC)" },
-                        { label: "Bus (AC)", value: "Bus (AC)" },
-                        { label: "Car", value: "Car" },
-                        { label: "Plane", value: "Plane" },
-                        { label: "Other", value: "other" },
-                      ]}
+                    options={getModesOptions}
                       onChange={(value)=>handleOnChange(value,"dropMode")}
+                      status = {validationStatus?.dropMode}
+
                   />
                 </div>
 
@@ -164,8 +227,11 @@ else{
                   <label htmlFor="amount">Amount</label>
                   <Input addonBefore={<BiRupee />} 
                   type="number" 
+                  min={0}
                   value={pricingPlanState.amount}
                   onChange={(e)=>handleOnChange(e.target.value,"amount")}
+                  status = {validationStatus?.amount}
+
                   />
                 </div>
               </div>
@@ -176,9 +242,10 @@ else{
             </div>
             <div className="createTrips-body-view4-right">
               <Table
-                columns={PricingPlanTable}
+                columns={getTableColumn()}
                 dataSource={tripDetails?.pricingPlan}
                 pagination={false}
+                rowKey={(record)=>JSON.stringify(record)}
                 
               />
             </div>
