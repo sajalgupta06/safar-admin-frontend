@@ -14,8 +14,20 @@ import AllTrips from "./pages/Trips/AllTrips/AllTrips";
 import { declarations } from "./config";
 import CreateTrips from "./pages/Trips/CreateTrips";
 import Settings from "./pages/Settings";
+import SingleTrip from "./pages/Trip";
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
+const queryClient = new QueryClient({defaultOptions: {
+  queries: {
+    refetchOnWindowFocus: false,
+    refetchOnmount: false,
+    refetchOnReconnect: false,
+    retry: false,
+    // staleTime: twentyFourHoursInMs,
+  },
+},
+})
 
 export const MyContext = createContext();
 
@@ -27,7 +39,8 @@ let iState = {
   IsSideBarCollapsed:false,
   screenName:"",
   loading:false,
-  createTripView:0,
+  noSpinLoading:false,
+  createTripView:1,
 };
 
 function App() {
@@ -54,6 +67,7 @@ function App() {
         permissions: data.permissions,
         darkMode: data.darkMode,
         loading:data.loading,
+        noSpinLoading:data.noSpinLoading,
         screenName:data.screenName,
         createTripView: data.createTripView,
         setCreateTripView :dispatch,
@@ -61,14 +75,18 @@ function App() {
         setScreenName:dispatch,
         toggleSideBarCollapse:dispatch,
         changeCompanyPlan: dispatch,
+        setNoSpinLoading:dispatch
       }}
     >
       <div className="App">
-        <BrowserRouter>
+        <BrowserRouter> 
 
       <AppLayout>
+      <QueryClientProvider client={queryClient}>
+
       <Routes>
       <Route path="/" element={<Dashboard/>} />
+      <Route exact path= {`/${declarations.routes.SINGLE_TRIP}`} element={<SingleTrip/>} />
       <Route exact path= {`/${declarations.routes.ACTIVE_TRIPS}`} element={<ActiveTrips/>} />
       <Route exact path={`/${declarations.routes.ALL_TRIPS}`}  element={<AllTrips/>} />
       <Route exact path={`/${declarations.routes.ACTIVE_BOOKINGS}`}  element={<ActiveBookings/>} />
@@ -80,6 +98,8 @@ function App() {
       <Route path="*" element={<NotFound/>}></Route>
 
         </Routes>
+        </QueryClientProvider>
+
         </AppLayout>
         </BrowserRouter>
       </div>

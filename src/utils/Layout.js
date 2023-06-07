@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar/Navbar";
 import { Breadcrumb, Layout, theme } from "antd";
 import { MyContext } from "../App";
 import Loading from "../components/Loader/Loading";
+import NoSpinLoader from "../components/Loader/NoSpinLoader";
 const { Content, Header, Sider } = Layout;
 
 export default function AppLayout({ children }) {
@@ -39,6 +40,7 @@ export default function AppLayout({ children }) {
             </Breadcrumb> */}
 
             {context.loading && <Loading></Loading>}
+            {context.noSpinLoading && <NoSpinLoader></NoSpinLoader>}
             <Content
               style={{
                 padding: 24,

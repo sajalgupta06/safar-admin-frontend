@@ -2,7 +2,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import './Loading.scss'
 
-export default function Loading() {
+export default function NoSpinLoader() {
 
     const antIcon = (
         <LoadingOutlined
@@ -11,12 +11,13 @@ export default function Loading() {
           }}
           spin
           
+        //   allowTransparency
         />
       );
 
 
   return (
-   <div className='loading'>
+   <div className='noSpinLoading'>
        <Spin indicator={antIcon}  />
     </div>
   )

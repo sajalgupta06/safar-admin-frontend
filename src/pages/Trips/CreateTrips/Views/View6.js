@@ -32,7 +32,7 @@ export default function View6(props) {
         <>
           {tripDetails?.itinerary[day]?.map((iti, i) => {
             return (
-              <>
+              
                 <div className="activityBox" key={i}>
                   <div className="activityBox-heading">
                     <p className="title">
@@ -41,7 +41,7 @@ export default function View6(props) {
                   </div>
                   <div className="activityBox-desc">{iti.description}</div>
                 </div>
-              </>
+              
             );
           })}
         </>
@@ -85,7 +85,15 @@ export default function View6(props) {
               </div>
               <div className="item">
                 <div className="label">Type</div>
-                <div className="value">{tripDetails?.type}</div>
+                <div className="value"> <ul>
+                    {tripDetails?.type?.map((type, i) => {
+                      return (
+                        <li key={i}>
+                          {i + 1}. {type.name}  
+                        </li>
+                      );
+                    })}
+                  </ul></div>
               </div>
 
               <div className="item">
@@ -102,7 +110,7 @@ export default function View6(props) {
                 <div className="label">Duration</div>
                 <div className="value">
                  
-                  {`${tripDetails?.days } D`} {`${tripDetails?.days} N`}{" "}
+                  {`${tripDetails?.days } D`} {`${tripDetails?.nights} N`}{" "}
                 </div>
               </div>
 
@@ -149,7 +157,7 @@ export default function View6(props) {
                 <div className="label">Inclusions</div>
                 <div className="value">
                   <ul>
-                    {tripDetails?.inclusion?.map((data, i) => {
+                    {tripDetails?.inclusions?.map((data, i) => {
                       return (
                         <li key={i}>
                           {i + 1}. {data}
@@ -164,7 +172,7 @@ export default function View6(props) {
                 <div className="label">Exclusions</div>
                 <div className="value">
                   <ul>
-                    {tripDetails?.exclusion?.map((data, i) => {
+                    {tripDetails?.exclusions?.map((data, i) => {
                       return (
                         <li key={i}>
                           {i + 1}. {data}
@@ -179,7 +187,7 @@ export default function View6(props) {
                 <div className="label">Recommendations</div>
                 <div className="value">
                   <ul>
-                    {tripDetails?.recommendation?.map((data, i) => {
+                    {tripDetails?.recommendations?.map((data, i) => {
                       return (
                         <li key={i}>
                           {i + 1}. {data}
@@ -215,7 +223,7 @@ export default function View6(props) {
               <div className="heading">Pricing Plan</div>
               <Table
                 columns={PricingPlanTable}
-                dataSource={tripDetails?.pricingPlan}
+                dataSource={tripDetails?.priceSlots}
                 pagination={false}
                 rowKey={(record)=>record} 
               />

@@ -1,17 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Select, Switch } from "antd";
 import '../CreateTrips.scss'
 import { Footer, Header } from "..";
 import { MyContext } from "../../../../App";
+import { createTrip } from "../../../../action/req";
+import { alerts } from "../../../../utils/alert";
 
 export default function View7(props) {
 
   const context = useContext(MyContext)
-  const { tripDetails, setTripDetails } = props;
 
-  const handleOnClickNext = () => {
+  const [options, setOptions] = useState({})
 
-    context.setCreateTripView({type:"SET_CREATE_TRIPVIEW", payload:context.createTripView+1})
+  const handleOnClickNext = async() => {
+
+
+    if(!options?.acceptTerms)
+    {
+      alerts.error("Please Accept Terms and Conditions")
+      return 
+    }
+
+    const result = await createTrip(options);
+    if (result.statusCode == "10000") {
+      alerts.success("Trip Created");
+
+      return true;
+    }
+
+    alerts.error("Error in saving Details");
+
+    return false;
+
   };
   
   const handleOnClickBack = () => {
@@ -20,9 +40,13 @@ export default function View7(props) {
     }
   };
 
+  useEffect(() => {
+   console.log(options)
+  }, [options]);
+
 const handleOnChange = (val,field)=>{
-    setTripDetails({
-        ...tripDetails,
+  setOptions({
+        ...options,
         [field]:val
     })
 }
@@ -41,7 +65,7 @@ const handleOnChange = (val,field)=>{
             <div className="configBoxes">
             <div className="box">
                 <label>Publish Trip</label>
-                <Switch  onChange={(val)=>handleOnChange(val,"publish")}  />
+                <Switch  onChange={(val)=>handleOnChange(val,"published")}  />
             </div>
             <div className="box">
                 <label>Accept Terms & Condition</label>

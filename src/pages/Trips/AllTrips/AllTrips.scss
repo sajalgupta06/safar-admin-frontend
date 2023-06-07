@@ -1,0 +1,33 @@
+.allTrips{
+    width: 100%;
+    height: 100%;
+    &-top{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+        .heading{
+
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            display: inline-block;
+        }
+        .search{
+       
+            display: inline-block;
+
+            .searchInput{
+                display: inline-block;
+
+              
+            }
+        }
+    }
+    &-content{
+        position: relative;
+        height: 98%;
+        // width: 30%;
+        .ant-drawer .ant-drawer-mask{
+            background: none;
+        }
+    }
+}

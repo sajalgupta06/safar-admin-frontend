@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import moment from "moment";
 import { view3Validator } from "../validators";
 import { alerts } from "../../../../utils/alert";
+import { updateWorkingTrip } from "../../../../action/req";
 
 export default function View3(props) {
   const context = useContext(MyContext);
@@ -22,21 +23,35 @@ export default function View3(props) {
     description: "",
   });
 
-  const handleOnClickNext = () => {
-    context.setCreateTripView({
-      type: "SET_CREATE_TRIPVIEW",
-      payload: context.createTripView + 1,
-    });
+  const handleOnClickNext = async() => {
+ 
+    const validationResult = view3Validator(tripDetails?.itinerary);
+
+    if(!validationResult.validate)
+    {
+      alerts.error(validationResult.message)
+      setValidationStatus({ [validationResult?.field] : "error"})
+      return false
+    }
+    const result = await updateWorkingTrip(tripDetails);
+    if (result.statusCode == "10000") {
+      alerts.success("Itineary saved");
+
+      return true;
+    }
+
+    alerts.error("Error in saving Itinerary");
+
+    return false;
+
   };
 
 
-  useEffect(() => {
-   console.log(activityState)
-  }, [activityState]);
+
 
   const handleOnClickBack = () => {
     if (context.createTripView > 1) {
-      context.setCreateTripView({
+      context.setCreateTripView({ 
         type: "SET_CREATE_TRIPVIEW",
         payload: context.createTripView - 1,
       });
@@ -56,7 +71,7 @@ export default function View3(props) {
 
   const handleAddActivity = () => {
 
-    const result = view3Validator({...activityState})
+    const result = view3Validator({...activityState ,validationType:"ADD_ACTIVITY"})
 
     if(!result.validate)
     {
@@ -65,6 +80,8 @@ export default function View3(props) {
 
       return  
     }
+    setValidationStatus({})
+
 
     if (tripDetails?.itinerary) {
       if (tripDetails.itinerary[activityState.day]) {
@@ -128,8 +145,8 @@ export default function View3(props) {
         <>
           {tripDetails?.itinerary[day].map((iti, i) => {
             return (
-              <>
-                <div className="activityBox" key={i} >
+             
+                <div className="activityBox" key={i}  >
                     <div className="activityBox-heading">
                         <p className="title">{iti.title} <span>{iti.time}</span></p>
                         <p className="icon"><AiOutlineClose 
@@ -140,7 +157,7 @@ export default function View3(props) {
                         {iti.description}
                     </div>
                 </div>
-              </>
+              
             );
           })}
           <div className="addActivityBox" key={100} onClick={() => showModal(day)}>

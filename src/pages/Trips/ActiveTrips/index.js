@@ -1,63 +1,85 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ActiveTrips.scss";
-import { Divider, Select, Table } from "antd";
-import { ActiveTripsColumn, ActiveTrips_IndividualDate_TransportModeColumn } from "../../../components/Table/columns";
+import { Button, Divider, Drawer, Select, Table } from "antd";
+import {
+  ActiveTripsColumn,
+  ActiveTrips_IndividualDate_TransportModeColumn,
+} from "../../../components/Table/columns";
+import { AiOutlinePlus } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getDashTrips } from "../../../action/req";
 
 export default function ActiveTrips() {
+  const { isLoading, error, data } = useQuery("dashTrip", () => getDashTrips());
 
-const [ticketDetails , setTicketDetail] = useState(null)
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
+  const [ticketDetails, setTicketDetail] = useState();
 
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
+  const onRowClick = (record) => {
+    if (ticketDetails?._id == record?._id) {
+      setTicketDetail(null);
+      setOpen(false);
+    } else {
+      setTicketDetail(record);
+      setOpen(true);
+    }
+  };
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      onRowClick(selectedRows[0]);
     },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
+    getCheckboxProps: (record) => ({
+      disabled: record.name === "Disabled User",
+      // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
 
-  const onRowClick = (record,rowIndex)=>{
+  const getActiveTripColumns = () => {
+    const newColumn = {
+      key: "action",
+      width: "10%",
 
-      
-      if(ticketDetails?.key==record.key)
-      {
-          setTicketDetail(null)
-        }
-    
-        else setTicketDetail(record)
-  }
+      render: (_, record) => (
+        <>
+              <Link to={`/trip/${record.slug}`}>View More </Link>
+        </>
+      ),
+    };
+
+    return [...ActiveTripsColumn, newColumn];
+  };
+
   return (
     <>
       <section className="activeTrips">
         <div className="activeTrips-top">
-          <Table columns={ActiveTripsColumn} dataSource={data} pagination={false} 
-          onRow={(record, rowIndex) => {
-            return {
-              onClick: ()=>onRowClick(record,rowIndex) // click row
-            };
-          }}
-        bordered
+          <Table
+            columns={getActiveTripColumns()}
+            loading={isLoading}
+            dataSource={data?.data}
+            pagination={false}
+            rowSelection={{
+              type: "radio",
+              defaultSelectedRowKeys: "1",
+              ...rowSelection,
+            }}
+            rowKey={"_id"}
+            bordered
           />
         </div>
         <Divider></Divider>
         <div className="activeTrips-bottom">
-    {ticketDetails!=null && (
+          {/* {ticketDetails && (
         <div className="activeTrips-bottom-info">
             <div className="activeTrips-bottom-info-top">
               <div className="date">
@@ -81,15 +103,37 @@ const [ticketDetails , setTicketDetail] = useState(null)
               </div>
             </div>
             <div className="activeTrips-bottom-info-middle">
-            <Table columns={ActiveTrips_IndividualDate_TransportModeColumn} dataSource={data} pagination={false} />
+            <Table columns={ActiveTrips_IndividualDate_TransportModeColumn}  pagination={false} />
 
             </div>
           </div>
 
-    )}
+    )} */}
 
-          
+<Drawer
+            title="Drawer with extra actions"
+            placement={"bottom"}
+            width={500}
+            onClose={onClose}
+            open={open}
+            className="bottomDrawer"
+            // extra={
+            //   <Space>
+            //     <Button onClick={onClose}>Cancel</Button>
+            //     <Button type="primary" onClick={onClose}>
+            //       OK
+            //     </Button>
+            //   </Space>
+            // }
+            getContainer={false}
+          >
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </Drawer>
+         
         </div>
+
       </section>
     </>
   );

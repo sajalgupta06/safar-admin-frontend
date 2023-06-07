@@ -114,7 +114,7 @@ export const view2Validator = (props) => {
     return {
       validate: false,
       field:"about",
-      message: "Name length must lie between 50 to 200 characters",
+      message: "about length must lie between 50 to 200 characters",
     };
 
   if(!props?.highlights?.length>0 ) {
@@ -176,8 +176,8 @@ export const view2Validator = (props) => {
 
 export const view3Validator = (props) => {
 
-
-
+  if(props?.validationType==="ADD_ACTIVITY")
+{
   if (!props?.title) {
     return {
       validate: false,
@@ -211,16 +211,27 @@ export const view3Validator = (props) => {
     return {
       validate: false,
       field:"description",
-      message: "Description  length must lie between 5 to 30 characters",
+      message: "Description  length must lie between 20 to 200 characters",
     };
 
- 
-
-  else{
-    return{
-        validate:true
-    }
   }
+
+  else {
+
+    if(!props || props?.length<1)
+    {
+      return {
+        validate: false,
+        message: "Provide Complete Itinerary",
+      };
+    }
+    
+
+  
+}
+return{
+  validate:true
+}
 };
 
 

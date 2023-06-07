@@ -5,6 +5,7 @@ import TextArea from "antd/es/input/TextArea";
 import EditableTags from "../../../../utils/EditableTags";
 import { view2Validator } from "../validators";
 import { alerts } from "../../../../utils/alert";
+import { updateWorkingTrip } from "../../../../action/req";
 
 export default function View2(props) {
   const context = useContext(MyContext);
@@ -42,22 +43,28 @@ export default function View2(props) {
     });
   }, [highlights, inclusions, exclusions, recommendations, terms]);
 
-  const handleOnClickNext = () => {
+  const handleOnClickNext = async() => {
 
 
-    // const result = view2Validator({...tripDetails})
-    // if(!result.validate)
-    // {
-    //   alerts.error(result.message)
-    //   setValidationStatus({ [result?.field] : "error"})
+    const validationResult = view2Validator({...tripDetails})
+    if(!validationResult.validate)
+    {
+      alerts.error(validationResult.message)
+      setValidationStatus({ [validationResult?.field] : "error"})
 
-    //   return  
-    // }
+      return  false
+    }
+    
+    const result = await updateWorkingTrip(tripDetails);
+    if (result.statusCode == "10000") {
+      alerts.success("Description saved");
 
-    context.setCreateTripView({
-      type: "SET_CREATE_TRIPVIEW",
-      payload: context.createTripView + 1,
-    });
+      return true;
+    }
+
+    alerts.error("Error in saving Description");
+
+    return false;
   };
 
   const handleOnClickBack = () => {
@@ -84,6 +91,7 @@ export default function View2(props) {
             <div className="inputBox">
               <TextArea placeholder="Enter Text Here" 
                 value={tripDetails?.about}
+                name="about"
                 onChange={(e)=>setTripDetails({...tripDetails,about:e.target.value})}
                 status = {validationStatus?.about}
 
@@ -94,7 +102,7 @@ export default function View2(props) {
             <p className="heading">Highlights</p>
             <div className="inputBox">
               <EditableTags
-                tags={highlights}
+                tags={tripDetails?.highlights}
                 setTags={setHighlights}
                 title={"Highlight"}
                 status = {validationStatus?.highlights}
@@ -105,7 +113,7 @@ export default function View2(props) {
             <p className="heading">Inclusions</p>
             <div className="inputBox">
               <EditableTags
-                tags={inclusions}
+                tags={tripDetails?.inclusions}
                 setTags={setInclusion}
                 title={"inclusions"}
                 status = {validationStatus?.inclusions}
@@ -117,7 +125,7 @@ export default function View2(props) {
             <p className="heading">Exclusions</p>
             <div className="inputBox">
               <EditableTags
-                tags={exclusions}
+                tags={tripDetails?.exclusions}
                 setTags={setExclusion}
                 title={"exclusions"}
                 status = {validationStatus?.exclusions}
@@ -129,7 +137,7 @@ export default function View2(props) {
             <p className="heading">Recommendations</p>
             <div className="inputBox">
               <EditableTags
-                tags={recommendations}
+                tags={tripDetails?.recommendations}
                 setTags={setRecommendation}
                 title={"recommendations"}
               />
@@ -140,7 +148,7 @@ export default function View2(props) {
             <p className="heading">Terms & Condition</p>
             <div className="inputBox">
               <EditableTags
-                tags={terms}
+                tags={tripDetails?.terms}
                 setTags={setTerms}
                 title={"Terms & Condition "}
                 status = {validationStatus?.terms}

@@ -23,16 +23,46 @@ import View4 from "../Views/View4";
 import View5 from "../Views/View5";
 import View6 from "../Views/View6";
 import View7 from "../Views/View7";
+import { fetchWorkingTrip } from "../../../../action/req";
+import { useQuery } from "react-query";
 
 export default function GroupTrips() {
   const context = useContext(MyContext);
 
-  const [tripDetails, setTripDetails] = useState({
-    dates: [
-      { endDate: "09-06-2023", startDate: "01-06-2023" },
-      { endDate: "24-06-2023", startDate: "21-06-2023" },
-    ],
-  });
+  const [tripDetails, setTripDetails] = useState();
+
+
+  const onSuccessFetchWorkingTrip = (data)=>{
+
+    
+
+   
+  }
+
+  const { isLoading, error, data } = useQuery("fetchTripDetails",  () => fetchWorkingTrip() ,{onSuccess:(data)=>setTripDetails(data?.data)});
+
+  
+
+
+  useEffect(() => {
+  
+    if(isLoading)
+    {
+      context.setNoSpinLoading({
+        type: "SET_LOADING",
+        payload: true,
+      });
+    }
+    else{
+      context.setNoSpinLoading({
+        type: "SET_LOADING",
+        payload: false,
+      });
+    }
+
+  }, [isLoading]);
+  // console.log(data?.data)
+
 
   const getStepStatus = (view) => {
     if (context.createTripView == view) return "process";
@@ -44,6 +74,15 @@ export default function GroupTrips() {
     console.log(tripDetails);
   }, [tripDetails]);
 
+const onClickSteps = (view)=>{
+
+  context.setCreateTripView({
+    type: "SET_CREATE_TRIPVIEW",
+    payload: view,
+  });
+
+}
+  
   return (
     <>
       <div className="groupTripSteps">
@@ -54,37 +93,50 @@ export default function GroupTrips() {
               title: "Basic Details",
               status: getStepStatus(1),
               icon: <HiOutlineInformationCircle />,
+            onClick:()=>onClickSteps(1)
             },
 
             {
               title: "Description",
               status: getStepStatus(2),
               icon: <MdOutlineDescription />,
+              onClick:()=>onClickSteps(2)
+
             },
             {
               title: "Itinerary",
               status: getStepStatus(3),
               icon: <GiWavyItinerary />,
+              onClick:()=>onClickSteps(3)
+
             },
             {
               title: "Pricing",
               status: getStepStatus(4),
               icon: <BsCurrencyRupee />,
+              onClick:()=>onClickSteps(4)
+
             },
             {
               title: "Photos",
               status: getStepStatus(5),
               icon: <HiOutlinePhotograph />,
+              onClick:()=>onClickSteps(5)
+
             },
             {
               title: "Preview",
               status: getStepStatus(6),
               icon: <VscPreview />,
+              onClick:()=>onClickSteps(6)
+
             },
             {
               title: "Final Step",
               status: getStepStatus(7),
               icon: <GiFinishLine />,
+              onClick:()=>onClickSteps(7)
+
             },
           ]}
         />

@@ -20,6 +20,7 @@ const firebaseConfig = {
 const declarations = {
 
     routes:{
+        SINGLE_TRIP:"trip/:id",
         ACTIVE_TRIPS:"active_trips",
         ALL_TRIPS:"all_trips",
         CREATE_TRIPS:"create_trips",

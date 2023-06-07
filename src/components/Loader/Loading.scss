@@ -16,3 +16,15 @@
     }
 }
 
+.noSpinLoading{
+    height: 89.5%;
+    width: 84.3%;
+    position: absolute;
+    top: 8rem;
+    z-index: 1;
+
+    .ant-spin-spinning {
+       
+        display: none;
+    }
+}

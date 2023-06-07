@@ -20,6 +20,12 @@ const reducer = (state, action) => {
           ...state,
           loading: action.payload,
         };
+
+        case "SET_NOSPIN_LOADING":
+          return {
+            ...state,
+            noSpinLoading: action.payload,
+          };
     case "SET_SCREEN_NAME":
       return {
         ...state,

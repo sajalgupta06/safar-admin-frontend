@@ -306,6 +306,29 @@
         justify-content: center;
         // background-color: var(--background);
         border: 1px solid var(--input-border);
+        .activityBox {
+          width: 100%;
+          // min-height: 15rem;
+          height: auto;
+          display: flex;
+          margin-bottom: 3rem;
+          flex-direction: column;
+          border: 1px solid var(--input-border);
+          padding: 2rem;
+          gap: 3rem;
+          &-heading {
+            display: flex;
+            justify-content: space-between;
+            .title {
+              font-size: 2rem;
+              text-transform: capitalize;
+              font-weight: 500;
+            }
+            .icon {
+              cursor: pointer;
+            }
+          }
+        }
         .heading {
           font-size: 2rem;
           margin-bottom: 2rem;

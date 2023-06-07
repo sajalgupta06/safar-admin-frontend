@@ -8,39 +8,51 @@ import moment from "moment";
 import EditableTags from "../../../../utils/EditableTags";
 import { alerts } from "../../../../utils/alert";
 import { view1Validator } from "../validators";
+import { fetchCollection, updateWorkingTrip } from "../../../../action/req";
+import { useQuery } from "react-query";
 
 const { RangePicker } = DatePicker;
 
 export default function View1(props) {
   const context = useContext(MyContext);
 
-
-
   const { tripDetails, setTripDetails } = props;
+
   const [travelDateState, setTravelDateState] = useState();
   const [allLocations, setAllLocations] = useState();
 
   const [validationStatus, setValidationStatus] = useState();
 
-  useEffect(() => {
-    console.log(tripDetails);
+  const {
+    isLoading: tripTypesLoading,
+    error: tripTypeError,
+    data: tripTypes,
+  } = useQuery("triptype", () => fetchCollection());
 
-  }, [tripDetails]);
+  if (tripTypeError) {
+    alerts.error("could not load trip types");
+  }
 
-  const handleOnClickNext = () => {
-    // const result = view1Validator({ ...tripDetails });
+  const handleOnClickNext = async () => {
+    const validationResult = view1Validator({ ...tripDetails });
 
-    // if(!result.validate)
-    // {
-    //   alerts.error(result.message)
-    //   setValidationStatus({ [result?.field] : "error"})
-    //   return
-    // }
+    if(!validationResult.validate)
+    {
+      alerts.error(validationResult.message)
+      setValidationStatus({ [validationResult?.field] : "error"})
+      return false
+    }
 
-    context.setCreateTripView({
-      type: "SET_CREATE_TRIPVIEW",
-      payload: context.createTripView + 1,
-    });
+    const result = await updateWorkingTrip(tripDetails);
+    if (result.statusCode == "10000") {
+      alerts.success("Basic Details saved");
+
+      return true;
+    }
+
+    alerts.error("Error in saving Details");
+
+    return false;
   };
 
   const handleOnClickBack = () => {};
@@ -51,8 +63,6 @@ export default function View1(props) {
     } else {
       setTripDetails({ [field]: val });
     }
-
-    
   };
 
   const addTravelDates = () => {
@@ -104,6 +114,17 @@ export default function View1(props) {
     }
   }, [allLocations]);
 
+  const getTripTypes = () => {
+    let data = tripTypes?.data;
+
+    return data?.map((type) => {
+      return {
+        label: type.name,
+        value: JSON.stringify(type),
+      };
+    });
+  };
+
   return (
     <>
       <div className="createTrips">
@@ -120,14 +141,15 @@ export default function View1(props) {
 
               requiredMark={false}
               colon={false}
-              initialValues={{ ...tripDetails }}
+              initialValues={tripDetails}
             >
               <Row gutter={70}>
                 <Col span={8} style={{ paddingLeft: 0 }}>
                   {" "}
-                  <Form.Item label="Name" name="name">
+                  <Form.Item label="Name">
                     <Input
                       value={tripDetails?.name}
+                      name="name"
                       onChange={(e) => onChangeInput(e.target.value, "name")}
                       status={validationStatus?.name}
                     />
@@ -135,40 +157,37 @@ export default function View1(props) {
                 </Col>
                 <Col span={8}>
                   {" "}
-                  <Form.Item
-                    label="Type"
-                    name="type"
-                    initialValue={"Choose Trip Type"}
-                  >
+                  <Form.Item label="Type">
                     <Select
                       // style={{
                       //   width: 220,
                       // }}
-
+                      value={tripDetails?.type?.map((type) => {
+                        return {
+                          label: type.name,
+                          value: JSON.stringify(type),
+                        };
+                      })}
+                      mode="multiple"
+                      placeholder={"Choose Trip Type"}
+                      loading={tripTypesLoading}
                       status={validationStatus?.type}
-                      onChange={(value) => onChangeInput(value, "type")}
-                      options={[
-                        {
-                          value: "jack",
-                          label: "Jack",
-                        },
-                        {
-                          value: "lucy",
-                          label: "Lucy",
-                        },
-                        {
-                          value: "Yiminghe",
-                          label: "yiminghe",
-                        },
-                      ]}
+                      onChange={(value) =>
+                        onChangeInput(
+                          value.map((val) => JSON.parse(val)),
+                          "type"
+                        )
+                      }
+                      options={getTripTypes()}
                     />
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   {" "}
-                  <Form.Item label="Age Limit" name="ageLimit">
+                  <Form.Item label="Age Limit" >
                     <Input
                       type="number"
+                      name="ageLimit"
                       min={1}
                       max={80}
                       value={tripDetails?.ageLimit}
@@ -184,12 +203,14 @@ export default function View1(props) {
               <Row gutter={50}>
                 <Col span={8} style={{ paddingLeft: 0 }}>
                   {" "}
-                  <Form.Item label="Last Date To Register" name="lastDate">
+                  <Form.Item label="Last Date To Register" >
                     <DatePicker
                       style={{ width: "100%" }}
-                      value={moment(tripDetails?.lastDate, "DD-MMM-YYYY")}
-                 
-                      onChange={(date,dateString) =>   onChangeInput(date.format("DD-MM-YYYY"), "lastDate")}            
+                      name="lastDate"
+                      value={tripDetails?.lastDate &&  moment(tripDetails?.lastDate, "DD-MMM-YYYY")}
+                      onChange={(date, dateString) =>
+                        onChangeInput(date.format("DD-MM-YYYY"), "lastDate")
+                      }
                       format={"DD-MMM-YYYY"}
                       disabledDate={(current) => {
                         return current && current < moment().add(0, "d");
@@ -202,10 +223,11 @@ export default function View1(props) {
                   {" "}
                   <Form.Item
                     label="Region"
-                    name="region"
+                 
                     // style={{ width: 250 }}
                   >
                     <Input
+                       name="region"
                       status={validationStatus?.region}
                       value={tripDetails?.region}
                       onChange={(e) => onChangeInput(e.target.value, "region")}
@@ -213,8 +235,9 @@ export default function View1(props) {
                   </Form.Item>
                 </Col>
                 <Col span={5}>
-                  <Form.Item label="Days" name="days">
+                  <Form.Item label="Days" >
                     <Input
+                    name="days"
                       type="number"
                       min={0}
                       value={tripDetails?.days}
@@ -226,8 +249,9 @@ export default function View1(props) {
                   </Form.Item>
                 </Col>
                 <Col span={5}>
-                  <Form.Item label="Nights" name="nights">
+                  <Form.Item label="Nights" >
                     <Input
+                    name="nights"
                       type="number"
                       min={0}
                       value={tripDetails?.nights}
@@ -243,9 +267,10 @@ export default function View1(props) {
                 <h3>All Locations</h3>
                 <div className="allLocations-content">
                   <EditableTags
-                    tags={allLocations}
+                    tags={tripDetails?.locations}
                     setTags={setAllLocations}
                     title={"Locations that you will cover in the trip"}
+                    
                     status={validationStatus?.locations}
                   />
                 </div>

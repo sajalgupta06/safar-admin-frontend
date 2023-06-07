@@ -6,6 +6,9 @@ import View0 from "./Views/View0";
 import GroupTrips from "./GroupTrips";
 import Packages from "./Packages";
 import { MyContext } from "../../../App";
+import { useNavigate } from "react-router-dom";
+import { declarations } from "../../../config";
+import { alerts } from "../../../utils/alert";
 
 export const Header = ({ heading, view, handleOnClickBack, children }) => {
   const onClick = () => {
@@ -26,14 +29,44 @@ export const Header = ({ heading, view, handleOnClickBack, children }) => {
 };
 
 export const Footer = ({ view, handleOnClickNext }) => {
-  const [loading, setLoading] = useState(false);
-
+  const [btnLoading, setBtnLoading] = useState(false);
+const navigate = useNavigate()
   const context = useContext(MyContext)
 
-  const onClick = () => {
-    setLoading(true);
-    handleOnClickNext();
-    setLoading(false);
+  const onClick = async() => {
+
+    if(context.createTripView==7)
+    {
+        navigate(`/${declarations.routes.ALL_TRIPS}`)
+        alerts.info("We will Notify You once the trip is created")
+        
+        await handleOnClickNext();
+
+      return
+        
+    }
+    setBtnLoading(true);
+    context.setNoSpinLoading({
+      type: "SET_NOSPIN_LOADING",
+      payload: true,
+    });
+    const res = await handleOnClickNext();
+   
+    if(res)
+    {
+      context.setCreateTripView({
+        type: "SET_CREATE_TRIPVIEW",
+        payload: context.createTripView + 1,
+      });
+    }
+
+    context.setNoSpinLoading({
+      type: "SET_NOSPIN_LOADING",
+      payload: false,
+    });
+
+    setBtnLoading(false);
+    
   };
 
  
@@ -66,10 +99,10 @@ export const Footer = ({ view, handleOnClickNext }) => {
    
 
       {view==7?
-       <Button type="primary" className="btn-success"  loading={loading} onClick={onClick}>
+       <Button type="primary" className="btn-success"  loading={btnLoading} onClick={onClick}>
        Create Trip
      </Button>
-      : <Button type="primary" loading={loading} onClick={onClick}>
+      : <Button type="primary" loading={btnLoading} onClick={onClick}>
       Next
     </Button>}
      

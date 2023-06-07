@@ -8,30 +8,37 @@ import { PricingPlanTable } from "../../../../components/Table/columns";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import { view4Validator } from "../validators";
 import { alerts } from "../../../../utils/alert";
+import { updateWorkingTrip } from "../../../../action/req";
 
 export default function View4(props) {
   const context = useContext(MyContext);
-  const [pricingPlanState , setPricingPlanState] = useState({})
+  const [priceSlotState , setPriceSlotState] = useState({})
    const { tripDetails, setTripDetails } = props;
    const [validationStatus, setValidationStatus] = useState()
 
   
 
-  const handleOnClickNext = () => {
+  const handleOnClickNext = async() => {
 
-    // const result = view4Validator(tripDetails.pricingPlan)
+    const validationResult = view4Validator(tripDetails.priceSlots)
 
-    // if(!result?.validate)
-    // {
-    //   alerts.error(result?.message)
+    if(!validationResult?.validate)
+    {
+      alerts.error(validationResult?.message)
   
-    //   return  
-    // }
+      return  
+    }
 
-    context.setCreateTripView({
-      type: "SET_CREATE_TRIPVIEW",
-      payload: context.createTripView + 1,
-    });
+    const result = await updateWorkingTrip(tripDetails);
+    if (result.statusCode == "10000") {
+      alerts.success("Pricing Plan saved");
+
+      return true;
+    }
+
+    alerts.error("Error in saving Pricing Plan");
+
+    return false;
   };
 
   const handleOnClickBack = () => {
@@ -47,8 +54,8 @@ export default function View4(props) {
 
 
 const handleOnChange = (value, field)=>{
-    setPricingPlanState({
-        ...pricingPlanState,
+    setPriceSlotState({
+        ...priceSlotState,
         [field]: value,
       });
 
@@ -58,7 +65,7 @@ const handleOnChange = (value, field)=>{
 
 const handleAddPricingPlan = ()=>{
 
-  const result = view4Validator({...pricingPlanState,validationType:"ADD_PLAN"})
+  const result = view4Validator({...priceSlotState,validationType:"ADD_PLAN"})
 
   if(!result.validate)
   {
@@ -68,28 +75,28 @@ const handleAddPricingPlan = ()=>{
     return  
   }
 
-  if(tripDetails?.pricingPlan?.includes(pricingPlanState)){
+  if(tripDetails?.priceSlots?.includes(priceSlotState)){
     alerts.error("Plan already created")
     return
 
   }
 
 
-if(tripDetails?.pricingPlan)
+if(tripDetails?.priceSlots)
 {
     setTripDetails({
         ...tripDetails,
-        pricingPlan:[
-            ...tripDetails.pricingPlan,
-            pricingPlanState
+        priceSlots:[
+            ...tripDetails.priceSlots,
+            priceSlotState
         ]
     })
 }
 else{
     setTripDetails({
         ...tripDetails,
-        pricingPlan:[
-            pricingPlanState
+        priceSlots:[
+            priceSlotState
         ]
     })
 }
@@ -128,7 +135,7 @@ const getModesOptions = [
 const handleRemoveRow = (record)=>{
 setTripDetails({
   ...tripDetails,
-  pricingPlan:tripDetails?.pricingPlan.filter(plan=>plan!=record)
+  priceSlots:tripDetails?.priceSlots.filter(plan=>plan!=record)
 })
 
 }
@@ -179,7 +186,7 @@ return table
                     <Input
                     
                     name="pickupPoint"
-                    value={pricingPlanState?.pickupPoint}
+                    value={priceSlotState?.pickupPoint}
                     onChange={(e)=>handleOnChange(e.target.value,"pickupPoint")}
                     status = {validationStatus?.pickupPoint}
 
@@ -203,7 +210,7 @@ return table
                   <label htmlFor="dropPoint">Drop Point</label>
                   <Input
                     name="dropPoint"
-                    value={pricingPlanState?.dropPoint}
+                    value={priceSlotState?.dropPoint}
                     onChange={(e)=>handleOnChange(e.target.value,"dropPoint")}
                     status = {validationStatus?.dropPoint}
 
@@ -228,7 +235,7 @@ return table
                   <Input addonBefore={<BiRupee />} 
                   type="number" 
                   min={0}
-                  value={pricingPlanState.amount}
+                  value={priceSlotState.amount}
                   onChange={(e)=>handleOnChange(e.target.value,"amount")}
                   status = {validationStatus?.amount}
 
@@ -243,7 +250,7 @@ return table
             <div className="createTrips-body-view4-right">
               <Table
                 columns={getTableColumn()}
-                dataSource={tripDetails?.pricingPlan}
+                dataSource={tripDetails?.priceSlots}
                 pagination={false}
                 rowKey={(record)=>JSON.stringify(record)}
                 

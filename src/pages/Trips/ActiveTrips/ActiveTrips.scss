@@ -20,8 +20,13 @@
 
     }
     &-bottom{
-        width: 100%;
-        height: 50%;
+        width: 100%;    
+        height: 47%;
+        position: relative;
+        .ant-drawer .ant-drawer-mask{
+            background: none;
+        }
+     
         &-info{
             background-color: #f2f2f2;
             // box-shadow: var(--box-shadow);

@@ -7,6 +7,7 @@ export default function EditableTags(props) {
     const { token } = theme.useToken();
     const {tags,setTags,title} = props
 
+
     const [inputVisible, setInputVisible] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [editInputIndex, setEditInputIndex] = useState(-1);
