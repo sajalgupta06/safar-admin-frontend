@@ -82,10 +82,13 @@ const getDefaultOpenKey = ()=>{
 
 const onClickMenu = (e)=>{
 
+
   if(e.key==="logout")
   {
     return
   }
+  context.setLoading({type:"SET_LOADING",payload:false})
+
   navigate(`${e.key}`)
   context.setScreenName({type:"SET_SCREEN_NAME",payload:"asd"})
   
@@ -103,6 +106,7 @@ const onClickMenu = (e)=>{
         defaultOpenKeys={[getDefaultOpenKey()]}
         mode="inline"
         // theme="dark"
+        selectedKeys={[window.location.pathname.split('/')[1]]}
         items={items}
         onClick={(e)=>onClickMenu(e)}
         className='mainSideBar'

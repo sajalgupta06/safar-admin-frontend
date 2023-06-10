@@ -8,12 +8,25 @@ import {
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getDashTrips } from "../../../action/req";
+import {
+  fetchActiveTripsBookingDetails,
+  getDashTrips,
+} from "../../../action/req";
+import moment from "moment";
+import { object_equals } from "../../../utils/functions";
 
 export default function ActiveTrips() {
-  const { isLoading, error, data } = useQuery("dashTrip", () => getDashTrips());
+  let { isLoading, error, data } = useQuery("activeTripsBookingDetails", () =>
+    fetchActiveTripsBookingDetails()
+  );
+
+  data = data?.data?.trips;
 
   const [open, setOpen] = useState(false);
+  const [date, setDate] = useState();
+
+  // console.log(data);
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -28,9 +41,12 @@ export default function ActiveTrips() {
       setTicketDetail(null);
       setOpen(false);
     } else {
+      setOpen(false)
       setTicketDetail(record);
+      
       setOpen(true);
     }
+    setDate()
   };
 
   const rowSelection = {
@@ -46,18 +62,122 @@ export default function ActiveTrips() {
 
   const getActiveTripColumns = () => {
     const newColumn = {
+        title:"Action",
       key: "action",
       width: "10%",
 
       render: (_, record) => (
         <>
-              <Link to={`/trip/${record.slug}`}>View More </Link>
+          <Link to={`/trip/${record?.trip?.slug}`}>View More </Link>
         </>
       ),
     };
 
     return [...ActiveTripsColumn, newColumn];
   };
+
+  const getDates = () => {
+    return ticketDetails?.trip?.dates?.map((ele) => {
+      delete ele._id;
+      return {
+        label:
+          moment(ele.startDate, "DD-MM-YYYY").format("DD MMM YY") +
+          " - " +
+          moment(ele.endDate, "DD-MM-YYYY").format("DD MMM YY"),
+        value: JSON.stringify(ele),
+      };
+    });
+  };
+
+ 
+
+  const getPricingSlotTableData = ()=>{
+
+    const obj =[]
+
+    let ticketCount = 0
+
+    ticketDetails?.trip?.priceSlots?.map(priceSlot=>{
+
+
+        if(JSON.stringify(priceSlot?.date)===date)
+        {
+          delete priceSlot._id
+
+           ticketCount = 0
+
+          ticketDetails?.tickets?.map(ticket=>{
+
+            
+
+
+            if(object_equals(ticket?.tripDetails?.priceSlot,priceSlot)){
+              ticketCount = ticketCount + ticket?.passengers?.length;
+            }
+          })
+
+          obj.push({...priceSlot,ticketCount:ticketCount})
+
+        }
+
+        
+
+
+    })
+
+
+    
+
+    return obj
+
+  }
+
+
+  const getIndividualDateTicketCount = ()=>{
+
+    const obj =[]
+
+    let ticketCount = 0
+
+    ticketDetails?.trip?.priceSlots?.map(priceSlot=>{
+
+
+        if(JSON.stringify(priceSlot?.date)===date)
+        {
+          delete priceSlot._id
+
+           ticketCount = 0
+
+          ticketDetails?.tickets?.map(ticket=>{
+
+            
+
+
+            if(object_equals(ticket?.tripDetails?.priceSlot,priceSlot)){
+              ticketCount = ticketCount + ticket?.passengers?.length;
+            }
+          })
+
+          obj.push({...priceSlot,ticketCount:ticketCount})
+
+        }
+
+        
+
+
+    })
+
+
+      
+
+    return ticketCount
+
+  }
+
+
+  // useEffect(() => {
+  //   getPricingSlotTableData()
+  // }, [date]);
 
   return (
     <>
@@ -66,74 +186,61 @@ export default function ActiveTrips() {
           <Table
             columns={getActiveTripColumns()}
             loading={isLoading}
-            dataSource={data?.data}
+            dataSource={data}
             pagination={false}
             rowSelection={{
               type: "radio",
               defaultSelectedRowKeys: "1",
               ...rowSelection,
             }}
-            rowKey={"_id"}
+            rowKey={record=>JSON.stringify(record)}
             bordered
           />
         </div>
         <Divider></Divider>
         <div className="activeTrips-bottom">
-          {/* {ticketDetails && (
-        <div className="activeTrips-bottom-info">
-            <div className="activeTrips-bottom-info-top">
-              <div className="date">
-                Select Date :
-                <Select
-                  defaultValue="lucy"
-                  style={{
-                    width: 220,
-                  }}
-                  
-                  options={[
-                    {
-                      value: "lucy",
-                      label: "Lucy",
-                    },
-                  ]}
-                />
-              </div>
-              <div className="ticketCount">
-                <p>Total Count : <span>74</span></p>
-              </div>
-            </div>
-            <div className="activeTrips-bottom-info-middle">
-            <Table columns={ActiveTrips_IndividualDate_TransportModeColumn}  pagination={false} />
-
-            </div>
-          </div>
-
-    )} */}
-
-<Drawer
-            title="Drawer with extra actions"
+          <Drawer
+            title={ticketDetails?.trip?.name}
             placement={"bottom"}
             width={500}
             onClose={onClose}
             open={open}
             className="bottomDrawer"
-            // extra={
-            //   <Space>
-            //     <Button onClick={onClose}>Cancel</Button>
-            //     <Button type="primary" onClick={onClose}>
-            //       OK
-            //     </Button>
-            //   </Space>
-            // }
             getContainer={false}
           >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <div className="activeTrips-bottom-info">
+              <div className="activeTrips-bottom-info-top">
+                <div className="date">
+                  Select Date :
+                  <Select
+                    placeholder={"Choose Date"}
+                    style={{
+                      width: 220,
+                    }}
+                    value={date && moment(JSON.parse(date).startDate, "DD-MM-YYYY").format("DD MMM YY") +
+                    " - " +
+                    moment(JSON.parse(date).endDate, "DD-MM-YYYY").format("DD MMM YY")}
+                    onChange={(value)=>setDate(value)}
+                    options={getDates()}
+                  />
+                </div>
+                <div className="ticketCount">
+                  <p>
+                     Count : <span>{getIndividualDateTicketCount()}</span>
+                  </p>
+                </div>
+              </div>
+              <div className="activeTrips-bottom-info-middle">
+                <Table
+                  columns={ActiveTrips_IndividualDate_TransportModeColumn}
+                  pagination={false}
+                  rowKey={(record)=>JSON.stringify(record)}
+                  dataSource={getPricingSlotTableData()}
+                />
+              </div>
+            </div>
           </Drawer>
-         
         </div>
-
       </section>
     </>
   );

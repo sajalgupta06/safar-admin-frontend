@@ -23,12 +23,13 @@ export default function View7(props) {
 
     const result = await createTrip(options);
     if (result.statusCode == "10000") {
-      alerts.success("Trip Created");
+
+      alerts.success("Trip Created Successfully" );
 
       return true;
     }
 
-    alerts.error("Error in saving Details");
+        alerts.error("Erro while  Creating  Trip")
 
     return false;
 

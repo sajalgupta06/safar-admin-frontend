@@ -381,6 +381,13 @@ export const getAllAdminTrips = async (page,limit) => {
 
   };
 
+  export const getSingleTripBySlug = async(slug) => {
+
+    return await getApi(`/trip/${slug}`,true)
+
+  };
+
+
 
   export const updateTrip= async(data,id) => {
 
@@ -405,7 +412,7 @@ export const getAllAdminTrips = async (page,limit) => {
   export const getTripTicket = async(id) => {
     
 
-    return await postApi(`/tripTicket`,{id},true)
+    return await postApi(`/tripTicket`,{tripId:id},true)
 
    
   };
@@ -420,10 +427,10 @@ export const getAllAdminTrips = async (page,limit) => {
   };
 
 
-  export const createManualTicket =async (passengers,tripId,priceSlots) => {
+  export const createManualTicket =async (data) => {
 
 
-    return await postApi('/bookTicket',{passengers,tripId,priceSlots},true)
+    return await postApi('/bookTicket',data,true)
 
 
   };
@@ -506,3 +513,39 @@ export const getAllAdminTrips = async (page,limit) => {
     return await getApi(`/tripPricePlans?id=${data}`,true)
 
   };
+
+
+
+// Bookings 
+
+export const fetchRecentTickets= async() => {
+
+  return await getApi(`/recentTickets`,true)
+
+};
+
+
+export const fetchAllBookingsTrips= async() => {
+
+  return await getApi(`/allBookingsTrips`,true)
+
+};
+
+
+
+// Trip
+
+
+
+export const fetchActiveTripsNameSlug= async() => {
+
+  return await getApi('/activeTrips',true)
+
+};
+
+export const fetchActiveTripsBookingDetails= async() => {
+
+  return await getApi('/activeTripsBookingDetails',true)
+
+};
+

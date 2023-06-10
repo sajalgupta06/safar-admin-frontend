@@ -48,19 +48,20 @@ export default function GroupTrips() {
   
     if(isLoading)
     {
-      context.setNoSpinLoading({
+      context.setLoading({
         type: "SET_LOADING",
         payload: true,
       });
     }
     else{
-      context.setNoSpinLoading({
+      context.setLoading({
         type: "SET_LOADING",
         payload: false,
       });
     }
 
   }, [isLoading]);
+
   // console.log(data?.data)
 
 
@@ -70,9 +71,7 @@ export default function GroupTrips() {
     else return "wait";
   };
 
-  useEffect(() => {
-    console.log(tripDetails);
-  }, [tripDetails]);
+ 
 
 const onClickSteps = (view)=>{
 

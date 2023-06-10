@@ -1,52 +1,69 @@
-import React, { useContext } from 'react'
-import './Bookings.scss'
-import { Table } from 'antd';
-import { AllBookingsColumn } from '../../components/Table/columns';
-import { MyContext } from '../../App';
+import React, { useContext } from "react";
+import "./Bookings.scss";
+import { Button, Table } from "antd";
+import { AllBookingsColumn } from "../../components/Table/columns";
+import { MyContext } from "../../App";
+import { useQuery } from "react-query";
+import { fetchAllBookingsTrips } from "../../action/req";
+import { Link } from "react-router-dom";
 
 export default function AllBookings() {
+  const { isLoading, error, data } = useQuery("activeTickets", () =>
+    fetchAllBookingsTrips()
+  );
 
-    const data = [
-        {
-          key: "1",
-          name: "John Brown",
-          age: 32,
-          address: "New York No. 1 Lake Park",
-          tags: ["nice", "developer"],
-        },
-        {
-          key: "2",
-          name: "Jim Green",
-          age: 42,
-          address: "London No. 1 Lake Park",
-          tags: ["loser"],
-        },
-        {
-          key: "3",
-          name: "Joe Black",
-          age: 32,
-          address: "Sydney No. 1 Lake Park",
-          tags: ["cool", "teacher"],
-        },
-      ];
-    return (
-   <>
-   <section className='allBookings'>
 
-    <div className='heading'>
-        <p>
+    const getColumns = ()=>{
 
-        All Bookings
-        </p>
-    </div>
+      const nameColumn =  {
+        title: "Trip Name",
+        dataIndex: "trip",
+        key: "name",
+        render: (record) => <Link to={`/all_bookings/${record._id}`}>{record?.name}</Link>
+      }
+      const actionColumn = {
+        title: "Action",
+        key: "action",
+        render: (record) => (
+          <>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                alignItems: "center",
+              }}
+            >
+              {/* <Button onClick={() => showDrawer(record)}>View More</Button> */}
+              <Button
+                style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
+              >
+                {/* <AiOutlineDownload /> Receipt */}
+              </Button>
+            </div>
+          </>
+        ),
+      };
+  
+      return [nameColumn, ...AllBookingsColumn];
 
-    <div className='allBookings-content'>
-    <Table columns={AllBookingsColumn} dataSource={data} pagination={false} />
+    }
 
-    </div>
-   </section>
-   
-   
-   </>
-  )
+  return (
+    <>
+      <section className="allBookings">
+        <div className="heading">
+          <p>All Bookings</p>
+        </div>
+
+        <div className="allBookings-content">
+          <Table
+            columns={getColumns()}
+            dataSource={data?.data?.trips}
+            rowKey={"_id"}
+            loading={isLoading}
+          />
+        </div>
+      </section>
+    </>
+  );
 }

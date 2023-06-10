@@ -27,6 +27,7 @@ export default function AppLayout({ children }) {
           <Layout
             style={{
               padding: "0 24px 24px",
+                minHeight:"93vh"
             }}
           >
             {/* <Breadcrumb

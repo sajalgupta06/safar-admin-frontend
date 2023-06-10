@@ -16,6 +16,8 @@ import CreateTrips from "./pages/Trips/CreateTrips";
 import Settings from "./pages/Settings";
 import SingleTrip from "./pages/Trip";
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import AddBookings from "./pages/Bookings/AddBookings";
+import SingleTripBookings from "./pages/Bookings/SingleTripBookings";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const queryClient = new QueryClient({defaultOptions: {
@@ -91,6 +93,8 @@ function App() {
       <Route exact path={`/${declarations.routes.ALL_TRIPS}`}  element={<AllTrips/>} />
       <Route exact path={`/${declarations.routes.ACTIVE_BOOKINGS}`}  element={<ActiveBookings/>} />
       <Route exact path={`/${declarations.routes.ALL_BOOKINGS}`}  element={<AllBookings/>} />
+      <Route exact path={`/${declarations.routes.SINGLE_BOOKING}`}  element={<SingleTripBookings/>} />
+      <Route exact path={`/${declarations.routes.ADD_BOOKINGS}`}  element={<AddBookings/>} />
       <Route exact path={`/${declarations.routes.CREATE_TRIPS}`}  element={<CreateTrips/>} />
       <Route exact path={`/${declarations.routes.CREATE_TRIPS}`}  element={<CreateTrips/>} />
       <Route exact path={`/${declarations.routes.SETTINGS}`}  element={<Settings/>} />

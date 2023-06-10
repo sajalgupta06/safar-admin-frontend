@@ -5,74 +5,64 @@ import { MdClose } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 
 export const ActiveTripsColumn = [
-  {
-    title: "S.No",
-    key: "index",
-    render: (text, record, index) => index + 1,
-  },
+
   {
     title: "Name",
-    dataIndex: "name",
+    dataIndex: "trip",
     key: "name",
-  },
-  {
-    title: "Collections",
-    dataIndex: "collections",
-    key: "collections",
-    render: (record) => record?.map((ele) => ele.name),
-  },
-  {
-    title: "Location",
-    dataIndex: "location",
-    key: "location",
-  },
-  {
-    title: "Days / Nights",
-    dataIndex: "days",
-    key: "days",
-    render: (text, record) => (
-      <>
-        {record.days}D / {record.nights}N{" "}
-      </>
-    ),
+    render:(record)=>record?.name
   },
 
   {
-    title: "Tickets Count",
+    title: "Region",
+    dataIndex: "trip",
+    key: "region",
+    render:(record)=>record?.region
+
+  },
+ 
+  {
+    title: " Total Tickets Sold",
     dataIndex: "ticketCount",
     key: "ticketCount",
+    sorter: (a, b) => a.ticketCount - b.ticketCount,
+
   },
   {
     title: "Last Booking",
-    dataIndex: "lastBooking",
-    key: "lastBooking",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
+    sorter: (a, b) => moment(a.updatedAt) - moment(b.updatedAt),
+    render: (record) => moment(record).format("hh:mm A,  DD MMM YYYY"),
   },
 ];
 
 export const ActiveTrips_IndividualDate_TransportModeColumn = [
   {
     title: "Pick Up Point",
-    dataIndex: "pickUpPoint",
-    key: "pickUpPoint",
-    render: (text) => <a>{text}</a>,
+    dataIndex: "pickupPoint",
+    key: "pickupPoint",
+    
   },
   {
     title: "Pick Up Transport Mode",
-    dataIndex: "pickUpTransMode",
-    key: "pickUpTransMode",
-    render: (text) => <a>{text}</a>,
+    dataIndex: "pickupMode",
+    key: "pickupMode",
   },
   {
     title: "Drop Point",
     dataIndex: "dropPoint",
     key: "dropPoint",
-    render: (text) => <a>{text}</a>,
   },
   {
     title: "Drop Transport Mode",
-    dataIndex: "dropTransMode",
-    key: "dropTransMode",
-    render: (text) => <a>{text}</a>,
+    dataIndex: "dropMode",
+    key: "dropMode",
+  },
+  {
+    title: "Amount",
+    dataIndex: "amount",
+    key: "amount",
   },
   {
     title: "Ticket Count",
@@ -160,94 +150,122 @@ export const AllTripsColumn = [
 ];
 
 export const ActiveBookingsColumn = [
+
   {
-    title: "Trip Name",
-    dataIndex: "tripName",
-    key: "tripNames",
-  },
-  {
-    title: "UserName",
-    dataIndex: "platform",
-    key: "platform",
+    title: "Booked By",
+    dataIndex: "userDetails",
+    key: "bookedBy",
+    render:(record)=>record.name
+
   },
   {
     title: "Total Passengers",
-    dataIndex: "version",
-    key: "version",
+    dataIndex: "passengers",
+    key: "passengers",
+    render:(record)=>record?.length
+
   },
   {
-    title: "Date and Pickup Point",
-    dataIndex: "createdAt",
-    key: "createdAt",
-  },
+    title: "Trip Date",
+    dataIndex: "tripDetails",
+    key: "tripDetails",
+    render:(record)=>moment(record?.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY") + " - " + moment(record?.priceSlot?.date?.endDate,"DD-MM-YYYY").format("DD MMM YY")
+
+    },
   {
     title: "Booked On",
-    dataIndex: "upgradeNum",
-    key: "upgradeNum",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY")
+
   },
 
   {
-    title: "Action",
-    key: "operation",
-    render: () => <a>Receipt</a>,
+    title: "Amount",
+    dataIndex: "tripDetails",
+    key: "tripName",
+    render:(record)=>record?.priceSlot?.amount
   },
+
+ 
 ];
 
 export const AllBookingsColumn = [
-  {
-    title: "Trip Name",
-    dataIndex: "name",
-    key: "name",
-    render: (text) => <a>{text}</a>,
-  },
+
   {
     title: "Tickets Sold",
-    dataIndex: "age",
-    key: "age",
+    dataIndex: "ticketCount",
+    key: "ticketCount",
   },
   {
     title: "Last Booked",
-    dataIndex: "address",
-    key: "address",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
+    render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY")
+
   },
   {
     title: "Status",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    dataIndex: "trip",
+    key: "completed",
+    render:(record)=> record?.completed===true?"Completed":"Not Completed"
+   
   },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <a>View Report</a>
-      </Space>
-    ),
-  },
+
 ];
 
-export const PricingPlanTable = [
+export const SingleTripBookingsColumn = [
+
   {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-    render: (record) => `${record?.startDate} - ${record?.endDate}`,
+    title: "Booked On",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY")
+
   },
+
+  {
+    title: "Booked By",
+    dataIndex: "userDetails",
+    key: "bookedBy",
+    render:(record)=>record.name
+
+  },
+  {
+    title: "Total Passengers",
+    dataIndex: "passengers",
+    key: "passengers",
+    render:(record)=>record?.length
+
+  },
+  {
+    title: "Trip Date",
+    dataIndex: "tripDetails",
+    key: "tripDetails",
+    render:(record)=>moment(record?.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY") + " - " + moment(record?.priceSlot?.date?.endDate,"DD-MM-YYYY").format("DD MMM YY")
+
+    },
+
+
+  {
+    title: "Amount",
+    dataIndex: "tripDetails",
+    key: "tripName",
+    render:(record)=>record?.priceSlot?.amount
+  },
+
+ 
+];
+
+
+
+export const PricingPlanTable = [
+  // {
+  //   title: "Date",
+  //   dataIndex: "date",
+  //   key: "date",
+  //   render: (record) => `${moment(record?.startDate, "DD-MM-YYYY").format("DD MMM YY")} - ${moment(record?.endDate,"DD-MM-YYYY").format("DD MMM YY")}`,
+  // },
   {
     title: "Pickup Point",
     dataIndex: "pickupPoint",
@@ -269,8 +287,43 @@ export const PricingPlanTable = [
     key: "dropMode",
   },
   {
-    title: "Amount",
+    title: <><BiRupee/> Amount</>,
     dataIndex: "amount",
     key: "amount",
   },
+];
+
+export const PassengersDetails =[
+  {
+    title: 'Passengers Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: 'Gender',
+    dataIndex: 'gender',
+    key: 'gender',
+  },
+  {
+    title: 'Mobile Number',
+    dataIndex: 'mobileNumber',
+    key: 'mobileNumber',
+  },
+
+  {
+    title: 'Email ID',
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
+    title: 'Aadhar Card Number',
+    dataIndex: 'aadharNumber',
+    key: 'aadharNumber',
+  },
+
 ];

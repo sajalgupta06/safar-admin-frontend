@@ -48,23 +48,21 @@ export default function View6(props) {
       );
   };
 
-  const items = [
-    {
-      key: "1",
-      label: `Day 1`,
-      children: renderDayContent(1),
-    },
-    {
-      key: "2",
-      label: `Day 2`,
-      children: renderDayContent(2),
-    },
-    {
-      key: "3",
-      label: `Day 3`,
-      children: renderDayContent(3),
-    },
-  ];
+
+
+ 
+  const getItineraryItems = ()=>{
+    const keys = Object.keys(tripDetails?.itinerary)
+
+    return keys.map((key)=>{
+      return{
+        key: key,
+        label: `Day ${key}`,
+        children: renderDayContent(parseInt(key)),
+      }
+    })
+
+  }
 
   return (
     <>
@@ -216,7 +214,7 @@ export default function View6(props) {
 
             <div className="view3">
               <div className="heading">Itinerary</div>
-              <Tabs defaultActiveKey="1" items={items} />
+              <Tabs defaultActiveKey="1" items={getItineraryItems()} />
             </div>
 
             <div className="view4">

@@ -17,9 +17,7 @@ export default function AllTrips() {
 
       const { isLoading, error } = useQuery('adminTrips', () =>getAllAdminTrips(),{onSuccess:(res)=>setData({rawData:res.data,searchedData:res.data})}  )
 
-  useEffect(() => {
-   console.log(data)
-  }, [data]);
+
      
       const handleSearch = (e) => {
         

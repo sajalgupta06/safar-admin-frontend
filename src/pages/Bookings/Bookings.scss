@@ -47,3 +47,79 @@
 
 
 }
+
+.addBookings{
+  .heading{
+    display: flex;
+    justify-content: space-between;
+    p{
+
+        font-size: 2rem;
+    }
+    .refresh{
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        cursor: pointer;
+        &:hover{
+            color: var(--primary);
+        }
+    }
+}
+
+
+&-content{
+  margin-top: 7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  min-height: 70vh;
+  height: auto;
+  .options{
+    display: flex;
+      justify-content: space-between;
+      .inputBox{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        label{
+          display: inline-block;
+          margin-right: 2rem;
+          color: var(--label-text);
+          align-items: center;
+          // width: 10rem;
+        }
+        .selectInput{
+          width: 70%;
+          display: inline-block;
+          margin-right: 3 rem;
+        }
+        .labelInput{
+          border: 1px solid var(--input-border);
+          width: 70%;
+          padding: 0.5rem;
+          border-radius: 1rem;
+        }
+      }
+  }
+
+.addPassengersDiv{
+  height: 10rem;
+  width: 100%;
+  border: 1px dashed var(--input-border);
+  color: var(--label-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+}
+
+&-footer{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+}

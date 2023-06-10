@@ -103,9 +103,12 @@ button {
 .btn-success {
   background-color: var(--green);
   // fill: #32de84;
+  color: var(--pure-white);
   &:hover{
     background-color: var(--green)!important;
     opacity: 0.8;
+    color: var(--pure-white)!important;
+    border-color: var(--green)!important;
   }
 
 }
