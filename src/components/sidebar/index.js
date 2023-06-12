@@ -17,6 +17,8 @@ import {  useNavigate } from 'react-router-dom';
 import { useContext,  } from 'react';
 import { MyContext } from '../../App';
 import { declarations } from '../../config';
+import { logOut } from '../../action/req';
+import { alerts } from '../../utils/alert';
 
 
 
@@ -34,7 +36,7 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
 
-  getItem('Dashboard', '', <PieChartOutlined /> ),
+  getItem('Dashboard', declarations.routes.DASHBOARD, <PieChartOutlined /> ),
   getItem('Trip', 'trip', <MdTravelExplore />, [
     getItem('Active Trips', declarations.routes.ACTIVE_TRIPS,<BsRadioactive/>),
     getItem('All Trips', declarations.routes.ALL_TRIPS,<TiThSmall/>),
@@ -50,11 +52,11 @@ const items = [
   ]),
 
   getItem('Payments',  declarations.routes.PAYMENTS, <RiSecurePaymentLine /> ),
-  getItem('Email',  declarations.routes.EMAIL, <DesktopOutlined />),
+  getItem('Messages',  declarations.routes.MESSAGES, <DesktopOutlined />),
   getItem('Analytics',  declarations.routes.ANALYTICS, <SiGoogleanalytics />),
   getItem('Pricing',  declarations.routes.PRICING, <GiPriceTag />),
   getItem('Settings',  declarations.routes.SETTINGS, <AiFillSetting />),
-  getItem('Logout', 'logout', <AiOutlineLogout />),
+  getItem('Logout', 'adminLogout', <AiOutlineLogout />),
 ];
 
 
@@ -83,9 +85,12 @@ const getDefaultOpenKey = ()=>{
 const onClickMenu = (e)=>{
 
 
-  if(e.key==="logout")
+  if(e.key==="adminLogout")
   {
-    return
+      logOut()
+      alerts.success("Logged Out Successfully")
+      context.setIsAuthenticated({type:"IS_AUTHENTICATED",payload:false})
+      return
   }
   context.setLoading({type:"SET_LOADING",payload:false})
 

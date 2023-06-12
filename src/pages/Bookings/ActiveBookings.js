@@ -133,8 +133,8 @@ export default function ActiveBookings() {
         <Table
           columns={PassengersDetails}
           dataSource={drawerContent?.passengers}
-          rowKey={(record) => record._id}
-          pagination={false}
+          rowKey={(record) => JSON.stringify(record)}
+          pagination={false}  
           // scroll={{ x: 1000}}
         />
       </Drawer>
@@ -152,6 +152,8 @@ export default function ActiveBookings() {
             columns={getColumns()}
             dataSource={data?.data?.tickets}
             loading={isLoading}
+            rowKey={(record) => JSON.stringify(record)}
+
           />
         </div>
       </section>

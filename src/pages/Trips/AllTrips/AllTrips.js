@@ -28,7 +28,6 @@ export default function AllTrips() {
           const createdAtMatch = moment(record.createdAt).format("DD MMM YYYY").toString().toLowerCase().match(e.target.value.toString().toLowerCase())
           const regionMatch = record?.region?.toString().toLowerCase().match(e.target.value.toString().toLowerCase())
 
-          console.log(regionMatch)  
           if(!nameMatch  && !priceMatch && !createdAtMatch && !regionMatch)
           {
             return null
@@ -50,12 +49,7 @@ export default function AllTrips() {
     
 
       const columns = [
-        {
-          title: "S.No",
-          key: "index",
-          
-          render: (text, record, index) => index + 1,
-        },
+      
         {
           title: "Name",
           dataIndex: "name",
@@ -92,7 +86,7 @@ export default function AllTrips() {
           dataIndex: "createdAt",
           key: "createdAt",
           sorter: (a, b) => moment(a.createdAt) - moment(b.createdAt),
-          render: (record) => moment(record).format("DD MMM YYYY"),
+          render: (record) => moment(record).format("hh:mm A,  DD MMM YYYY"),
         },
       
         {

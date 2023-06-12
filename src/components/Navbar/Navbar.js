@@ -173,6 +173,8 @@ const Navbar = () => {
               items,
             }}
             trigger={'click'}
+            placement="bottomCenter"
+            
             dropdownRender={(menu) => (
               <div style={contentStyle}>
                 {React.cloneElement(menu, {

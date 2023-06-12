@@ -1,5 +1,12 @@
 const reducer = (state, action) => {
   switch (action.type) {
+
+    case "IS_AUTHENTICATED":
+      return {
+        ...state,
+        isAuthenticated: action.payload,
+      };
+
     case "CHANGE_HEADING":
       return {
         ...state,

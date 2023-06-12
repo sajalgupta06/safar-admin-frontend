@@ -20,7 +20,7 @@ import { useState } from "react";
 import { alerts } from "../../utils/alert";
 import { addPassengerDetailsValidator, createBookingValidator } from "./validators";
 import { useNavigate } from "react-router-dom";
-import { createManualTicket, fetchActiveTripsNameSlug } from "../../action/req";
+import { createManualTicket, fetchActiveTripsNameSlugDatesPriceSlots } from "../../action/req";
 import { useQuery } from "react-query";
 import moment from "moment";
 import { MyContext } from "../../App";
@@ -37,7 +37,7 @@ export default function AddBookings() {
   const context = useContext(MyContext)
 
   let { isLoading, error, data } = useQuery(`activeTrips`, () =>
-    fetchActiveTripsNameSlug()
+  fetchActiveTripsNameSlugDatesPriceSlots()
   );
 
   data = data?.data?.trip;
@@ -298,7 +298,7 @@ export default function AddBookings() {
         alerts.success("Booking Confirmed")
 
         setTicketData()
-        return
+        
       }
       else{
 
@@ -313,6 +313,7 @@ export default function AddBookings() {
       type: "SET_NOSPIN_LOADING",
       payload: false,
     });
+    setLoading(false)
     setValidationStatus({})
   };
 

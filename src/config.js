@@ -20,6 +20,7 @@ const firebaseConfig = {
 const declarations = {
 
     routes:{
+        DASHBOARD:"",
         SINGLE_TRIP:"trip/:slug",
         ACTIVE_TRIPS:"active_trips",
         ALL_TRIPS:"all_trips",
@@ -29,7 +30,7 @@ const declarations = {
         SINGLE_BOOKING:"all_bookings/:id",
         ADD_BOOKINGS:"add_bookings",
         PAYMENTS:"payments",
-        EMAIL:"email",
+        MESSAGES:"messages",
         ANALYTICS:"analytics",
         PRICING:"pricing",
         SETTINGS:"settings"

@@ -33,7 +33,7 @@
     display: flex;
     align-items: center;
     width: 20rem;
-
+   
     .badgeDiv {
       height: 2.5rem;
       width: 2.5rem;
@@ -57,7 +57,7 @@
           width: 2rem;
           height: 2rem;
           position: absolute;
-          background-color: #fff;
+          background-color: var(--pure-white);
           top: -0.9rem;
           left: 56%;
           transform: translatex(-50%) rotate(45deg);
@@ -227,7 +227,7 @@
     width: 2rem;
     height: 2rem;
     position: absolute;
-    background-color: #fff;
+    background-color: var(--pure-white);
     top: -0.9rem;
     left: 92%;
     transform: translatex(-50%) rotate(45deg);
@@ -283,7 +283,7 @@
 }
 
 .credits {
-  color: #fff;
+  color: var(--pure-white);
   background-color: var(--primary);
   padding: 0.7rem 1.5rem;
   border-radius: 2rem;

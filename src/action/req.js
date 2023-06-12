@@ -6,7 +6,7 @@ let header;
 
 const postApi = async (path,data,isAuthenticated)=>{
 
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('a_token')
 
   if(isAuthenticated)
   {
@@ -36,7 +36,7 @@ const postApi = async (path,data,isAuthenticated)=>{
 
 
 const getApi = async (path,isAuthenticated)=>{
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('a_token')
 
   if(isAuthenticated)
   {
@@ -66,16 +66,12 @@ const getApi = async (path,isAuthenticated)=>{
 export const logOut = ()=>{
 
   localStorage.removeItem("user");
-  localStorage.removeItem("token");
+  localStorage.removeItem("a_token");
 
   
 }
 
-export const adminlogin =  async (data) => {
- 
-  return await postApi('/login',data,false)
- 
-};
+
 
 
 
@@ -537,7 +533,7 @@ export const fetchAllBookingsTrips= async() => {
 
 
 
-export const fetchActiveTripsNameSlug= async() => {
+export const fetchActiveTripsNameSlugDatesPriceSlots= async() => {
 
   return await getApi('/activeTrips',true)
 
@@ -549,3 +545,19 @@ export const fetchActiveTripsBookingDetails= async() => {
 
 };
 
+
+
+
+// Admin
+
+export const verifyAccessToken= async() => {
+
+  return await getApi('/',true)
+
+};
+
+export const adminlogin =  async (data) => {
+ 
+  return await postApi('/login',data,false)
+ 
+};
