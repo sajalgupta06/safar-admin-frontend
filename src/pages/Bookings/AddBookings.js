@@ -253,6 +253,7 @@ export default function AddBookings() {
       ...ticketData,
       payment:{
         mode:value,
+        amount:ticketData?.passengers?.length  * ticketData?.tripDetails?.priceSlot?.amount,
         status:true
       }
     })
@@ -278,18 +279,13 @@ export default function AddBookings() {
     });
 
 
-    let amount = ticketData?.passengers?.length  * ticketData?.tripDetails?.priceSlot?.amount
+ 
 
-    setTicketData({
-      ...ticketData,
-      payment:{
-        ...ticketData?.payment,
-        amount:amount
-      }
-    })
+    console.log(ticketData)
 
    delete  ticketData.tripDetails.priceSlot._id
 
+    try {
       const result = await createManualTicket(ticketData)
 
 
@@ -298,6 +294,7 @@ export default function AddBookings() {
         alerts.success("Booking Confirmed")
 
         setTicketData()
+        
         
       }
       else{
@@ -308,13 +305,30 @@ export default function AddBookings() {
 
       }
 
+      context.setNoSpinLoading({
+        type: "SET_NOSPIN_LOADING",
+        payload: false,
+      });
+      setLoading(false)
+      setValidationStatus({})
 
-     context.setNoSpinLoading({
-      type: "SET_NOSPIN_LOADING",
-      payload: false,
-    });
-    setLoading(false)
-    setValidationStatus({})
+    } catch (error) {
+
+      alerts.error("Error Occured. Please Try again after some time")
+
+      context.setNoSpinLoading({
+        type: "SET_NOSPIN_LOADING",
+        payload: false,
+      });
+      setLoading(false)
+      setValidationStatus({})
+    }
+
+   
+  
+
+
+    
   };
 
 
@@ -322,8 +336,10 @@ export default function AddBookings() {
  
 
   useEffect(() => {
-    // console.log(priceSlot);
-  }, [priceSlot]);
+
+    handlePaymentOnchange()
+
+  }, [ticketData?.passengers, ticketData?.tripDetails?.priceSlot]);
 
 
   
@@ -484,7 +500,7 @@ export default function AddBookings() {
             <Table
               columns={PricingPlanTable}
               dataSource={priceSlot}
-              rowKey={"_id"}
+              rowKey={record=>JSON.stringify(record)}
               rowSelection={{
                 type: "radio",
                 defaultSelectedRowKeys: "1",
@@ -504,6 +520,7 @@ export default function AddBookings() {
                 dataSource={ticketData?.passengers}
                 rowKey={(record) => JSON.stringify(record)}
                 pagination={false}
+                
               ></Table>
             </div>
           )}
@@ -511,7 +528,7 @@ export default function AddBookings() {
   <div className="inputBox">
               <label> Amount </label>
               {ticketData?.passengers && ticketData?.tripDetails?.priceSlot && (
-              <label  className="labelInput" > {  ticketData?.passengers?.length  *  ticketData?.tripDetails?.priceSlot?.amount} </label>
+              <label  className="labelInput" > {  ticketData?.payment?.amount || 0 } </label>
               )}
 
              

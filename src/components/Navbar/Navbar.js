@@ -1,12 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.scss";
 import { Link, useLocation } from "react-router-dom";
-import { MyContext } from "../../App";
+import { MyContext, editNotification } from "../../App";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { MenuFoldOutlined } from "@ant-design/icons";
 import { DownOutlined } from "@ant-design/icons";
-import { Divider, Dropdown, Space, theme } from "antd";
+import {
+  Badge,
+  Divider,
+  Dropdown,
+  Popover,
+  Space,
+  notification,
+  theme,
+} from "antd";
 import { Button } from "antd";
+import { GiTicket } from "react-icons/gi";
+import { AiOutlineClose } from "react-icons/ai";
+import moment from "moment";
+import { BiTrip } from "react-icons/bi";
 const { useToken } = theme;
 // import {
 //   getFirestore,
@@ -90,50 +102,50 @@ const Navbar = () => {
       type: "SIDEBAR_COLLAPSE",
       payload: context.IsSideBarCollapsed,
     });
-    console.log(context.IsSideBarCollapsed)
+    console.log(context.IsSideBarCollapsed);
   };
 
-  const items = [
-    {
-      key: "1",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          1st menu item
-        </a>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          2nd menu item (disabled)
-        </a>
-      ),
-      disabled: true,
-    },
-    {
-      key: "3",
-      label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          3rd menu item (disabled)
-        </a>
-      ),
-      disabled: true,
-    },
-  ];
 
+const handleOnRemoveNotification=(id)=>{
+console.log(id)
+
+const arr = context.notifications.filter((noti=>noti.id!=id))
+
+context.setNotifications({type:"SET_NOTIFICATIONS",payload:arr})
+
+  editNotification(id)
+
+}
+  const items = (
+  <div className="notificationContainer">
+   
+{  context?.notifications?.map((notification, key) => {
+    return (
+      <div className="notification" key={key}>
+        <div className="iconDiv">
+          {notification?.type === "BOOK_TICKET" ? 
+            <GiTicket className={`icon ${notification?.type}`} />:notification?.type === "TRIP_CREATED"?   <BiTrip className={`icon ${notification?.type}`} />:""
+          }
+        </div>
+        <div className="message">
+
+        {notification?.data?.message}
+        <p className="time">
+          
+          {moment.utc(notification?.createdAt).local().startOf('seconds').fromNow()}
+          </p>
+        </div>
+     
+          <AiOutlineClose className="closeIcon" onClick={()=>handleOnRemoveNotification(notification.id)}/>
+      
+      </div>
+    );
+  })}
+
+
+  </div>
+
+  )
   const contentStyle = {
     backgroundColor: token.colorBgElevated,
     borderRadius: token.borderRadiusLG,
@@ -162,55 +174,43 @@ const Navbar = () => {
           Safar
         </div>
 
-              <div className="screenName">
-              {/* {context.screenName} */}
-              {/* {console.log(context.screenName)} */}
-              </div>
+        <div className="screenName">
+          {/* {context.screenName} */}
+          {/* {console.log(context.screenName)} */}
+        </div>
 
         <div className="navbar-user">
-          <Dropdown
-            menu={{
-              items,
-            }}
-            trigger={'click'}
-            placement="bottomCenter"
-            
-            dropdownRender={(menu) => (
-              <div style={contentStyle}>
-                {React.cloneElement(menu, {
-                  style: menuStyle,
-                })}
-                <Divider
-                  style={{
-                    margin: 0,
-                  }}
-                />
-            
-              </div>
-            )}
+          <Popover
+            content={items}
+            trigger="click"
+            align={{offset:[0, -20]}}
           >
             <div className="badgeDiv">
-              <IoIosNotificationsOutline
-                style={{ height: "2.5rem", width: "2.5rem", cursor: "pointer" }}
-                className="badgeIcon"
-                onClick={() => setToggle(!toggle)}
-              ></IoIosNotificationsOutline>
+              <Badge count={context.notifications.length}>
+                <IoIosNotificationsOutline
+                  style={{
+                    height: "2.5rem",
+                    width: "2.5rem",
+                    cursor: "pointer",
+                  }}
+                  className="badgeIcon"
+                  onClick={() => setToggle(!toggle)}
+                ></IoIosNotificationsOutline>
+              </Badge>
 
-              <div className="dotBadge"></div>
-            </div>
-          </Dropdown>
-          {context.companyLogo && (
-            <img src={context.companyLogo} className="user-img" alt="" />
+              {/* <div className="dotBadge">12</div> */}
+            </div>{" "}
+          </Popover>
+          {context?.companyDetails?.logo && (
+            <img src={context?.companyDetails?.logo} className="user-img" alt="" />
           )}
 
           <div style={{ cursor: "pointer" }}>
             <div className="user-name">
-              Welcome {context.companyName || "User"} !
+              Welcome {context?.companyDetails?.name|| "User"} !
             </div>
             {/* <div className="user-type">Recruiter</div> */}
           </div>
-
-        
         </div>
       </div>
     </div>

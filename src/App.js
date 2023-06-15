@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer, useState } from "react";
 import "./App.scss";
 import reducer from "./utils/reducer/reducer";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, notification } from "antd";
 import { theme } from "antd";
 import AppLayout from "./utils/Layout";
 import Dashboard from "./pages/Dashboard";
@@ -23,7 +23,21 @@ import Login from "./pages/Login/Login";
 import { alerts } from "./utils/alert";
 import Analytics from "./pages/Analytics/Analytics";
 import Messages from "./pages/Messages/Messages";
+import NetWorkError from "./components/NetworkError";
+import {
+  getFirestore,
+  collection,
+  query,
+  onSnapshot,
+  orderBy,
+  doc,
+  updateDoc,
+  where,
 
+} from "firebase/firestore";
+import fire from "./utils/firebase";
+import moment from "moment";
+import { notificationAlertContent } from "./utils/functions";
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,13 +61,52 @@ let iState = {
   darkMode: false,
   IsSideBarCollapsed: false,
   screenName: "",
-  loading: true,
+  loading: false, 
   noSpinLoading: false,
   createTripView: 1,
+  notifications:[],
+  companyDetails:{
+    name:'',
+    logo:""
+  },
+ 
 };
+
+
+const db = getFirestore(fire);
+
+
+
+export const editNotification = (id)=>{
+
+  try {
+    const notificationRef = doc(collection(db, "admin", "61ee821984867f3572f9691d", "Notifications")
+    ,id)
+    updateDoc(notificationRef,{read:true})
+  
+  } catch (error) {
+    console.log(error)
+  }
+
+}
 
 function App() {
   const [data, dispatch] = useReducer(reducer, iState);
+  const [hasError, setHasError] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
+
+  const collectionRef =   collection(db, "admin", "61ee821984867f3572f9691d", "Notifications")
+
+
+
+
+
+  const openNotification = (notification) => {
+    api.info(notificationAlertContent(notification));
+  };
+
+
+
 
   const renderAuthenticatedRoutes = () => {
     return (
@@ -141,25 +194,85 @@ function App() {
   };
 
   const verifyAdminAccessToken = async () => {
+
+
+
     try {
       const result = await verifyAccessToken();
 
       if (result.statusCode === "10000") {
         dispatch({ type: "IS_AUTHENTICATED", payload: true });
+        dispatch({ type: "SET_COMPANYDETAILS", payload: {name:result?.data?.companyRegistration?.legalCompanyName, logo:result?.data?.companyRegistration?.logo} });
 
         return;
       }
 
       dispatch({ type: "IS_AUTHENTICATED", payload: false });
+
     } catch (error) {
-      alerts.error("Error occured");
-      return;
+     
+
+      setHasError(true);
+
+      
+      
     }
+
+
   };
+
+
+  async function fireFunc() {
+    try {
+      
+
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  
+
 
   useEffect(() => {
     verifyAdminAccessToken();
+    
   }, []);
+
+  useEffect(() => {
+   
+    const q = query(
+      collectionRef,
+      where("read", "==", false),
+      orderBy("createdAt", "desc") 
+      
+    );
+
+  const unsub = onSnapshot(q, (querySnapshot) => {
+      const items= []
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data())
+      }); 
+      dispatch({type:"SET_NOTIFICATIONS",payload:items})
+
+      let limitTime = (moment() -  moment(items.at(0).createdAt) )/1000
+
+      if( limitTime <=20)
+
+      {
+        openNotification( items.at(0))
+
+      }
+
+    });
+
+
+
+return ()=>unsub();
+  }, []);
+
+
+
 
   return (
     <ConfigProvider
@@ -184,6 +297,8 @@ function App() {
           noSpinLoading: data.noSpinLoading,
           screenName: data.screenName,
           createTripView: data.createTripView,
+          notifications:data.notifications,
+          companyDetails:data.companyDetails,
           setIsAuthenticated: dispatch,
           setCreateTripView: dispatch,
           setLoading: dispatch,
@@ -191,14 +306,20 @@ function App() {
           toggleSideBarCollapse: dispatch,
           changeCompanyPlan: dispatch,
           setNoSpinLoading: dispatch,
+          setNotifications:dispatch,
+          setCompanyDetails:dispatch
         }}
       >
         <div className="App">
-          {data.isAuthenticated === true
-            ? renderAuthenticatedRoutes()
-            : data.isAuthenticated === false
-            ? renderUnauthenticatedRoutes()
-            : ""}
+{contextHolder}
+          {hasError===true?<NetWorkError/>:
+          data.isAuthenticated === true
+          ? renderAuthenticatedRoutes()
+          : data.isAuthenticated === false
+          ? renderUnauthenticatedRoutes()
+          : ""
+          }
+          
         </div>
       </MyContext.Provider>
     </ConfigProvider>

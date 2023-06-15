@@ -15,17 +15,24 @@ import {
 import moment from "moment";
 import { object_equals } from "../../../utils/functions";
 
+
 export default function ActiveTrips() {
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState();
+  const [ticketDetails, setTicketDetail] = useState();
+  const [pricingSlotData, setPricingSlotData] = useState();
+
   let { isLoading, error, data } = useQuery("activeTripsBookingDetails", () =>
     fetchActiveTripsBookingDetails()
   );
 
   data = data?.data?.trips;
 
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState();
 
-  // console.log(data);
+
+  useEffect(() => {
+   console.log(pricingSlotData)
+  }, [pricingSlotData]);
 
   const showDrawer = () => {
     setOpen(true);
@@ -34,19 +41,19 @@ export default function ActiveTrips() {
     setOpen(false);
   };
 
-  const [ticketDetails, setTicketDetail] = useState();
 
   const onRowClick = (record) => {
     if (ticketDetails?._id == record?._id) {
       setTicketDetail(null);
       setOpen(false);
+    
     } else {
-      setOpen(false)
+      setOpen(false);
       setTicketDetail(record);
-      
+
       setOpen(true);
     }
-    setDate()
+    setDate();
   };
 
   const rowSelection = {
@@ -62,7 +69,7 @@ export default function ActiveTrips() {
 
   const getActiveTripColumns = () => {
     const newColumn = {
-        title:"Action",
+      title: "Action",
       key: "action",
       width: "10%",
 
@@ -89,96 +96,61 @@ export default function ActiveTrips() {
     });
   };
 
- 
+  const getPricingSlotTableData = () => {
+    const obj = [];
 
-  const getPricingSlotTableData = ()=>{
+    let ticketCount = 0;
 
-    const obj =[]
+    ticketDetails?.trip?.priceSlots?.map((priceSlot) => {
+      if (JSON.stringify(priceSlot?.date) === date) {
 
-    let ticketCount = 0
+        delete priceSlot._id;
 
-    ticketDetails?.trip?.priceSlots?.map(priceSlot=>{
+        ticketCount = 0;
 
-
-        if(JSON.stringify(priceSlot?.date)===date)
-        {
-          delete priceSlot._id
-
-           ticketCount = 0
-
-          ticketDetails?.tickets?.map(ticket=>{
-
-            
+        ticketDetails?.tickets?.map((ticket) => {
+          if (object_equals(ticket?.tripDetails?.priceSlot, priceSlot)) {
+            ticketCount = ticketCount + ticket?.passengers?.length;
+          }
+        });
 
 
-            if(object_equals(ticket?.tripDetails?.priceSlot,priceSlot)){
-              ticketCount = ticketCount + ticket?.passengers?.length;
-            }
-          })
-
-          obj.push({...priceSlot,ticketCount:ticketCount})
-
-        }
-
-        
-
-
-    })
-
-
-    
+        obj.push({ ...priceSlot, ticketCount: ticketCount });
+      }
+    });
 
     return obj
+  };
 
+  const getIndividualDateTicketCount = () => {
+    const obj = [];
+
+    let ticketCount = 0;
+
+    ticketDetails?.trip?.priceSlots?.map((priceSlot) => {
+      if (JSON.stringify(priceSlot?.date) === date) {
+        delete priceSlot._id;
+
+        ticketCount = 0;
+
+        ticketDetails?.tickets?.map((ticket) => {
+          if (object_equals(ticket?.tripDetails?.priceSlot, priceSlot)) {
+            ticketCount = ticketCount + ticket?.passengers?.length;
+          }
+        });
+
+        obj.push({ ...priceSlot, ticketCount: ticketCount });
+      }
+    });
+
+    return ticketCount;
+  };
+
+
+  const handleOnChangeDate = (value)=>{
+
+    setDate(value)
   }
-
-
-  const getIndividualDateTicketCount = ()=>{
-
-    const obj =[]
-
-    let ticketCount = 0
-
-    ticketDetails?.trip?.priceSlots?.map(priceSlot=>{
-
-
-        if(JSON.stringify(priceSlot?.date)===date)
-        {
-          delete priceSlot._id
-
-           ticketCount = 0
-
-          ticketDetails?.tickets?.map(ticket=>{
-
-            
-
-
-            if(object_equals(ticket?.tripDetails?.priceSlot,priceSlot)){
-              ticketCount = ticketCount + ticket?.passengers?.length;
-            }
-          })
-
-          obj.push({...priceSlot,ticketCount:ticketCount})
-
-        }
-
-        
-
-
-    })
-
-
-      
-
-    return ticketCount
-
-  }
-
-
-  // useEffect(() => {
-  //   getPricingSlotTableData()
-  // }, [date]);
-
   return (
     <>
       <section className="activeTrips">
@@ -193,7 +165,7 @@ export default function ActiveTrips() {
               defaultSelectedRowKeys: "1",
               ...rowSelection,
             }}
-            rowKey={record=>JSON.stringify(record)}
+            rowKey={(record) => JSON.stringify(record)}
             bordered
           />
         </div>
@@ -217,16 +189,23 @@ export default function ActiveTrips() {
                     style={{
                       width: 220,
                     }}
-                    value={date && moment(JSON.parse(date).startDate, "DD-MM-YYYY").format("DD MMM YY") +
-                    " - " +
-                    moment(JSON.parse(date).endDate, "DD-MM-YYYY").format("DD MMM YY")}
-                    onChange={(value)=>setDate(value)}
+                    value={
+                      date &&
+                      moment(JSON.parse(date).startDate, "DD-MM-YYYY").format(
+                        "DD MMM YY"
+                      ) +
+                        " - " +
+                        moment(JSON.parse(date).endDate, "DD-MM-YYYY").format(
+                          "DD MMM YY"
+                        )
+                    }
+                    onChange={(value) => handleOnChangeDate(value)}
                     options={getDates()}
                   />
                 </div>
                 <div className="ticketCount">
                   <p>
-                     Count : <span>{getIndividualDateTicketCount()}</span>
+                    Count : <span>{getIndividualDateTicketCount()}</span>
                   </p>
                 </div>
               </div>
@@ -234,7 +213,7 @@ export default function ActiveTrips() {
                 <Table
                   columns={ActiveTrips_IndividualDate_TransportModeColumn}
                   pagination={false}
-                  rowKey={(record)=>JSON.stringify(record)}
+                  rowKey={(record) => JSON.stringify(record)}
                   dataSource={getPricingSlotTableData()}
                 />
               </div>

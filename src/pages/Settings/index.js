@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Settings.scss";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -9,10 +9,11 @@ import {GoFileMedia} from 'react-icons/go'
 import {MdPolicy} from 'react-icons/md'
 import {BiUser} from 'react-icons/bi'
 import CompanySettings from "./CompanySettings";
+import { MyContext } from "../../App";
 
 export default function Settings() {
   const [tabs, setTabs] = useState("user");
-
+const context = useContext(MyContext)
   const handleTabChange = (name) => {
     setTabs(name);
   };
@@ -25,9 +26,9 @@ export default function Settings() {
             <Avatar
               className="companyPhoto"
               size={94}
-              icon={<UserOutlined />}
+              src={context?.companyDetails?.logo}
             />
-            <div className="companyName">A&T Travels</div>
+            <div className="companyName">{context?.companyDetails?.name}</div>
             <div className="settings-div-left-options">
               <div
                 className={`settings-div-left-options-option ${

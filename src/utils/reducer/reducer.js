@@ -49,6 +49,20 @@ const reducer = (state, action) => {
         ...state,
         loading: action.payload,
       };
+
+      case "SET_COMPANYDETAILS":
+        return {
+          ...state,
+          companyDetails: action.payload,
+        };
+
+      case "SET_NOTIFICATIONS":
+    
+        return {
+          ...state,
+          notifications: action.payload,
+        };
+
     case "SET_COMPANY_LOGO":
       return {
         ...state,

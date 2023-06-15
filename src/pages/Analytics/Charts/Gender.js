@@ -1,7 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Chart from "react-apexcharts";
+import { getPassengers } from '../data';
 
 export default function Gender() {
+
+  const testData =getPassengers()
+
+
+
+  const getData = ()=>{
+   
+    let male=0, female=0, other=0;
+
+    testData?.map(obj=>{
+      if(obj.gender==="Male")male++
+      if(obj.gender==="Female")female++
+      if(obj.gender==="Other")other++
+    })
+
+    return [male,female,other]
+
+  }
+
+  
+
 
     const options =  {
         chart: {
@@ -16,7 +38,7 @@ export default function Gender() {
             text: "Gender",
             align: "left",
           },
-        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+        labels: ['Male', 'Female', 'Other'],
         responsive: [{  
           breakpoint: 480,
           options: {
@@ -32,7 +54,7 @@ export default function Gender() {
     
     
     
-    const series = [44, 55, 13, 43, 22]
+    const series = getData()
     
   return (
    <>
@@ -41,4 +63,4 @@ export default function Gender() {
 
    </>
   )
-}
+} 

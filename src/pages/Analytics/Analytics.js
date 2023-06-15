@@ -37,11 +37,37 @@ export default function Analytics() {
   <div className="analytics-container-allTripsInsights-content-top">
 
   {/* <Revenue/> */}
-  <div className="boxes">
+  <div className="cards">
+    {/* <div className="box"></div>
     <div className="box"></div>
     <div className="box"></div>
-    <div className="box"></div>
-    <div className="box"></div>
+    <div className="box"></div> */}
+   
+
+   <div class="card purple">
+  <p>51</p>
+  <span>Trips</span>
+</div>
+  
+<div class="card green">
+<p>1500</p>
+  <span>Travellers</span>
+</div>
+
+<div class="card blue">
+<p>87</p>
+  <span>Locations Covered</span>
+</div>
+
+<div class="card green">
+<p>84K+</p>
+  <span>Total Revenue</span>
+</div>
+
+
+
+
+
   </div>
   </div>
   <div className="analytics-container-allTripsInsights-content-bottom">

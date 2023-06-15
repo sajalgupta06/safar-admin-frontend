@@ -8,11 +8,11 @@ export const view1Validator = (props) => {
       field:"name",
       message: "Provide a valid name",
     };
-  } else if (props.name.length < 3 || props.name.length > 20)
+  } else if (props.name.length < 3 || props.name.length > 50)
     return {
       validate: false,
       field:"name",
-      message: "Name length must lie between 3 to 20 characters",
+      message: "Name length must lie between 3 to 50 characters",
     };
 
   if (!props.type) {
@@ -110,11 +110,11 @@ export const view2Validator = (props) => {
       field:"about",
       message: "Fill the About Field",
     };
-  } else if (props?.about?.length < 50 || props?.about?.length > 200)
+  } else if (props?.about?.length < 50 || props?.about?.length > 500)
     return {
       validate: false,
       field:"about",
-      message: "about length must lie between 50 to 200 characters",
+      message: "about length must lie between 50 to 500 characters",
     };
 
   if(!props?.highlights?.length>0 ) {

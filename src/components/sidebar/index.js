@@ -19,6 +19,7 @@ import { MyContext } from '../../App';
 import { declarations } from '../../config';
 import { logOut } from '../../action/req';
 import { alerts } from '../../utils/alert';
+import { BiTrip } from 'react-icons/bi';
 
 
 
@@ -37,7 +38,7 @@ function getItem(label, key, icon, children, type) {
 const items = [
 
   getItem('Dashboard', declarations.routes.DASHBOARD, <PieChartOutlined /> ),
-  getItem('Trip', 'trip', <MdTravelExplore />, [
+  getItem('Trip', 'trip', <BiTrip />, [
     getItem('Active Trips', declarations.routes.ACTIVE_TRIPS,<BsRadioactive/>),
     getItem('All Trips', declarations.routes.ALL_TRIPS,<TiThSmall/>),
     getItem('Create Trip',  declarations.routes.CREATE_TRIPS,<AiOutlinePlus/>),

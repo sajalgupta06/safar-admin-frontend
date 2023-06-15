@@ -26,6 +26,7 @@ export const ActiveTripsColumn = [
     dataIndex: "ticketCount",
     key: "ticketCount",
     sorter: (a, b) => a.ticketCount - b.ticketCount,
+    render:(record)=><span style={{color:"red"}}>{record}</span>
 
   },
   {

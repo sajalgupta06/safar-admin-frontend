@@ -1,3 +1,5 @@
+import { BiTrip } from "react-icons/bi";
+
 export function object_equals( x, y ) {
     if ( x === y ) return true;
       // if both x and y are null or undefined and exactly the same
@@ -32,4 +34,21 @@ export function object_equals( x, y ) {
           // allows x[ p ] to be set to undefined
   
     return true;
+  }
+
+  export const notificationAlertContent = (notification)=>{
+
+    if(notification?.type=="BOOK_TICKET")
+    {
+      return{
+        message:"Ticket Booked",
+        description: notification.data.message,
+        placement:"topRight",
+        icon: (
+          <BiTrip />
+        ),
+
+      }
+    }
+    
   }
