@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.scss";
 import {
-  AiOutlineClockCircle,
-  AiOutlineClose,
+
   AiOutlineInfoCircle,
 } from "react-icons/ai";
-import { FiActivity } from "react-icons/fi";
-import { BiStats } from "react-icons/bi";
+import { TfiAnnouncement } from "react-icons/tfi";
 import { MdUpdate } from "react-icons/md";
 import Camping from "../../static/images/Trip-pana.svg";
 import { getAllBookingTrips } from "../../action/req";
 import { Carousel } from "antd";
+import { BiSupport } from "react-icons/bi";
 
 // import {
 //   getFirestore,
@@ -52,6 +51,7 @@ export default function Dashboard() {
   const [isBannderAlert, setIsBannerAlert] = useState(true);
 
   var welcome;
+
   var date = new Date();
   var hour = date.getHours();
   var minute = date.getMinutes();
@@ -108,35 +108,21 @@ export default function Dashboard() {
     <>
       <div className="db">
         <div className="db-left">
-          {isBannderAlert && (
-            <section className="arya stark">
-              <div className="sheet center middle">
-                <div className="tile" style={{ transform: "none" }}>
-                  <div className="bannerBx">
-                    <AiOutlineClose
-                      className="bannerCloseIcon"
-                      onClick={handleBannerAlert}
-                    />
+        
+          <div className="headingWish">
+            <span>
+              {welcome}, 
+              </span> 
 
-                    <marquee
-                      behavior="scroll"
-                      direction="left"
-                      className="marqueeBx"
-                    >
-                      <h1>Welcome to Safar</h1>
-                    </marquee>
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
+               Sajal !
+          </div>
 
           <div className="db-left-top">
             <div className="db-left-top-left">
               <div className="templateHead-card">
                 <div className="templateHead-card-head">
-                  <MdUpdate className="hedIcn" />
-                  <p>Updates</p>
+                  <BiSupport className="hedIcn" />
+                  <p>Queries</p>
                 </div>
                 <div className="templateHead-card-box"></div>
               </div>
@@ -144,8 +130,8 @@ export default function Dashboard() {
             <div className="db-left-top-right">
               <div className="templateHead-card">
                 <div className="templateHead-card-head">
-                  <BiStats />
-                  <p>Stats</p>
+                  <TfiAnnouncement />
+                  <p>Announcements</p>
                 </div>
                 <div className="templateHead-card-box"></div>
               </div>
@@ -156,7 +142,7 @@ export default function Dashboard() {
             <div className="templateHead-card">
               <div className="templateHead-card-head">
                 <AiOutlineInfoCircle />
-                <p>Info</p>
+                <p>Watchlist</p>
               </div>
               <div className="templateHead-card-box"></div>
             </div>
@@ -215,11 +201,14 @@ export default function Dashboard() {
             <Carousel >
                 <div className="CarouselItem">
 
-              <div className="dan">
+              {/* <div className="dan">
                 <p>5 days trip</p>
                 <p>Trip 11</p>
               </div>
-              <p>4 days to trip to Manali and Kasol</p>
+              <div className="content">
+
+              <span className="daysLeft">4 Days</span> to go <br></br><p className="tripName">Adventure Trek</p> 
+              </div> */}
               <img
                 className="sImg"
                 src={Camping}
@@ -254,26 +243,26 @@ export default function Dashboard() {
                 </div>
             </Carousel>
           </div>
-          <div className="db-right-bottom">
-            <div className="templateHead-card">
-              <div className="templateHead-card-head">
-                <AiOutlineClockCircle />
-                <p>Recent Activities</p>
-              </div>
-              <div className="templateHead-card-box">
-                {notifications.map((not, i) => {
-                  return (
-                    <div className="templateHead-card-box-act" key={i}>
-                      <FiActivity className="ic" />
-                      <div className="templateHead-card-box-act-cont">
-                        <p>{not.data.body} </p>
+            {/* <div className="db-right-bottom">
+              <div className="templateHead-card">
+                <div className="templateHead-card-head">
+                  <AiOutlineClockCircle />
+                  <p>Announcement</p>
+                </div>
+                <div className="templateHead-card-box">
+                  {notifications.map((not, i) => {
+                    return (
+                      <div className="templateHead-card-box-act" key={i}>
+                        <FiActivity className="ic" />
+                        <div className="templateHead-card-box-act-cont">
+                          <p>{not.data.body} </p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </div>
+            </div> */}
         </div>
       </div>
     </>

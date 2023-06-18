@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Bookings.scss";
-import { Badge, Button, Descriptions, Drawer, Space, Table } from "antd";
+import { Badge, Button, Descriptions, Drawer, Input, Space, Table } from "antd";
 import { AiOutlineDownload, AiOutlineReload } from "react-icons/ai";
 import {
   ActiveBookingsColumn,
@@ -12,14 +12,14 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 export default function ActiveBookings() {
-  // const [data, setData] = useState();
+  const [data, setData] = useState();
   const [open, setOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState();
 
-  const { isLoading, error, data } = useQuery(
+  let { isLoading, error } = useQuery(
     "activeTickets",
-    () => fetchRecentTickets()
-    // { onSuccess: (res) => setData(res?.data?.tickets) }
+    () => fetchRecentTickets(),
+    { onSuccess: (res) => setData({rawData:res?.data?.tickets, searchedData:res?.data?.tickets}) }
   );
 
   const showDrawer = (record) => {
@@ -32,14 +32,6 @@ export default function ActiveBookings() {
   };
 
   const getColumns = () => {
-    const nameColumn = {
-      title: "Trip Name",
-      dataIndex: "tripDetails",
-      key: "tripName",
-      render: (record) => (
-        <Link to={`/trip/${record.slug}`}>{record.name}</Link>
-      ),
-    };
 
     const actionColumn = {
       title: "Action",
@@ -53,7 +45,7 @@ export default function ActiveBookings() {
               alignItems: "center",
             }}
           >
-            <Button onClick={() => showDrawer(record)}>View More</Button>
+            <Button onClick={() => showDrawer(record)}>View Details</Button>
             <Button
               style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
             >
@@ -64,8 +56,32 @@ export default function ActiveBookings() {
       ),
     };
 
-    return [nameColumn, ...ActiveBookingsColumn, actionColumn];
+    return [ ...ActiveBookingsColumn, actionColumn];
   };
+
+  const handleSearch = (e) => {
+        
+    const searchedData = data?.rawData?.map(record=>{
+      const ticketId = record.ticketId.toString().toLowerCase().match(e.target.value.toString().toLowerCase())
+     
+      const amountMatch = record.payment.amount.toString().toLowerCase().match(e.target.value.toString().toLowerCase())
+
+     
+      
+      if(!ticketId  && !amountMatch  )
+      {
+        return null
+      }
+      return record
+    }).filter(record => !!record);
+
+
+    setData({
+      ...data,
+      searchedData:e.target.value ? searchedData:data.rawData
+    })
+  };
+
 
   return (
     <>
@@ -141,18 +157,23 @@ export default function ActiveBookings() {
       <section className="activeBookings">
         <div className="heading">
           <p>Active Bookings</p>
-          <span className="refresh">
+          <div className="search">  
+          <Input className="searchInput" placeholder="Search"
+          onChange={handleSearch}
+          ></Input>
+        </div>
+          {/* <span className="refresh">
             <AiOutlineReload />
             Refresh
-          </span>
+          </span> */}
         </div>
 
         <div className="activeBookings-content">
           <Table
             columns={getColumns()}
-            dataSource={data?.data?.tickets}
+            dataSource={data?.searchedData}
             loading={isLoading}
-            rowKey={(record) => JSON.stringify(record)}
+            rowKey={"ticketId"}
 
           />
         </div>

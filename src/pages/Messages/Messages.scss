@@ -21,14 +21,15 @@
         width: 100%;
         display: flex;
         gap: 5rem;
-        justify-content: space-between;
+        // justify-content: space-between;
         &-option{
-            width: 33%;
+            width: 50%;
             display: flex;
             align-items: center;
             flex-wrap: nowrap;
             label{
                 width: 25%;
+                color: var(--label-text);
 
             }
             .inputSelect{

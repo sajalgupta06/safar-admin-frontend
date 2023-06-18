@@ -556,6 +556,13 @@ export const verifyAccessToken= async() => {
 
 };
 
+
+export const checkAdminExists= async(data) => {
+
+  return await postApi('/checkAdminExists', data ,false)
+
+};
+
 export const adminlogin =  async (data) => {
  
   return await postApi('/login',data,false)

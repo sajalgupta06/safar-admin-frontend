@@ -9,6 +9,7 @@ import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import { view4Validator } from "../validators";
 import { alerts } from "../../../../utils/alert";
 import { updateWorkingTrip } from "../../../../action/req";
+import { getModesOptions } from "../../../../utils/helper";
 
 export default function View4(props) {
   const context = useContext(MyContext);
@@ -120,16 +121,7 @@ return res
 
 }
 
-const getModesOptions = [
-  
-    { label: "Train (NON AC)", value: "Train (NON AC)" },
-    { label: "Train (AC)", value: "Train (AC)" },
-    { label: "Bus (NON AC)", value: "Bus (NON AC)" },
-    { label: "Bus (AC)", value: "Bus (AC)" },
-    { label: "Car", value: "Car" },
-    { label: "Plane", value: "Plane" },
-    { label: "Other", value: "other" },
-  ]
+
 
 
 const handleRemoveRow = (record)=>{

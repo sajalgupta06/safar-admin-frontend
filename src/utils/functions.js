@@ -36,7 +36,7 @@ export function object_equals( x, y ) {
     return true;
   }
 
-  export const notificationAlertContent = (notification)=>{
+export const notificationAlertContent = (notification)=>{
 
     if(notification?.type=="BOOK_TICKET")
     {
@@ -52,3 +52,5 @@ export function object_equals( x, y ) {
     }
     
   }
+
+

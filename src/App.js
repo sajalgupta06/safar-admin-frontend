@@ -38,6 +38,9 @@ import {
 import fire from "./utils/firebase";
 import moment from "moment";
 import { notificationAlertContent } from "./utils/functions";
+import Pricing from "./pages/Pricing/Pricing";
+import Register from "./pages/Register/Register";
+
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,7 +66,7 @@ let iState = {
   screenName: "",
   loading: false, 
   noSpinLoading: false,
-  createTripView: 1,
+  createTripView: 0,
   notifications:[],
   companyDetails:{
     name:'',
@@ -133,6 +136,12 @@ function App() {
                 path={`/${declarations.routes.ALL_TRIPS}`}
                 element={<AllTrips />}
               />
+                  <Route
+                exact
+                path={`/${declarations.routes.CREATE_TRIPS}`}
+                element={<CreateTrips />}
+              />
+
               <Route
                 exact
                 path={`/${declarations.routes.ACTIVE_BOOKINGS}`}
@@ -153,11 +162,7 @@ function App() {
                 path={`/${declarations.routes.ADD_BOOKINGS}`}
                 element={<AddBookings />}
               />
-              <Route
-                exact
-                path={`/${declarations.routes.CREATE_TRIPS}`}
-                element={<CreateTrips />}
-              />
+          
               <Route
                 exact
                 path={`/${declarations.routes.MESSAGES}`}
@@ -168,6 +173,13 @@ function App() {
                 path={`/${declarations.routes.ANALYTICS}`}
                 element={<Analytics />}
               />
+
+                <Route
+                exact
+                path={`/${declarations.routes.PRICING}`}
+                element={<Pricing />}
+              />
+
               <Route
                 exact
                 path={`/${declarations.routes.SETTINGS}`}
@@ -187,6 +199,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>

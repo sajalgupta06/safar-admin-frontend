@@ -17,22 +17,43 @@ import { object_equals } from "../../../utils/functions";
 
 
 export default function ActiveTrips() {
+
+  const [data,setData] = useState(null)
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState();
   const [ticketDetails, setTicketDetail] = useState();
   const [pricingSlotData, setPricingSlotData] = useState();
 
-  let { isLoading, error, data } = useQuery("activeTripsBookingDetails", () =>
-    fetchActiveTripsBookingDetails()
+
+  let { isLoading, error } = useQuery("activeTripsBookingDetails", () =>
+    fetchActiveTripsBookingDetails(),
+    { onSuccess: (res) => setData(res?.data?.trips) }
+
   );
 
-  data = data?.data?.trips;
 
 
 
   useEffect(() => {
-   console.log(pricingSlotData)
-  }, [pricingSlotData]);
+   
+    if(data!=null)
+    {
+        onRowClick(data[0])
+     
+      
+    }
+    
+  }, [data]);
+
+
+const setDateOnDrawerOpen = (record)=>{
+    
+  let tempDate;
+  tempDate = record?.trip?.dates[0]
+  delete tempDate?._id
+
+  setDate(JSON.stringify(tempDate))
+}
 
   const showDrawer = () => {
     setOpen(true);
@@ -48,39 +69,18 @@ export default function ActiveTrips() {
       setOpen(false);
     
     } else {
-      setOpen(false);
       setTicketDetail(record);
-
+      setDateOnDrawerOpen(record)
       setOpen(true);
     }
-    setDate();
   };
 
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      onRowClick(selectedRows[0]);
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === "Disabled User",
-      // Column configuration not to be checked
-      name: record.name,
-    }),
-  };
+ 
 
   const getActiveTripColumns = () => {
-    const newColumn = {
-      title: "Action",
-      key: "action",
-      width: "10%",
+    
 
-      render: (_, record) => (
-        <>
-          <Link to={`/trip/${record?.trip?.slug}`}>View More </Link>
-        </>
-      ),
-    };
-
-    return [...ActiveTripsColumn, newColumn];
+    return [...ActiveTripsColumn];
   };
 
   const getDates = () => {
@@ -94,6 +94,7 @@ export default function ActiveTrips() {
         value: JSON.stringify(ele),
       };
     });
+
   };
 
   const getPricingSlotTableData = () => {
@@ -155,18 +156,24 @@ export default function ActiveTrips() {
     <>
       <section className="activeTrips">
         <div className="activeTrips-top">
+            <div className="heading">Active Trips</div>
           <Table
             columns={getActiveTripColumns()}
             loading={isLoading}
-            dataSource={data}
+            dataSource={data }
             pagination={false}
-            rowSelection={{
-              type: "radio",
-              defaultSelectedRowKeys: "1",
-              ...rowSelection,
-            }}
+            // rowSelection={{
+            //   type: "radio",
+            //   defaultSelectedRowKeys: "1",
+            //   ...rowSelection,
+            // }}
             rowKey={(record) => JSON.stringify(record)}
             bordered
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: (event) => onRowClick(record), // click row
+              };
+            }}
           />
         </div>
         <Divider></Divider>
@@ -175,10 +182,14 @@ export default function ActiveTrips() {
             title={ticketDetails?.trip?.name}
             placement={"bottom"}
             width={500}
+            height={500}
             onClose={onClose}
             open={open}
             className="bottomDrawer"
             getContainer={false}
+              
+        
+            
           >
             <div className="activeTrips-bottom-info">
               <div className="activeTrips-bottom-info-top">

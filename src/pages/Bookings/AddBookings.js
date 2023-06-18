@@ -38,7 +38,7 @@ export default function AddBookings() {
 
   let { isLoading, error, data } = useQuery(`activeTrips`, () =>
   fetchActiveTripsNameSlugDatesPriceSlots()
-  );
+  );  
 
   data = data?.data?.trip;
 

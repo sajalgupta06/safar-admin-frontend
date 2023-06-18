@@ -4,6 +4,7 @@ import "./Login.scss";
 import { alerts } from "../../utils/alert";
 import { MyContext } from "../../App";
 import { adminlogin } from "../../action/req";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -114,7 +115,22 @@ export default function Login() {
                   Login
                 </Button>
               </Form.Item>
+
+
+              {/* <Form.Item
+                // style={{ marginTop: "10rem", marginRight:"2rem" }}
+                wrapperCol={{
+                  offset: 10  ,
+                  // span: 16,
+                }}
+              >
+                  <Link>New Registeration </Link>
+              </Form.Item> */}
+
             </Form>
+            <div className="newRegisterationDiv"> 
+            <Link to="/register" >New Registeration</Link>
+            </div>
           </div>
         </div>
       </div>

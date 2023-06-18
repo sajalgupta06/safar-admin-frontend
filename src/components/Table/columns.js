@@ -3,6 +3,7 @@ import moment from "moment";
 import { BiRupee } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 export const ActiveTripsColumn = [
 
@@ -36,6 +37,17 @@ export const ActiveTripsColumn = [
     sorter: (a, b) => moment(a.updatedAt) - moment(b.updatedAt),
     render: (record) => moment(record).format("hh:mm A,  DD MMM YYYY"),
   },
+  {
+    title: "Action",
+    key: "action",
+    width: "10%",
+
+    render: (_, record) => (
+      <>
+        <Link to={`/trip/${record?.trip?.slug}`}>View Details </Link>
+      </>
+    ),
+  }
 ];
 
 export const ActiveTrips_IndividualDate_TransportModeColumn = [
@@ -151,6 +163,20 @@ export const AllTripsColumn = [
 ];
 
 export const ActiveBookingsColumn = [
+  {
+    title: "Ticket ID",
+    dataIndex: "ticketId",
+    key: "ticketId",
+  
+  },
+  {
+    title: "Trip Name",
+    dataIndex: "tripDetails",
+    key: "tripName",
+    render: (record) => (
+      <Link to={`/trip/${record.slug}`}>{record.name}</Link>
+    ),
+  },
 
   {
     title: "Booked By",
@@ -183,9 +209,9 @@ export const ActiveBookingsColumn = [
 
   {
     title: "Amount",
-    dataIndex: "tripDetails",
+    dataIndex: "payment",
     key: "tripName",
-    render:(record)=>record?.priceSlot?.amount
+    render:(record)=>record?.amount
   },
 
  
@@ -194,15 +220,27 @@ export const ActiveBookingsColumn = [
 export const AllBookingsColumn = [
 
   {
+    title: "Trip Name",
+    dataIndex: "trip",
+    key: "name",
+    render: (record) => <Link to={`/all_bookings/${record._id}`}>{record?.name}</Link>,
+    sorter: (a, b) => a.trip.name.localeCompare(b.trip.name),
+  },
+
+
+  {
     title: "Tickets Sold",
     dataIndex: "ticketCount",
     key: "ticketCount",
+    sorter: (a, b) => a.ticketCount - b.ticketCount,
+
   },
   {
     title: "Last Booked",
     dataIndex: "updatedAt",
     key: "updatedAt",
-    render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY")
+    render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY"),
+    sorter: (a, b) => moment(a.updatedAt).format("hh:mm A ,  DD MMM YYYY").localeCompare(moment(b.updatedAt).format("hh:mm A ,  DD MMM YYYY")),
 
   },
   {
@@ -215,13 +253,22 @@ export const AllBookingsColumn = [
 
 ];
 
-export const SingleTripBookingsColumn = [
 
+
+export const SingleTripBookingsColumn = [
+  {
+    title: "Ticket ID",
+    dataIndex: "ticketId",
+    key: "ticketId",
+  
+  },
   {
     title: "Booked On",
     dataIndex: "createdAt",
     key: "createdAt",
-    render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY")
+    render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY"),
+    sorter: (a, b) => moment(a.createdAt).format("hh:mm A ,  DD MMM YYYY").localeCompare(moment(b.createdAt).format("hh:mm A ,  DD MMM YYYY")),
+
 
   },
 
@@ -243,7 +290,8 @@ export const SingleTripBookingsColumn = [
     title: "Trip Date",
     dataIndex: "tripDetails",
     key: "tripDetails",
-    render:(record)=>moment(record?.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY") + " - " + moment(record?.priceSlot?.date?.endDate,"DD-MM-YYYY").format("DD MMM YY")
+    render:(record)=>moment(record?.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY") + " - " + moment(record?.priceSlot?.date?.endDate,"DD-MM-YYYY").format("DD MMM YY"),
+    sorter: (a, b) => moment(a?.tripDetails.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY").localeCompare(moment(b?.tripDetails.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY")),
 
     },
 
@@ -252,7 +300,8 @@ export const SingleTripBookingsColumn = [
     title: "Amount",
     dataIndex: "tripDetails",
     key: "tripName",
-    render:(record)=>record?.priceSlot?.amount
+    render:(record)=>record?.priceSlot?.amount,
+    sorter:(a,b)=>a.tripDetails?.priceSlot?.amount - b.tripDetails?.priceSlot?.amount
   },
 
  

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Select } from "antd";
 import '../CreateTrips.scss'
 import { Footer, Header } from "..";
@@ -7,10 +7,18 @@ import { MyContext } from "../../../../App";
 export default function View0() {
 
   const context = useContext(MyContext)
+  const [tripType, setTripType] = useState()
 
   const handleOnClickNext = () => {
+      if(tripType==="groupTour")
+      {
 
-    context.setCreateTripView({type:"SET_CREATE_TRIPVIEW", payload:context.createTripView+1})
+        context.setCreateTripView({type:"SET_CREATE_TRIPVIEW", payload:context.createTripView+1})
+      }
+      else{
+        context.setCreateTripView({type:"SET_CREATE_TRIPVIEW", payload:-1})
+
+      }
   };
   
   const handleOnClickBack = () => {
@@ -18,6 +26,10 @@ export default function View0() {
     context.setCreateTripView({type:"SET_CREATE_TRIPVIEW", payload:context.createTripView-1})
     }
   };
+
+  const handleOnChange = (value)=>{
+    setTripType(value)
+  }
 
   return (
     <>
@@ -41,7 +53,7 @@ export default function View0() {
                 <Select
                   style={{ width: 300 }}
                   placeholder="Choose an option "
-                  //   onChange={handleChange}
+                    onChange={handleOnChange}
                   options={[
                     {
                       label: "Group Tour",
@@ -55,23 +67,7 @@ export default function View0() {
                 />
               </Form.Item>
 
-              <Form.Item label="Choose Create Option">
-                <Select
-                  style={{ width: 300 }}
-                  placeholder="Choose an option "
-                  //   onChange={handleChange}
-                  options={[
-                    {
-                      label: "Create Trip From  Template",
-                      value: "groupTour",
-                    },
-                    {
-                      label: "Create Trip From Scratch",
-                      value: "package",
-                    },
-                  ]}
-                />
-              </Form.Item>
+              
             </Form>
           </div>
         </div>

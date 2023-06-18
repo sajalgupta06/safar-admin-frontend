@@ -1,0 +1,10 @@
+$theme-colors: (
+  'someColor': #2186f2,
+  'anotherColor': #FFF,
+);
+
+@each $color, $value in $theme-colors {
+    :default{
+      $color: $value;
+    }
+  }

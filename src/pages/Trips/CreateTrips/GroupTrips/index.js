@@ -32,14 +32,9 @@ export default function GroupTrips() {
   const [tripDetails, setTripDetails] = useState();
 
 
-  const onSuccessFetchWorkingTrip = (data)=>{
+  
 
-    
-
-   
-  }
-
-  const { isLoading, error, data } = useQuery("fetchTripDetails",  () => fetchWorkingTrip() ,{onSuccess:(data)=>setTripDetails(data?.data)});
+  const { isLoading, error } = useQuery("fetchTripDetails",  () => fetchWorkingTrip() ,{onSuccess:(data)=>setTripDetails(data?.data)});
 
   
 
@@ -75,15 +70,18 @@ export default function GroupTrips() {
 
 const onClickSteps = (view)=>{
 
-  context.setCreateTripView({
-    type: "SET_CREATE_TRIPVIEW",
-    payload: view,
-  });
+  // context.setCreateTripView({
+  //   type: "SET_CREATE_TRIPVIEW",
+  //   payload: view,
+  // });
 
 }
   
   return (
     <>
+
+    {!isLoading && (
+      <>
       <div className="groupTripSteps">
         {" "}
         <Steps
@@ -167,6 +165,12 @@ const onClickSteps = (view)=>{
       {context.createTripView === 7 && (
         <View7 tripDetails={tripDetails} setTripDetails={setTripDetails} />
       )}
+
+
+      </>
+    )}
+      
+
     </>
   );
 }
