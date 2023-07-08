@@ -11,7 +11,7 @@ import { alerts } from "../../../../utils/alert";
 import { updateWorkingTrip } from "../../../../action/req";
 import { getModesOptions } from "../../../../utils/helper";
 
-export default function View4(props) {
+export default function Pricing(props) {
   const context = useContext(MyContext);
   const [priceSlotState , setPriceSlotState] = useState({})
    const { tripDetails, setTripDetails } = props;
@@ -156,8 +156,8 @@ return table
         ></Header>
 
         <div className="createTrips-body">
-          <div className="createTrips-body-view4">
-            <div className="createTrips-body-view4-left">
+          <div className="createTrips-body-pricingView">
+            <div className="createTrips-body-pricingView-left">
               <div className="heading">Make a Plan</div>
               <div className="options">
                 <div className="option">
@@ -239,7 +239,7 @@ return table
               <Button className="addButton" onClick={handleAddPricingPlan}> <AiOutlinePlus/> Add</Button>
               </div>
             </div>
-            <div className="createTrips-body-view4-right">
+            <div className="createTrips-body-pricingView-right">
               <Table
                 columns={getTableColumn()}
                 dataSource={tripDetails?.priceSlots}

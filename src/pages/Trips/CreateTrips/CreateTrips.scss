@@ -48,7 +48,7 @@
       align-items: center;
     }
 
-    &-view1 {
+    &-basicDetailsView {
       .ant-row {
         margin: 0 !important;
         margin-bottom: 1rem !important;
@@ -148,7 +148,7 @@
       }
     }
 
-    &-view2 {
+    &-descriptionsView {
       display: flex;
       flex-direction: column;
       gap: 2rem;
@@ -192,7 +192,7 @@
       }
     }
 
-    &-view3 {
+    &-itineraryView {
       .activityBox {
         width: 100%;
         // min-height: 15rem;
@@ -231,7 +231,7 @@
       }
     }
 
-    &-view4 {
+    &-pricingView {
       display: flex;
       gap: 2rem;
       width: 100%;
@@ -289,15 +289,15 @@
       }
     }
 
-    &-view6 {
+    &-previewView {
       display: flex;
       flex-direction: column;
       gap: 3rem;
-      .view1,
-      .view2,
-      .view3,
-      .view4,
-      .view5 {
+      .basicDetailsView,
+      .descriptionsView,
+      .itineraryView,
+      .pricingView,
+      .photosView {
         display: flex;
         flex-direction: column;
         gap: 3rem;
@@ -360,7 +360,7 @@
       }
     }
 
-    &-view7 {
+    &-finalStepView {
       display: flex;
       justify-content: center;
       margin-top: 5rem;

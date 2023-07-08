@@ -1,16 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chart from "react-apexcharts";
 import { Button } from "antd";
-import { getData } from "../data";
+import { getData, groupData } from "../data";
 import { get15Days, getMonth, getWeeks } from "../dataGrouping";
+import { fetchRevenueAnalytics } from "../../../action/req";
 
 export default function Revenue() {
 
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState([]);
-  const testData = getData()
+  const [testData, setTestData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   
+  const weekButtonRef = useRef()
+
+
+  const fetchData = async()=>{
+    setLoading(true)
+    try {
+      
+      const res = await fetchRevenueAnalytics()
+
+        if(res.statusCode==="10000")
+        {
+         
+
+          let groupedResults = groupData(res.data.revenue)
+          setTestData(groupedResults)
+          weekButtonRef.current.click()
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+
+    setLoading(false)
+
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, []);
+
+
 
   const options = {
     chart: {
@@ -46,7 +79,7 @@ export default function Revenue() {
     },
     yaxis: {
       title: {
-        text: "$ (thousands)",
+        text: "Rs. (thousands)",
       },
     },
     fill: {
@@ -55,7 +88,7 @@ export default function Revenue() {
     tooltip: {
       y: {
         formatter: function (val) {
-          return "$ " + val + " thousands";
+          return "Rs. " + val + " thousands";
         },
       },
     },
@@ -84,6 +117,7 @@ export default function Revenue() {
     setCategories(res.xaxis)
     setData(res.yaxis)
 
+
   }
 
   const handl15Days  =()=>{
@@ -106,16 +140,21 @@ export default function Revenue() {
 
   return (
     <>
+    {loading ==true? "Loading...":(
+      <>
       <div>
         <div className="headerButtons">
 
-        <Button onClick={() => handleWeek()}>Last Week</Button>
+        <Button onClick={() => handleWeek()} ref={weekButtonRef}>Last Week</Button>
         <Button onClick={() => handl15Days()}>Last 15 Days</Button>
         <Button onClick={() => handleMonth()}>Last Month</Button>
 
         </div>
         <Chart options={options} series={series} type="bar" height={300} />
       </div>
+      </>
+    )}
+      
     </>
   );
 }

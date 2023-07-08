@@ -5,7 +5,7 @@ import { Footer, Header } from "..";
 import { MyContext } from "../../../../App";
 import { PricingPlanTable } from "../../../../components/Table/columns";
 
-export default function View6(props) {
+export default function Preview(props) {
   const context = useContext(MyContext);
   
   const { tripDetails, setTripDetails } = props;
@@ -74,8 +74,8 @@ export default function View6(props) {
         ></Header>
 
         <div className="createTrips-body">
-          <div className="createTrips-body-view6">
-            <div className="view1">
+          <div className="createTrips-body-previewView">
+            <div className="basicDetailsView">
               <div className="heading">Basic Details</div>
               <div className="item">
                 <div className="label">Name</div>
@@ -128,7 +128,7 @@ export default function View6(props) {
               </div>
             </div>
 
-            <div className="view2">
+            <div className="descriptionsView">
               <div className="heading">Description</div>
 
               <div className="item">
@@ -212,12 +212,12 @@ export default function View6(props) {
               </div>
             </div>
 
-            <div className="view3">
+            <div className="itineraryView">
               <div className="heading">Itinerary</div>
               <Tabs defaultActiveKey="1" items={getItineraryItems()} />
             </div>
 
-            <div className="view4">
+            <div className="pricingView">
               <div className="heading">Pricing Plan</div>
               <Table
                 columns={PricingPlanTable}

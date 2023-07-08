@@ -19,6 +19,7 @@ import { GiTicket } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import moment from "moment";
 import { BiTrip } from "react-icons/bi";
+import { TiUserOutline } from "react-icons/ti";
 const { useToken } = theme;
 // import {
 //   getFirestore,
@@ -202,7 +203,7 @@ context.setNotifications({type:"SET_NOTIFICATIONS",payload:arr})
             </div>{" "}
           </Popover>
           {context?.companyDetails?.logo && (
-            <img src={context?.companyDetails?.logo} className="user-img" alt="" />
+            <img src={context?.companyDetails?.logo} className="user-img" alt= {<TiUserOutline/>} />
           )}
 
           <div style={{ cursor: "pointer" }}>

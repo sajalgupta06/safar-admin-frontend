@@ -235,15 +235,7 @@ function App() {
   };
 
 
-  async function fireFunc() {
-    try {
-      
-
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
+ 
   
 
 
@@ -268,9 +260,10 @@ function App() {
       }); 
       dispatch({type:"SET_NOTIFICATIONS",payload:items})
 
-      let limitTime = (moment() -  moment(items.at(0).createdAt) )/1000
+      let limitTime =  ( moment() -  moment(items.at(0)?.createdAt) )/1000
 
-      if( limitTime <=20)
+
+      if( items.length>0 && limitTime <=20)
 
       {
         openNotification( items.at(0))

@@ -568,3 +568,28 @@ export const adminlogin =  async (data) => {
   return await postApi('/login',data,false)
  
 };
+
+
+export const adminRegister =  async (data) => {
+ 
+  return await postApi('/register',data,false)
+ 
+};
+
+
+
+
+// Analytics
+
+export const fetchRevenueAnalytics =  async () => {
+ 
+  return await getApi('/fetchRevenue',true)
+ 
+};
+
+
+export const fetchBookingsAnalytics =  async () => {
+ 
+  return await getApi('/fetchBookings',true)
+ 
+};

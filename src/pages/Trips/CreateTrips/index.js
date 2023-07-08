@@ -9,6 +9,7 @@ import { MyContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 import { declarations } from "../../../config";
 import { alerts } from "../../../utils/alert";
+import { getViewsNumber } from "./getViewsNumber";
 
 export const Header = ({ heading, view, handleOnClickBack, children }) => {
   const onClick = () => {
@@ -35,7 +36,7 @@ const navigate = useNavigate()
 
   const onClick = async() => {
 
-    if(context.createTripView==7)
+    if(context.createTripView==getViewsNumber.finalStep)
     {
         navigate(`/${declarations.routes.ALL_TRIPS}`)
         alerts.info("We will Notify You once the trip is created")

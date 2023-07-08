@@ -31,6 +31,7 @@ export const getData = ()=>{
       }
     }
 
+
     return data;
   }
 
@@ -42,7 +43,15 @@ export const getData = ()=>{
   let groupedResults = _.groupBy(generatedData, (result) =>
     moment(result["timestamp"]).startOf("day").format("DD MMM YYYY")
   );
+  return groupedResults
+}
 
+export const groupData = (data)=>{
+
+
+  let groupedResults = _.groupBy(data, (result) =>
+    moment(result["createdAt"]).startOf("day").format("DD MMM YYYY")
+  );
   return groupedResults
 }
 

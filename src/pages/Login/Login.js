@@ -104,17 +104,12 @@ export default function Login() {
                 <Input.Password />
               </Form.Item>
 
-              <Form.Item
-                style={{ marginTop: "10rem", marginRight:"2rem" }}
-                wrapperCol={{
-                  offset: 21,
-                  // span: 16,
-                }}
-              >
+            
+              <div className="footerButtonDiv">
                 <Button type="primary" htmlType="submit" loading={loading}>
                   Login
                 </Button>
-              </Form.Item>
+              </div>
 
 
               {/* <Form.Item

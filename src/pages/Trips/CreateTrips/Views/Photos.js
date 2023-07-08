@@ -4,7 +4,7 @@ import '../CreateTrips.scss'
 import { Footer, Header } from "..";
 import { MyContext } from "../../../../App";
 
-export default function View5() {
+export default function Photos() {
 
   const context = useContext(MyContext)
 

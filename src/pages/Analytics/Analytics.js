@@ -44,22 +44,22 @@ export default function Analytics() {
     <div className="box"></div> */}
    
 
-   <div class="card purple">
+   <div className="card purple">
   <p>51</p>
   <span>Trips</span>
 </div>
   
-<div class="card green">
+<div className="card green">
 <p>1500</p>
   <span>Travellers</span>
 </div>
 
-<div class="card blue">
+<div className="card blue">
 <p>87</p>
   <span>Locations Covered</span>
 </div>
 
-<div class="card green">
+<div className="card green">
 <p>84K+</p>
   <span>Total Revenue</span>
 </div>

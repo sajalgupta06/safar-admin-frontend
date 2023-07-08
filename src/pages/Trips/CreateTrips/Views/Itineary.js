@@ -10,7 +10,7 @@ import { view3Validator } from "../validators";
 import { alerts } from "../../../../utils/alert";
 import { updateWorkingTrip } from "../../../../action/req";
 
-export default function View3(props) {
+export default function Itineary(props) {
   const context = useContext(MyContext);
 
   const { tripDetails, setTripDetails } = props;
@@ -276,7 +276,7 @@ export default function View3(props) {
         ></Header>
 
         <div className="createTrips-body">
-          <div className="createTrips-body-view3">
+          <div className="createTrips-body-itineraryView">
             <Tabs defaultActiveKey="1" items={items} />
           </div>
         </div>

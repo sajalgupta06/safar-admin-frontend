@@ -3,6 +3,7 @@ import { Form, Select } from "antd";
 import '../CreateTrips.scss'
 import { Footer, Header } from "..";
 import { MyContext } from "../../../../App";
+import { alerts } from "../../../../utils/alert";
 
 export default function View0() {
 
@@ -10,6 +11,13 @@ export default function View0() {
   const [tripType, setTripType] = useState()
 
   const handleOnClickNext = () => {
+
+      if(!tripType)
+      {
+        alerts.error("Select Trip Type")
+        return 
+      }
+
       if(tripType==="groupTour")
       {
 

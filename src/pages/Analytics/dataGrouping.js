@@ -1,10 +1,12 @@
 import moment from "moment";
 
 export const getWeeks = (data) => {
+
     const today = moment();
     const startDate = today.clone().subtract(7, "day");
     const endDate = today;
 
+ 
     const pastWeekData = Object.keys(data).reduce((result, key) => {
       const date = moment(key, "DD MMM YYYY");
       if (date.isBetween(startDate, endDate, undefined, "[]")) {
@@ -13,6 +15,7 @@ export const getWeeks = (data) => {
       return result;
     }, {});
 
+
     const xaxis = Object.keys(pastWeekData).map((days) => {
       const day = moment(days, "DD MMM YYYY").format("ddd");
 
@@ -20,13 +23,12 @@ export const getWeeks = (data) => {
       return day;
     });
 
-   
 
     const yData = [];
     Object.values(pastWeekData).map((arr) => {
       let sum = 0;
       arr.map((obj) => {
-        sum += obj.value;
+        sum += obj.amount;
       });
       yData.push(sum);
     });
@@ -60,10 +62,10 @@ export const getWeeks = (data) => {
 
 
     const yData = [];
-    Object.values(pastWeekData).map((arr) => {
+    Object.values(pastWeekData)?.map((arr) => {
       let sum = 0;
-      arr.map((obj) => {
-        sum += obj.value;
+      arr?.map((obj) => {
+        sum += obj.amount;
       });
       yData.push(sum);
     });
@@ -100,7 +102,123 @@ export const getWeeks = (data) => {
     Object.values(pastWeekData).map((arr) => {
       let sum = 0;
       arr.map((obj) => {
-        sum += obj.value;
+        sum += obj.amount;
+      });
+      yData.push(sum);
+    });
+
+
+    return{
+        xaxis:xaxis,
+        yaxis:yData
+    }
+  };
+
+
+  export const getWeeksBooking = (data) => {
+
+    const today = moment();
+    const startDate = today.clone().subtract(7, "day");
+    const endDate = today;
+
+ 
+    const pastWeekData = Object.keys(data).reduce((result, key) => {
+      const date = moment(key, "DD MMM YYYY");
+      if (date.isBetween(startDate, endDate, undefined, "[]")) {
+        result[key] = data[key];
+      }
+      return result;
+    }, {});
+
+
+    const xaxis = Object.keys(pastWeekData).map((days) => {
+      const day = moment(days, "DD MMM YYYY").format("ddd");
+
+      if (moment().format("ddd") === day) return "Today";
+      return day;
+    });
+
+
+    const yData = [];
+    Object.values(pastWeekData).map((arr) => {
+      let sum = 0;
+      arr.map((obj) => {
+        sum += obj.count;
+      });
+      yData.push(sum);
+    });
+
+    return{
+        xaxis:xaxis,
+        yaxis:yData
+    }
+
+  };
+
+
+  export const get15DaysBookings = (data) => {
+    const today = moment();
+    const startDate = today.clone().subtract(15, "day");
+    const endDate = today;
+
+    const pastWeekData = Object.keys(data).reduce((result, key) => {
+      const date = moment(key, "DD MMM YYYY");
+      if (date.isBetween(startDate, endDate, undefined, "[]")) {
+        result[key] = data[key];
+      }
+      return result;
+    }, {});
+
+    const xaxis = Object.keys(pastWeekData).map((days) => {
+      const day = moment(days, "DD MMM YYYY").format("DD MMM ");
+
+      if (moment().format("DD MMM ") === day) return "Today";
+      return day;
+    });
+
+
+    const yData = [];
+    Object.values(pastWeekData)?.map((arr) => {
+      let sum = 0;
+      arr?.map((obj) => {
+        sum += obj.count;
+      });
+      yData.push(sum);
+    });
+
+   
+    return{
+        xaxis:xaxis,
+        yaxis:yData
+    }
+
+  };
+
+ export const getMonthBookings = (data) => {
+    const today = moment();
+    const startDate = today.clone().subtract(1, "month");
+    const endDate = today;
+
+    const pastWeekData = Object.keys(data).reduce((result, key) => {
+      const date = moment(key, "DD MMM YYYY");
+      if (date.isBetween(startDate, endDate, undefined, "[]")) {
+        result[key] = data[key];
+      }
+      return result;
+    }, {});
+
+    const xaxis = Object.keys(pastWeekData).map((days) => {
+      const day = moment(days, "DD MMM YYYY").format("DD MMM ");
+
+      if (moment().format("DD MMM ") === day) return "Today";
+      return day;
+    });
+
+    const yData = [];
+    Object.values(pastWeekData).map((arr) => {
+      let sum = 0;
+      arr.map((obj) => {
+        sum += obj.count;
       });
       yData.push(sum);
     });

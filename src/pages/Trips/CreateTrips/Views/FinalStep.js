@@ -6,7 +6,7 @@ import { MyContext } from "../../../../App";
 import { createTrip } from "../../../../action/req";
 import { alerts } from "../../../../utils/alert";
 
-export default function View7(props) {
+export default function FinalStep(props) {
 
   const context = useContext(MyContext)
 
@@ -62,7 +62,7 @@ const handleOnChange = (val,field)=>{
         ></Header>
 
         <div className="createTrips-body">
-          <div className="createTrips-body-view7">
+          <div className="createTrips-body-finalStepView">
             <div className="configBoxes">
             <div className="box">
                 <label>Publish Trip</label>

@@ -13,7 +13,7 @@ import { useQuery } from "react-query";
 
 const { RangePicker } = DatePicker;
 
-export default function View1(props) {
+export default function BasicDetails(props) {
   const context = useContext(MyContext);
 
   const { tripDetails, setTripDetails } = props;
@@ -135,7 +135,7 @@ export default function View1(props) {
         ></Header>
 
         <div className="createTrips-body">
-          <div className="createTrips-body-view1">
+          <div className="createTrips-body-basicDetailsView">
             <Form
               // className="view1Form"
 

@@ -7,7 +7,7 @@ import { view2Validator } from "../validators";
 import { alerts } from "../../../../utils/alert";
 import { updateWorkingTrip } from "../../../../action/req";
 
-export default function View2(props) {
+export default function Descriptions(props) {
   const context = useContext(MyContext);
   const { tripDetails, setTripDetails } = props;
 
@@ -85,8 +85,8 @@ export default function View2(props) {
       ></Header>
 
       <div className="createTrips-body">
-        <div className="createTrips-body-view2">
-          <div className="createTrips-body-view2-about">
+        <div className="createTrips-body-descriptionsView">
+          <div className="createTrips-body-descriptionsView-about">
             <p className="heading">About</p>
             <div className="inputBox">
               <TextArea placeholder="Enter Text Here" 
@@ -98,7 +98,7 @@ export default function View2(props) {
               />
             </div>
           </div>
-          <div className="createTrips-body-view2-highlights">
+          <div className="createTrips-body-descriptionsView-highlights">
             <p className="heading">Highlights</p>
             <div className="inputBox">
               <EditableTags
@@ -109,7 +109,7 @@ export default function View2(props) {
               />
             </div>
           </div>
-          <div className="createTrips-body-view2-inclusions">
+          <div className="createTrips-body-descriptionsView-inclusions">
             <p className="heading">Inclusions</p>
             <div className="inputBox">
               <EditableTags
@@ -121,7 +121,7 @@ export default function View2(props) {
               />
             </div>
           </div>
-          <div className="createTrips-body-view2-exclusions">
+          <div className="createTrips-body-descriptionsView-exclusions">
             <p className="heading">Exclusions</p>
             <div className="inputBox">
               <EditableTags
@@ -133,7 +133,7 @@ export default function View2(props) {
               />
             </div>
           </div>
-          <div className="createTrips-body-view2-recommendations">
+          <div className="createTrips-body-descriptionsView-recommendations">
             <p className="heading">Recommendations</p>
             <div className="inputBox">
               <EditableTags
@@ -144,7 +144,7 @@ export default function View2(props) {
             </div>
           </div>
 
-          <div className="createTrips-body-view2-terms">
+          <div className="createTrips-body-descriptionsView-terms">
             <p className="heading">Terms & Condition</p>
             <div className="inputBox">
               <EditableTags
