@@ -1,77 +1,87 @@
-.messages{
-
-
+.messages {
+  width: 100%;
+  height: 100%;
+  .top {
     width: 100%;
-    height: 100%;
-    .heading{
-        font-size: 2.5rem;
-
-
-
+    height: 7rem;
+    display: flex;
+    justify-content: space-between;
+    // margin-bottom: rem;
+    &-heading {
+      font-size: 2.5rem;
     }
 
-    &-container{
-        width: 100%;
-        margin-top: 5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 3rem;
-        min-height: 87%;
-        &-options{
-        width: 100%;
-        display: flex;
-        gap: 5rem;
-        // justify-content: space-between;
-        &-option{
-            width: 50%;
-            display: flex;
-            align-items: center;
-            flex-wrap: nowrap;
-            label{
-                width: 25%;
-                color: var(--label-text);
-
-            }
-            .inputSelect{
-                width: 80%;
-            }
-        }
-
-
-        }
-
-        &-passengers{
-            // border: 1px solid var(--input-border);
-            margin-top: 5rem;
-            padding: 2rem 0;
-            .heading{
-                font-size: 2rem;
-                margin-bottom: 3rem;
-            }
-        }
-
-        &-content{
-            // border: 1px solid var(--input-border);
-            margin-top: 5rem;
-            padding: 2rem 0; 
-            .heading{
-                font-size: 2rem;
-                margin-bottom: 3rem;
-            }
-        }
-
-       
-    }
-
-    &-footer{
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        
+    &-button{
         button{
             display: flex;
-            gap: 0.5rem;
             align-items: center;
+            gap: 0.5rem;
         }
     }
+  }
+
+  .body{
+    height: 80rem;
+    overflow: scroll;
+  }
+
+  &-container {
+    width: 100%;
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    min-height: 87%;
+    &-options {
+      width: 100%;
+      display: flex;
+      gap: 5rem;
+      // justify-content: space-between;
+      &-option {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        label {
+          width: 25%;
+          color: var(--label-text);
+        }
+        .inputSelect {
+          width: 80%;
+        }
+      }
+    }
+
+    &-passengers {
+      // border: 1px solid var(--input-border);
+      margin-top: 1rem;
+      padding: 2rem 0;
+      .heading {
+        font-size: 2rem;
+        margin-bottom: 3rem;
+      }
+    }
+
+    &-content {
+      // border: 1px solid var(--input-border);
+      margin-top: 1rem;
+      padding: 2rem 0;
+      .heading {
+        font-size: 2rem;
+        margin-bottom: 3rem;
+      }
+    }
+  }
+
+  &-footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  }
 }

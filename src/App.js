@@ -40,6 +40,7 @@ import moment from "moment";
 import { notificationAlertContent } from "./utils/functions";
 import Pricing from "./pages/Pricing/Pricing";
 import Register from "./pages/Register/Register";
+import Invoice from "./utils/Invoice/Invoice";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const queryClient = new QueryClient({
@@ -114,6 +115,13 @@ function App() {
   const renderAuthenticatedRoutes = () => {
     return (
       <BrowserRouter>
+      <Routes>
+        <Route
+                exact
+                path={`/${declarations.routes.RECEIPT}`}
+                element={<Invoice />}
+              />
+      </Routes>
         <AppLayout>
           <QueryClientProvider client={queryClient}>
             <Routes>
@@ -185,6 +193,8 @@ function App() {
                 path={`/${declarations.routes.SETTINGS}`}
                 element={<Settings />}
               />
+
+               
 
               <Route path="*" element={<NotFound />}></Route>
             </Routes>

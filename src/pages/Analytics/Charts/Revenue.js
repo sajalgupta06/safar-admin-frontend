@@ -57,15 +57,15 @@ export default function Revenue() {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "40%",
+        // columnWidth: "10%",
         endingShape: "rounded",
       },
     },
 
-    title: {
-      text: "Revenue",
-      align: "left",
-    },
+    // title: {
+    //   text: "Revenue",
+    //   align: "left",
+    // },
     dataLabels: {
       enabled: false,
     },
@@ -78,9 +78,18 @@ export default function Revenue() {
       categories: categories,
     },
     yaxis: {
-      title: {
-        text: "Rs. (thousands)",
-      },
+      // title: {
+      //   text: "Rs. (thousands)",
+      // },
+      labels: {
+        formatter: function(value) {
+          var val = Math.abs(value)
+          if (val >= 1000) {
+            val = (val / 1000).toFixed(0) + ' K'
+          }
+          return val
+        }
+      }
     },
     fill: {
       opacity: 1,
@@ -88,6 +97,11 @@ export default function Revenue() {
     tooltip: {
       y: {
         formatter: function (val) {
+          var val = Math.abs(val)
+          if (val >= 1000) {
+            val = (val / 1000).toFixed(2) + ' K'
+          }
+          // return val
           return "Rs. " + val + " thousands";
         },
       },
@@ -142,16 +156,16 @@ export default function Revenue() {
     <>
     {loading ==true? "Loading...":(
       <>
-      <div>
+   
         <div className="headerButtons">
 
-        <Button onClick={() => handleWeek()} ref={weekButtonRef}>Last Week</Button>
-        <Button onClick={() => handl15Days()}>Last 15 Days</Button>
-        <Button onClick={() => handleMonth()}>Last Month</Button>
+        <a onClick={() => handleWeek()} ref={weekButtonRef}>Last Week</a>
+        <a onClick={() => handl15Days()}>Last 15 Days</a>
+        <a onClick={() => handleMonth()}>Last Month</a>
 
         </div>
         <Chart options={options} series={series} type="bar" height={300} />
-      </div>
+   
       </>
     )}
       

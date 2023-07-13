@@ -6,43 +6,16 @@ import {
 } from "react-icons/ai";
 import { TfiAnnouncement } from "react-icons/tfi";
 import { MdUpdate } from "react-icons/md";
+import { IoTicketOutline } from "react-icons/io5";
 import Camping from "../../static/images/Trip-pana.svg";
 import { getAllBookingTrips } from "../../action/req";
 import { Carousel } from "antd";
-import { BiSupport } from "react-icons/bi";
+import { BiRupee, BiSupport } from "react-icons/bi";
+import Bookings from "../Analytics/Charts/Bookings";
+import Revenue from "../Analytics/Charts/Revenue";
 
-// import {
-//   getFirestore,
-//   collection,
-//   query,
-//   onSnapshot,
-//   orderBy,
-// } from "firebase/firestore";
-
-// import fire from "../../components/Firebase/Fire";
 
 export default function Dashboard() {
-  //   const db = getFirestore(fire);
-
-  //   async function fireFunc() {
-  //     try {
-  //       const q = query(
-  //         collection(db, "admin", "61929022c2124be78a6aebe2", "Activity"),
-  //         orderBy("createdAt", "desc")
-  //       );
-
-  //       onSnapshot(q, (querySnapshot) => {
-  //         setNotifications([]);
-  //         querySnapshot.forEach((doc) => {
-  //           setNotifications((e) => {
-  //             return [...e, doc.data()];
-  //           });
-  //         });
-  //       });
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
 
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -92,10 +65,16 @@ export default function Dashboard() {
     setCompLoading(false);
   };
 
+  
   const handleBannerAlert = () => {
     setIsBannerAlert(false);
   };
 
+
+
+
+
+  
   const contentStyle = {
     height: "160px",
     color: "#fff",
@@ -121,24 +100,27 @@ export default function Dashboard() {
             <div className="db-left-top-left">
               <div className="templateHead-card">
                 <div className="templateHead-card-head">
-                  <BiSupport className="hedIcn" />
-                  <p>Queries</p>
+                  <IoTicketOutline className="hedIcn" />
+                  <p>Bookings</p>
                 </div>
-                <div className="templateHead-card-box"></div>
+                <div className="templateHead-card-box">
+                 <Bookings/>
+                </div>
               </div>
             </div>
             <div className="db-left-top-right">
               <div className="templateHead-card">
                 <div className="templateHead-card-head">
-                  <TfiAnnouncement />
-                  <p>Announcements</p>
+                  <BiRupee />
+                  <p>Revenue </p>
                 </div>
-                <div className="templateHead-card-box"></div>
+                <div className="templateHead-card-box"><Revenue/></div>
               </div>
             </div>
           </div>
 
           <div className="db-left-middle">
+          <div className="db-left-middle-left">
             <div className="templateHead-card">
               <div className="templateHead-card-head">
                 <AiOutlineInfoCircle />
@@ -146,69 +128,32 @@ export default function Dashboard() {
               </div>
               <div className="templateHead-card-box"></div>
             </div>
+            </div>
+            <div className="db-left-middle-right">
+            <div className="templateHead-card">
+              <div className="templateHead-card-head">
+                <AiOutlineInfoCircle />
+                <p>Announcement</p>
+              </div>
+              <div className="templateHead-card-box">
+
+                <div className="singleAnnouncement">
+                  Hello
+                </div>
+
+              </div>
+            </div>
+            </div>
           </div>
         </div>
-
+{/* 
         <div className="db-right">
           <div className="db-right-body">
-            {/* <CCarousel
-              controls
-              indicators
-              wrap={"false"}
-              dark
-              // interval="false"
-              className="w-100 h-100 "
-            >
-              <CCarouselItem className="w-100 h-100 cIt">
-                <div className="dan">
-                  <p>5 days trip</p>
-                  <p>Trip 11</p>
-                </div>
-                <p>4 days to trip to Manali and Kasol</p>
-                <CImage
-                  className="d-block w-100 h-100 sImg"
-                  src={Camping}
-                  alt="slide 1"
-                />
-              </CCarouselItem>
-
-              <CCarouselItem className="w-100 h-100 cIt">
-                <div className="dan">
-                  <p>7 days trip</p>
-                  <p>Trip 11</p>
-                </div>
-                <p>3 days to trip to Sikkim</p>
-                <CImage
-                  className="d-block w-100 h-100 sImg"
-                  src={Camping}
-                  alt="slide 1"
-                />
-              </CCarouselItem>
-
-              <CCarouselItem className="w-100 h-100 cIt">
-                <div className="dan">
-                  <p>9 days trip</p>
-                  <p>Trip 11</p>
-                </div>
-                <p>2 days to trip to Rajashthan </p>
-                <CImage
-                  className="d-block w-100 h-100 sImg"
-                  src={Camping}
-                  alt="slide 1"
-                />
-              </CCarouselItem>
-            </CCarousel> */}
+            
             <Carousel >
                 <div className="CarouselItem">
 
-              {/* <div className="dan">
-                <p>5 days trip</p>
-                <p>Trip 11</p>
-              </div>
-              <div className="content">
-
-              <span className="daysLeft">4 Days</span> to go <br></br><p className="tripName">Adventure Trek</p> 
-              </div> */}
+             
               <img
                 className="sImg"
                 src={Camping}
@@ -243,27 +188,8 @@ export default function Dashboard() {
                 </div>
             </Carousel>
           </div>
-            {/* <div className="db-right-bottom">
-              <div className="templateHead-card">
-                <div className="templateHead-card-head">
-                  <AiOutlineClockCircle />
-                  <p>Announcement</p>
-                </div>
-                <div className="templateHead-card-box">
-                  {notifications.map((not, i) => {
-                    return (
-                      <div className="templateHead-card-box-act" key={i}>
-                        <FiActivity className="ic" />
-                        <div className="templateHead-card-box-act-cont">
-                          <p>{not.data.body} </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div> */}
-        </div>
+         
+        </div> */}
       </div>
     </>
   );

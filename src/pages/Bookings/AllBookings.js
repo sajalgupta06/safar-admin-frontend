@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { AiOutlineDownload, AiOutlineExport } from "react-icons/ai";
 import moment from "moment";
+import Loading from "../../components/Loader/Loading";
 
 export default function AllBookings() {
 
@@ -66,26 +67,29 @@ export default function AllBookings() {
 
   return (
     <>
-      <section className="allBookings">
-        <div className="allBookings-top">
-          <div className="heading">
-            <p>All Bookings</p>
-          </div>
-      
+    {isLoading===true? <Loading/> :
+       <section className="allBookings">
+       <div className="allBookings-top">
+         <div className="heading">
+           <p>All Bookings</p>
+         </div>
+     
 
-        <div className="search">
-          <Input className="searchInput" placeholder="Search" onChange={handleSearch} ></Input>
-        </div>
-        </div>
-        <div className="allBookings-content">
-          <Table
-            columns={getColumns()}
-            dataSource={data?.searchedData}
-            rowKey={"_id"}
-            loading={isLoading}
-          />
-        </div>
-      </section>
+       <div className="search">
+         <Input className="searchInput" placeholder="Search" onChange={handleSearch} ></Input>
+       </div>
+       </div>
+       <div className="allBookings-content">
+         <Table
+           columns={getColumns()}
+           dataSource={data?.searchedData}
+           rowKey={"_id"}
+           loading={isLoading}
+         />
+       </div>
+     </section>
+    }
+   
     </>
   );
 }

@@ -33,7 +33,8 @@ const declarations = {
         MESSAGES:"messages",
         ANALYTICS:"analytics",
         PRICING:"pricing",
-        SETTINGS:"settings"
+        SETTINGS:"settings",
+        RECEIPT:"/:ticketId/receipt"
     }
 
 

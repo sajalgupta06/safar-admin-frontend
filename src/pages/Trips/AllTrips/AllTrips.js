@@ -11,6 +11,7 @@ import { Button, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import moment from 'moment';
 import { MdClose } from 'react-icons/md';
+import Loading from '../../../components/Loader/Loading';
 export default function AllTrips() {
 
     const [data,setData]  = useState(null)
@@ -132,7 +133,10 @@ export default function AllTrips() {
      
     return (
    <>
-   <section className='allTrips'>
+   {isLoading===true?
+   <Loading/>
+   :<>
+    <section className='allTrips'>
 
     <div className='allTrips-top'>
         <p className='heading'>
@@ -147,6 +151,8 @@ export default function AllTrips() {
 
     </div>
    </section>
+   </>}
+  
    
    
    </>

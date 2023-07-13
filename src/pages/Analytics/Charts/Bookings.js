@@ -44,10 +44,6 @@ export default function Bookings() {
   }, []);
 
 
-
-
-
-
   const handleWeek = () => {
     const res = getWeeksBooking(testData);
 
@@ -71,7 +67,7 @@ export default function Bookings() {
 
   const options = {
     chart: {
-      height: 350,
+      height: 150,
       type: "line",
       zoom: {
         enabled: false,
@@ -86,11 +82,11 @@ export default function Bookings() {
     stroke: {
       curve: "straight",
     },
-    title: {
-      text: "Bookings",
-      align: "left",
+    // title: {
+    //   text: "Bookings",
+    //   align: "left",
       
-    },
+    // },
     grid: {
       row: {
         colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
@@ -113,10 +109,10 @@ export default function Bookings() {
     <>
         {loading ==true? "Loading...":(
           <>
-                <div className="headerButtons">
-        <Button onClick={() => handleWeek()} ref={weekButtonRef} >Last Week</Button>
-        <Button onClick={() => handl15Days()}>Last 15 Days</Button>
-        <Button onClick={() => handleMonth()}>Last Month</Button>
+        <div className="headerButtons">
+        <a onClick={() => handleWeek()} ref={weekButtonRef} >Last Week</a>
+        <a onClick={() => handl15Days()}>Last 15 Days</a>
+        <a onClick={() => handleMonth()}>Last Month</a>
       </div>
       <Chart options={options} series={series} type="line" height={300} />
           </>

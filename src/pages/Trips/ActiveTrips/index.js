@@ -14,6 +14,7 @@ import {
 } from "../../../action/req";
 import moment from "moment";
 import { object_equals } from "../../../utils/functions";
+import Loading from "../../../components/Loader/Loading";
 
 
 export default function ActiveTrips() {
@@ -154,7 +155,11 @@ const setDateOnDrawerOpen = (record)=>{
   }
   return (
     <>
-      <section className="activeTrips">
+    {isLoading==true?
+    <Loading/>
+    :
+    <>
+         <section className="activeTrips">
         <div className="activeTrips-top">
             <div className="heading">Active Trips</div>
           <Table
@@ -232,6 +237,8 @@ const setDateOnDrawerOpen = (record)=>{
           </Drawer>
         </div>
       </section>
+    </>}
+ 
     </>
   );
 }

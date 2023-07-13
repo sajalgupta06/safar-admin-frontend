@@ -217,6 +217,47 @@ export const ActiveBookingsColumn = [
  
 ];
 
+export const MessagePassengersColumn = [
+  {
+    title: "Ticket ID",
+    dataIndex: "ticketId",
+    key: "ticketId",
+  
+  },
+  {
+    title: "Trip Name",
+    dataIndex: "tripDetails",
+    key: "tripName",
+    render: (record) => (
+      <Link to={`/trip/${record.slug}`}>{record.name}</Link>
+    ),
+  },
+
+  {
+    title: "Booked By",
+    dataIndex: "userDetails",
+    key: "bookedBy",
+    render:(record)=>record.name
+
+  },
+  {
+    title: "Total Passengers",
+    dataIndex: "passengers",
+    key: "passengers",
+    render:(record)=>record?.length
+
+  },
+  {
+    title: "Trip Date",
+    dataIndex: "tripDetails",
+    key: "tripDetails",
+    render:(record)=>moment(record?.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY") + " - " + moment(record?.priceSlot?.date?.endDate,"DD-MM-YYYY").format("DD MMM YY")
+
+    },
+
+ 
+];
+
 export const AllBookingsColumn = [
 
   {

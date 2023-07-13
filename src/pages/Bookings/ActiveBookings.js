@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Bookings.scss";
-import { Badge, Button, Descriptions, Drawer, Input, Space, Table } from "antd";
+import { Badge, Button, Descriptions, Drawer, Input, Modal, Space, Table } from "antd";
 import { AiOutlineDownload, AiOutlineReload } from "react-icons/ai";
 import {
   ActiveBookingsColumn,
@@ -10,17 +10,34 @@ import { useQuery } from "react-query";
 import { fetchRecentTickets } from "../../action/req";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import Loading from '../../components/Loader/Loading'
+import InvoiceGenerator, { downloadPdf } from "../../utils/Invoice/InvoiceGenerator";
+import Invoice from "../../utils/Invoice/Invoice";
 
 export default function ActiveBookings() {
   const [data, setData] = useState();
   const [open, setOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   let { isLoading, error } = useQuery(
     "activeTickets",
     () => fetchRecentTickets(),
     { onSuccess: (res) => setData({rawData:res?.data?.tickets, searchedData:res?.data?.tickets}) }
   );
+
+
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
 
   const showDrawer = (record) => {
     setDrawerContent(record);
@@ -48,8 +65,9 @@ export default function ActiveBookings() {
             <Button onClick={() => showDrawer(record)}>View Details</Button>
             <Button
               style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
+             onClick={showModal}
             >
-              <AiOutlineDownload /> Receipt
+               Receipt
             </Button>
           </div>
         </>
@@ -85,6 +103,21 @@ export default function ActiveBookings() {
 
   return (
     <>
+     {isLoading===true?
+     <Loading/>
+      :   <>
+
+    <Modal title="Invoice" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+    width={"550px"}
+    footer={[]}
+    style={{
+      top: 10,
+    }}
+    
+    
+    >
+        <Invoice/>
+      </Modal>
       <Drawer
         title="Ticket Detail"
         width={900}
@@ -178,6 +211,9 @@ export default function ActiveBookings() {
           />
         </div>
       </section>
+    </>}
     </>
+   
+ 
   );
 }

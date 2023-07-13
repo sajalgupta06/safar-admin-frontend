@@ -7,6 +7,9 @@ import Age from "./Charts/Age";
 import Transport from "./Charts/Transport";
 
 export default function Analytics() {
+
+   
+
   return( 
   <>
   <div className="analytics">
