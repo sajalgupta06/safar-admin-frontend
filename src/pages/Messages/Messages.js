@@ -277,6 +277,7 @@ export default function Messages() {
               dataSource={getPassengersList()}
               rowKey={"ticketId"}
               rowSelection={rowSelection}
+              
             />
           </div>
           <div className="messages-container-content">
