@@ -207,6 +207,7 @@ export default function ActiveBookings() {
             dataSource={data?.searchedData}
             loading={isLoading}
             rowKey={"ticketId"}
+            scroll={{y:600}}
 
           />
         </div>

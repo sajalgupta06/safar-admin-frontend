@@ -7,6 +7,13 @@
     align-items: center;
     width: 100%;
     gap: 2.5rem;
+    &-head{
+        width: 100%;
+        .heading{
+            margin-bottom: 3rem;
+            font-size: 2rem;
+        }
+    }
     &-top{
         // height: 40%;
        
@@ -14,11 +21,9 @@
         height: auto;
         max-height: 45%;
         overflow-y: scroll;
-        .heading{
-            margin-bottom: 3rem;
-            font-size: 2rem;
-        }
+      
         .ant-table-tbody{
+        
             tr{
                 cursor: pointer!important;
             }

@@ -41,6 +41,7 @@ import { notificationAlertContent } from "./utils/functions";
 import Pricing from "./pages/Pricing/Pricing";
 import Register from "./pages/Register/Register";
 import Invoice from "./utils/Invoice/Invoice";
+import Payments from "./pages/Payments/Payments";
 
 const { defaultAlgorithm, darkAlgorithm } = theme;
 const queryClient = new QueryClient({
@@ -171,11 +172,18 @@ function App() {
                 element={<AddBookings />}
               />
           
-              <Route
+              {/* <Route
                 exact
                 path={`/${declarations.routes.MESSAGES}`}
                 element={<Messages />}
+              /> */}
+
+                          <Route
+                exact
+                path={`/${declarations.routes.PAYMENTS}`}
+                element={<Payments />}
               />
+
                 <Route
                 exact
                 path={`/${declarations.routes.ANALYTICS}`}
@@ -200,6 +208,7 @@ function App() {
             </Routes>
           </QueryClientProvider>
         </AppLayout>
+     
       </BrowserRouter>
     );
   };

@@ -1,6 +1,11 @@
 .analytics {
   height: 100%;
   width: 100%;
+  .heading {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
   &-container {
     // height: 100%;
     width: 100%;
@@ -8,11 +13,9 @@
     flex-direction: column;
     gap: 3rem;
     padding: 1rem;
-
-    .heading {
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-    }
+    overflow-y: scroll;
+    height: 90%;
+  
 
     &-performance {
       padding: 2rem;
@@ -122,6 +125,11 @@
           justify-content: space-between;
           // gap: 2rem;
           // flex-direction: row;
+          flex-wrap: wrap;
+          //  gap: 2rem;
+           padding: 1em;
+
+
           .gender {
             // width: 20rem;
           }

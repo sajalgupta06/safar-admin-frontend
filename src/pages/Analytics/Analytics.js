@@ -13,8 +13,9 @@ export default function Analytics() {
   return( 
   <>
   <div className="analytics">
+  <div className="heading">Analytics</div>
   <div className="analytics-container">
-    <div className="heading">Analytics</div>
+
   <div className="analytics-container-performance">
     <div className="heading">Performance</div>
   <div className="analytics-container-performance-content">

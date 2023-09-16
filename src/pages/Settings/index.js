@@ -21,6 +21,9 @@ const context = useContext(MyContext)
   return (
     <>
       <div className="settings">
+      <div className='heading'>
+        Settings
+    </div>
         <div className="settings-div">
           <div className="settings-div-left">
             <Avatar

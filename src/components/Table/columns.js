@@ -418,3 +418,60 @@ export const PassengersDetails =[
   },
 
 ];
+
+
+export const PaymentsColumn = [
+  {
+    title: "Ticket ID",
+    dataIndex: "ticketId",
+    key: "ticketId",
+  
+  },
+  {
+    title: "Trip Name",
+    dataIndex: "tripDetails",
+    key: "tripName",
+    render: (record) => (
+      <Link to={`/trip/${record.slug}`}>{record.name}</Link>
+    ),
+  },
+
+
+  {
+    title: "Total Passengers",
+    dataIndex: "passengers",
+    key: "passengers",
+    render:(record)=>record?.length
+
+  },
+  {
+    title: "Trip Date",
+    dataIndex: "tripDetails",
+    key: "tripDetails",
+    render:(record)=>moment(record?.priceSlot?.date?.startDate, "DD-MM-YYYY").format("DD MMM YY") + " - " + moment(record?.priceSlot?.date?.endDate,"DD-MM-YYYY").format("DD MMM YY")
+
+    },
+    {
+      title: "Booked On",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render:(record)=>moment(record).format("hh:mm A ,  DD MMM YYYY")
+  
+    },
+    {
+      title: "Payment Mode",
+      dataIndex: "payementMode",
+      key: "payementMode",
+      render:(record)=>record?.amount.mode
+    },
+
+
+  {
+    title: "Amount",
+    dataIndex: "payment",
+    key: "tripName",
+    render:(record)=>record?.amount
+  },
+
+ 
+];

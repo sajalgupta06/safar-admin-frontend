@@ -53,7 +53,7 @@ const items = [
   ]),
 
   getItem('Payments',  declarations.routes.PAYMENTS, <RiSecurePaymentLine /> ),
-  getItem('Messages',  declarations.routes.MESSAGES, <DesktopOutlined />),
+  // getItem('Messages',  declarations.routes.MESSAGES, <DesktopOutlined />),
   getItem('Analytics',  declarations.routes.ANALYTICS, <SiGoogleanalytics />),
   getItem('Pricing',  declarations.routes.PRICING, <GiPriceTag />),
   getItem('Settings',  declarations.routes.SETTINGS, <AiFillSetting />),

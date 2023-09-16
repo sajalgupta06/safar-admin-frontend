@@ -27,7 +27,7 @@ export default function AppLayout({ children }) {
           <Layout
             style={{
               padding: "0 24px 24px",
-                minHeight:"93vh"
+                height:"90vh"
             }}
           >
             {/* <Breadcrumb
@@ -41,6 +41,7 @@ export default function AppLayout({ children }) {
             </Breadcrumb> */}
 
             {context.loading && <Loading></Loading>}
+            {/* {<Loading></Loading>} */}
             {context.noSpinLoading && <NoSpinLoader></NoSpinLoader>}
             <Content
               style={{

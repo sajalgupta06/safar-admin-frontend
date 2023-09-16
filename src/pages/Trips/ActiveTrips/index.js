@@ -160,8 +160,10 @@ const setDateOnDrawerOpen = (record)=>{
     :
     <>
          <section className="activeTrips">
-        <div className="activeTrips-top">
+        <div className="activeTrips-head">
             <div className="heading">Active Trips</div>
+            </div>
+        <div className="activeTrips-top">
           <Table
             columns={getActiveTripColumns()}
             loading={isLoading}
@@ -180,14 +182,15 @@ const setDateOnDrawerOpen = (record)=>{
               };
             }}
           />
+      
         </div>
-        <Divider></Divider>
+        {/* <Divider></Divider> */}
         <div className="activeTrips-bottom">
           <Drawer
             title={ticketDetails?.trip?.name}
             placement={"bottom"}
             width={500}
-            height={500}
+            height={"100%"}
             onClose={onClose}
             open={open}
             className="bottomDrawer"
